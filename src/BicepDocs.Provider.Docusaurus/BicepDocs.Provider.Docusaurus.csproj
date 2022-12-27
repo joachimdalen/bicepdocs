@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>LandingZones.Tools.BicepDocs.Provider.Docusaurus</AssemblyName>
+        <RootNamespace>LandingZones.Tools.BicepDocs.Provider.Docusaurus</RootNamespace>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BicepDocs.Core\BicepDocs.Core.csproj" />
+      <ProjectReference Include="..\BicepDocs.Provider.Markdown\BicepDocs.Provider.Markdown.csproj" />
+    </ItemGroup>
+
+</Project>
