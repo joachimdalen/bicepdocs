@@ -1,0 +1,84 @@
+trigger: none
+
+variables:
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+
+stages:
+  - stage: "build_and_test"
+    displayName: Build & Test
+    jobs:
+      - job: "b_a_t"
+        displayName: Build & Test
+        steps:
+          - task: UseDotNet@2
+            displayName: "Use .NET 6"
+            inputs:
+              version:
+          - task: DotNetCoreCLI@2
+            displayName: Restore
+            inputs:
+              command: restore
+              projects: $(Build.SourcesDirectory)/src/BicepDocs.sln
+              configuration: release
+          - task: DotNetCoreCLI@2
+            displayName: Run Tests
+            inputs:
+              command: test
+              projects: $(Build.SourcesDirectory)/src/**/*Tests.csproj
+              configuration: release
+
+  - stage: "build_binaries"
+    dependsOn: "build_and_test"
+    displayName: Build Binaries
+    condition: and(succeeded(), eq(variables.isMain, 'true'))
+    jobs:
+      - job:
+        displayName: "Build - "
+        strategy:
+          matrix:
+            # winX64:
+            #   rid: win-x64
+            #   enabled: false
+            linuxX64:
+              rid: linux-x64
+              enabled: true
+            linuxMuslX64:
+              rid: linux-musl-x64
+              enabled: true
+            # osxX64:
+            #   rid: osx-x64
+            #   enabled: false
+            # linuxArm64:
+            #   rid: linux-arm64
+            #   enabled: false
+            # winArm64:
+            #   rid: win-arm64
+            #   enabled: false
+            # osxArm64:
+            #   rid: osx-arm64
+            #   enabled: false
+        steps:
+          - task: UseDotNet@2
+            displayName: "Use .NET 6"
+            inputs:
+              version:
+          - task: Bash@3
+            displayName: "Build BicepDocs"
+            inputs:
+              targetType: inline
+              script: dotnet build $(Build.SourcesDirectory)/src/BicepDocs.sln --configuration release
+          - task: Bash@3
+            displayName: "Publish BicepDocs"
+            inputs:
+              targetType: inline
+              script: dotnet publish "$(Build.SourcesDirectory)/src/BicepDocs.Cli/BicepDocs.Cli.csproj" --configuration release --output "$(Build.ArtifactStagingDirectory)/$(rid)" --runtime "$(rid)" --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:TrimmerDefaultAction=copyused -p:SuppressTrimAnalysisWarnings=true
+          - task: Bash@3
+            displayName: "Rename BicepDocs"
+            inputs:
+              targetType: inline
+              script: mv $(Build.ArtifactStagingDirectory)/$(rid)/bicepdocs $(Build.ArtifactStagingDirectory)/$(rid)/bicepdocs-$(rid)
+          - task: PublishPipelineArtifact@1
+            displayName: "Publish artifact"
+            inputs:
+              artifact: binary-$(rid)
+              targetPath: $(Build.ArtifactStagingDirectory)/$(rid)/bicepdocs-$(rid)

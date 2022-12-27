@@ -1,0 +1,38 @@
+# When `true` will include referenced resources using
+# the `existing` keyword in the resources list
+includeExistingResources: true
+
+# Metadata definition keyword used for module
+# metadata
+metaKeyword: "moduleDocs"
+
+# Include the parameters section
+includeParameters: true
+
+# Include the code example /usage section
+includeUsage: true
+
+# Include the list of resources
+includeResources: true
+
+# Inlude the outputs section
+includeOutputs: true
+
+# Section order for the generated document
+sectionOrder:
+  - title
+  - description
+  - usage
+  - parameters
+  - resources
+  - outputs
+  - parameterReferences # This is the list of complex parameters and allow values
+
+# Do not generate versioned output folders
+disableVersioning: false
+
+# Configuration for individual providers
+providers:
+  docusaurus:
+    # Do not add page tags (resource providers)
+    addPageTags: true

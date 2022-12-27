@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>bicepdocs</AssemblyName>
+        <RootNamespace>LandingZones.Tools.BicepDocs.Cli</RootNamespace>
+        <StartupObject>LandingZones.Tools.BicepDocs.Cli.Program</StartupObject>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Authors>Joachim Dalen</Authors>
+        <Description>BicepDocs is a tool to build documentation for Bicep modules.</Description>
+        <PackageLicenseUrl>https://github.com/joachimdalen/bicepdocs/blob/feature/initial/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/joachimdalen/bicepdocs</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>bicep documentation azure arm</PackageTags>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Azure.Bicep.Decompiler" Version="0.13.1" />
+        <PackageReference Include="Serilog" Version="2.12.1-dev-01594" />
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+        <PackageReference Include="System.CommandLine.Hosting" Version="0.4.0-alpha.22272.1" />
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BicepDocs.Core\BicepDocs.Core.csproj" />
+        <ProjectReference
+            Include="..\BicepDocs.Provider.Docusaurus\BicepDocs.Provider.Docusaurus.csproj" />
+        <ProjectReference
+            Include="..\BicepDocs.Provider.Markdown\BicepDocs.Provider.Markdown.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <TrimmerRootDescriptor Include="TrimmerRoots.xml" />
+    </ItemGroup>
+</Project>
