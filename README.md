@@ -70,5 +70,5 @@ See the following documentaion for the different providers
 Some of the features that are on the Roadmap for BicepDocs:
 
 - Generate documentation from published modules in a Container Registry
-- [Azure DevOps Wiki Provider (Create and upload the documentation to the wiki)](https://github.com/joachimdalen/bicepdocs/issues/3)
-- [Confluence Provider](https://github.com/joachimdalen/bicepdocs/issues/2)
+- [Azure DevOps Wiki Provider (Create and upload the documentation to the wiki)](https://github.com/joachimdalen/bicepdocs/issues/2)
+- [Confluence Provider](https://github.com/joachimdalen/bicepdocs/issues/1)
