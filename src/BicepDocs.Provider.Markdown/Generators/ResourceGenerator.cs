@@ -39,11 +39,11 @@ internal static class ResourceGenerator
     {
         if (!context.GeneratorOptions.IncludeReferencedResources) return;
         var resources = ResourceParser.ParseResources(context.Template);
-        if (!resources.Any()) return;
-        BuildReferencedResources(document, context, resources);
+        if (!resources.Any(x => x.IsExisting)) return;
+        BuildReferencedResources(document, resources);
     }
 
-    internal static void BuildReferencedResources(MarkdownDocument document, GeneratorContext context, IImmutableList<ParsedResource> resources)
+    internal static void BuildReferencedResources(MarkdownDocument document, IImmutableList<ParsedResource> resources)
     {
         document.Append(new MkHeader("Referenced Resources", MkHeaderLevel.H2));
         var resourceTable = new MkTable().AddColumn("Provider").AddColumn("Name").AddColumn("Scope");
