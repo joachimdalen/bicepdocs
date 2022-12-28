@@ -30,9 +30,7 @@ bicepdocs generate filesystem \
 
 ## Metadata
 
-In certain situations you want to append metadata to your module files. This metadata can be provided to the documentation by adding the following `metadata` definition to your module.
-
-**The name of the definition must be `moduleDocs`.**
+In certain situations you want to append metadata to your module files. This metadata can be provided to the documentation by adding the following `metadata` definition to your module. The keyword can be changed in the configuration file.
 
 ```bicep
 metadata moduleDocs = {
