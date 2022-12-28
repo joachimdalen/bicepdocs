@@ -40,18 +40,11 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
 @description('Name of the resource group')
 param resourceGroupName string
 
-var rgName2 = 'lz-ord-${rgName}'
-
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' existing = {
   name: resourceGroupName
-}
-resource resourceGroup2 'Microsoft.Resources/resourceGroups@2021-01-01' existing = {
-  name: rgName2
+  scope: subscription()
 }
 
-resource resourceGroup2 'Microsoft.Resources/resourceGroups@2021-01-01' = {
-  name: 'my-rg'
-}
 ";
         var semanticModel = await GetModel(template);
         var resources = ResourceParser.ParseResources(semanticModel);
@@ -65,6 +58,8 @@ resource resourceGroup2 'Microsoft.Resources/resourceGroups@2021-01-01' = {
         Assert.AreEqual("Microsoft.Resources", resource.Provider);
         Assert.AreEqual("2021-01-01", resource.ApiVersion);
         Assert.IsTrue(resource.IsExisting);
+        Assert.AreEqual("subscription()", resource.Scope);
+        Assert.AreEqual("resourceGroupName", resource.Name);
     }
 
     
