@@ -9,5 +9,5 @@ public enum DocSection
     Usage = 4,
     Resources = 5,
     Outputs = 6,
-    RequiredResources = 7,
+    ReferencedResources = 7,
 }

@@ -18,12 +18,15 @@ includeResources: true
 # Inlude the outputs section
 includeOutputs: true
 
+# Include referenced resources
+includeReferencedResources: true
+
 # Section order for the generated document
 sectionOrder:
   - title
   - description
   - usage
-  - requiredResources
+  - referencedResources
   - parameters
   - resources
   - outputs

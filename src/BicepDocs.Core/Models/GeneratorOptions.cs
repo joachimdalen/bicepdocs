@@ -9,8 +9,10 @@ public class GeneratorOptions
     public bool IncludeUsage { get; set; } = true;
     public bool IncludeResources { get; set; } = true;
     public bool IncludeOutputs { get; set; } = true;
-
+    
+    public bool IncludeReferencedResources { get; set; } = true;
     public bool DisableVersioning { get; set; } = false;
+    
     public string MetaKeyword { get; set; } = MetadataParser.MetadataKey;
     
     public Dictionary<DocProvider, object> Providers { get; set; } = new();
@@ -21,7 +23,7 @@ public class GeneratorOptions
         DocSection.Description,
         DocSection.Usage,
         DocSection.Parameters,
-        DocSection.RequiredResources,
+        DocSection.ReferencedResources,
         DocSection.Resources,
         DocSection.Outputs,
         DocSection.ParameterReferences

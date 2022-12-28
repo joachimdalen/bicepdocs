@@ -34,22 +34,22 @@ internal static class ResourceGenerator
         if (!resources.Any()) return;
         BuildResources(document, context, resources);
     }
-    
-    internal static void BuildExistingResource(MarkdownDocument document, GeneratorContext context)
+
+    internal static void BuildReferencedResources(MarkdownDocument document, GeneratorContext context)
     {
-        if (!context.GeneratorOptions.IncludeResources) return;
+        if (!context.GeneratorOptions.IncludeReferencedResources) return;
         var resources = ResourceParser.ParseResources(context.Template);
         if (!resources.Any()) return;
-        BuildExistingResource(document, context, resources);
+        BuildReferencedResources(document, context, resources);
     }
 
-    internal static void BuildExistingResource(MarkdownDocument document, GeneratorContext context, IImmutableList<ParsedResource> resources)
+    internal static void BuildReferencedResources(MarkdownDocument document, GeneratorContext context, IImmutableList<ParsedResource> resources)
     {
-        document.Append(new MkHeader("Required existing resources", MkHeaderLevel.H2));
-        var resourceTable = new MkTable().AddColumn("Provider").AddColumn("Name");
+        document.Append(new MkHeader("Referenced Resources", MkHeaderLevel.H2));
+        var resourceTable = new MkTable().AddColumn("Provider").AddColumn("Name").AddColumn("Scope");
         foreach (var resource in resources.Where(resource => resource.IsExisting))
         {
-            resourceTable.AddRow(resource.Identifier, resource.Name);
+            resourceTable.AddRow(resource.Identifier, resource.Name ?? "-", !string.IsNullOrEmpty(resource.Scope) ? $"`{resource.Scope}`" : "-");
         }
 
         document.Append(resourceTable);

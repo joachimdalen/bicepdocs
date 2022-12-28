@@ -45,8 +45,8 @@ public class MarkdownDocsProvider : IDocsProvider
                 case DocSection.ParameterReferences:
                     ParameterGenerator.BuildParameterReferences(markdownDocument, context.GeneratorOptions, parameters);
                     break;
-                case DocSection.RequiredResources:
-                    ResourceGenerator.BuildExistingResource(markdownDocument, context);
+                case DocSection.ReferencedResources:
+                    ResourceGenerator.BuildReferencedResources(markdownDocument, context);
                     break;
             }
         }
