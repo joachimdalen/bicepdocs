@@ -21,6 +21,7 @@ public class GeneratorOptions
         DocSection.Description,
         DocSection.Usage,
         DocSection.Parameters,
+        DocSection.RequiredResources,
         DocSection.Resources,
         DocSection.Outputs,
         DocSection.ParameterReferences

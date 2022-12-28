@@ -26,12 +26,48 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
         var resource = resources.First();
 
         Assert.AreEqual("resourceGroups", resource.Resource);
-        Assert.AreEqual("Microsoft.Resources/resourceGroups@2021-01-01", resource.Name);
+        Assert.AreEqual("Microsoft.Resources/resourceGroups@2021-01-01", resource.Identifier);
         Assert.AreEqual("Microsoft.Resources", resource.Provider);
         Assert.AreEqual("2021-01-01", resource.ApiVersion);
         Assert.IsFalse(resource.IsExisting);
     }
 
+    [TestMethod]
+    public async Task Resources_Existing_Parses()
+    {
+        const string template = @"targetScope = 'subscription'
+
+@description('Name of the resource group')
+param resourceGroupName string
+
+var rgName2 = 'lz-ord-${rgName}'
+
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' existing = {
+  name: resourceGroupName
+}
+resource resourceGroup2 'Microsoft.Resources/resourceGroups@2021-01-01' existing = {
+  name: rgName2
+}
+
+resource resourceGroup2 'Microsoft.Resources/resourceGroups@2021-01-01' = {
+  name: 'my-rg'
+}
+";
+        var semanticModel = await GetModel(template);
+        var resources = ResourceParser.ParseResources(semanticModel);
+
+        Assert.AreEqual(1, resources.Count);
+
+        var resource = resources.First();
+
+        Assert.AreEqual("resourceGroups", resource.Resource);
+        Assert.AreEqual("Microsoft.Resources/resourceGroups@2021-01-01", resource.Identifier);
+        Assert.AreEqual("Microsoft.Resources", resource.Provider);
+        Assert.AreEqual("2021-01-01", resource.ApiVersion);
+        Assert.IsTrue(resource.IsExisting);
+    }
+
+    
     [TestMethod]
     public async Task Resources_MultipleWithSameApiVersion_ReturnsOnlyOne()
     {

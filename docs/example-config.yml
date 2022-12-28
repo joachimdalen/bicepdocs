@@ -23,6 +23,7 @@ sectionOrder:
   - title
   - description
   - usage
+  - requiredResources
   - parameters
   - resources
   - outputs

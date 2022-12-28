@@ -8,5 +8,6 @@ public enum DocSection
     ParameterReferences = 3,
     Usage = 4,
     Resources = 5,
-    Outputs = 6
+    Outputs = 6,
+    RequiredResources = 7,
 }
