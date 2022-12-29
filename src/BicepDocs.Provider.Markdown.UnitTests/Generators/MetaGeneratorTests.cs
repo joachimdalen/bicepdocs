@@ -24,12 +24,9 @@ public class MetaGeneratorTests
     [TestMethod]
     public void BuildTitle_TitleNotSet_UsesFileNameNot()
     {
-        const string expected = "# MyFileName123";
+        const string expected = "# vault";
         var md = new MarkdownDocument();
-        MetaGenerator.BuildTitle(md, new MetadataModel(), new GeneratorContext(null, new ModulePaths()
-        {
-            BaseFileName = "MyFileName123"
-        }));
+        MetaGenerator.BuildTitle(md, new MetadataModel(), new GeneratorContext(null, TestConstants.GetMockModulePaths()));
 
         Assert.AreEqual(expected, md.ToMarkdown());
     }

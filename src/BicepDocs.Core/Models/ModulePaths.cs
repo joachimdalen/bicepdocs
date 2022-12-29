@@ -1,44 +1,26 @@
 namespace LandingZones.Tools.BicepDocs.Core.Models;
 
-public class ModulePaths
-{
-    /// <summary>
-    /// Input paths to read modules from 
-    /// </summary>
-    public string InputFolder { get; set; }
-
-    /// <summary>
-    /// Output folder on the file system to write
-    /// converted files to
-    /// </summary>
-    public string OutputBaseFolder { get; set; }
-
-    /// <summary>
-    /// Virtual path to use in virtual file system
-    /// </summary>
-    public string VirtualPath { get; set; }
-
-    /// <summary>
-    /// Input file name (with .bicep)
-    /// </summary>
-    public string InputFileName { get; set; }
-
-    /// <summary>
-    /// Output file name
-    /// </summary>
-    public string OutputFileName { get; set; }
-
-    /// <summary>
-    /// Filename without extension
-    /// </summary>
-    public string BaseFileName { get; set; }
-
-    /// <summary>
-    /// File path to write to
-    /// </summary>
-    public string OutputPath { get; set; }
-
-    public string RelativeInputPath { get; set; }
-    public string VirtualFolder { get; set; }
-    public string OutputFolder { get; set; }
-}
+/// <summary>
+/// Contains the file system paths for a module generation
+/// </summary>
+/// <param name="InputFolder">Input paths to read modules from </param>
+/// <param name="OutputBaseFolder">Output folder on the file system to write converted files to</param>
+/// <param name="VirtualPath">Virtual path to use in virtual file system</param>
+/// <param name="InputFileName">Input file name (with .bicep)</param>
+/// <param name="OutputFileName">Output file name</param>
+/// <param name="BaseFileName">Filename without extension</param>
+/// <param name="OutputPath">File path to write to</param>
+/// <param name="RelativeInputPath"></param>
+/// <param name="VirtualFolder"></param>
+/// <param name="OutputFolder"></param>
+public record ModulePaths(
+    string InputFolder,
+    string OutputBaseFolder,
+    string VirtualPath,
+    string InputFileName,
+    string OutputFileName,
+    string BaseFileName,
+    string OutputPath,
+    string RelativeInputPath,
+    string VirtualFolder,
+    string OutputFolder);
