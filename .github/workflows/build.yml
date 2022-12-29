@@ -44,5 +44,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: bicep-release-${{ matrix.rid }}
-          path: ./src/BicepDocs .Cli/bin/release/net6.0/${{ matrix.rid }}/publish/*
+          path: ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/*
           if-no-files-found: error
