@@ -45,7 +45,7 @@ public class OutputGeneratorTests : BicepFileTestBase
 output resourceId string = resourceGroup.id";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new GeneratorOptions()
+        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new GeneratorOptions
         {
             IncludeOutputs = false
         });

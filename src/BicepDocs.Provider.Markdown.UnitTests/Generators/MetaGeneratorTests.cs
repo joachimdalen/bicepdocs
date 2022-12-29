@@ -1,4 +1,3 @@
-using LandingZones.Tools.BicepDocs.Core;
 using LandingZones.Tools.BicepDocs.Core.Models;
 using LandingZones.Tools.BicepDocs.Provider.Markdown.Elements;
 using LandingZones.Tools.BicepDocs.Provider.Markdown.Generators;
@@ -13,10 +12,10 @@ public class MetaGeneratorTests
     {
         const string expected = "# My title";
         var md = new MarkdownDocument();
-        MetaGenerator.BuildTitle(md, new MetadataModel()
+        MetaGenerator.BuildTitle(md, new MetadataModel
         {
             Title = "My title"
-        }, null);
+        }, TestConstants.DefaultContext);
 
         Assert.AreEqual(expected, md.ToMarkdown());
     }
@@ -26,7 +25,7 @@ public class MetaGeneratorTests
     {
         const string expected = "# vault";
         var md = new MarkdownDocument();
-        MetaGenerator.BuildTitle(md, new MetadataModel(), new GeneratorContext(null, TestConstants.GetMockModulePaths()));
+        MetaGenerator.BuildTitle(md, new MetadataModel(),  TestConstants.DefaultContext);
 
         Assert.AreEqual(expected, md.ToMarkdown());
     }
@@ -37,7 +36,7 @@ public class MetaGeneratorTests
     {
         const string expected = "> My Description";
         var md = new MarkdownDocument();
-        MetaGenerator.BuildDescription(md, new MetadataModel()
+        MetaGenerator.BuildDescription(md, new MetadataModel
         {
             Description = "My Description"
         });

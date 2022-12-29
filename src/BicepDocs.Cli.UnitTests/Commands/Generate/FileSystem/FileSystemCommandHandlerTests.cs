@@ -18,7 +18,6 @@ namespace LandingZones.Tools.BicepDocs.Cli.UnitTests.Commands.Generate.FileSyste
 public class FileSystemCommandHandlerTests : BicepFileTestBase
 {
     private readonly ILogger<FileSystemCommandHandler> _logger;
-    private readonly Mock<IFileSystem> _fileSystem;
     private readonly Mock<IStaticFileSystem> _staticFileSystem;
     private readonly ConfigurationLoader _configurationLoader;
     private readonly Mock<IMatcher> _matcher;
@@ -27,7 +26,6 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
     public FileSystemCommandHandlerTests()
     {
         _logger = new NullLogger<FileSystemCommandHandler>();
-        _fileSystem = new Mock<IFileSystem>(MockBehavior.Strict);
         _staticFileSystem = new Mock<IStaticFileSystem>(MockBehavior.Strict);
         _configurationLoader = new ConfigurationLoader(_staticFileSystem.Object);
         _matcher = new Mock<IMatcher>(MockBehavior.Strict);
@@ -37,22 +35,22 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
     [TestMethod]
     public async Task Invoke_GetResultsInFullPath_Null_Returns()
     {
-        var sut = GetSut(new List<IDocsProvider>()
+        var sut = GetSut(new List<IDocsProvider>
         {
             new MarkdownDocsProvider()
         });
 
         _matcher.Setup(x => x.AddIncludePatterns(It.IsAny<IEnumerable<string>>()));
-        _matcher.Setup(x => x.GetResultsInFullPath(sut.FolderPath)).Returns((List<string>)null);
+        _matcher.Setup(x => x.GetResultsInFullPath(sut.FolderPath)).Returns((List<string>)null!);
 
-        var result = await sut.InvokeAsync(new InvocationContext(null));
+        var result = await sut.InvokeAsync(new InvocationContext(null!));
         Assert.AreEqual(0, result);
     }
 
     [TestMethod]
     public async Task Invoke_GetResultsInFullPath_Empty_Returns()
     {
-        var sut = GetSut(new List<IDocsProvider>()
+        var sut = GetSut(new List<IDocsProvider>
         {
             new MarkdownDocsProvider()
         });
@@ -60,14 +58,14 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
         _matcher.Setup(x => x.AddIncludePatterns(It.IsAny<IEnumerable<string>>()));
         _matcher.Setup(x => x.GetResultsInFullPath(sut.FolderPath)).Returns(new List<string>());
 
-        var result = await sut.InvokeAsync(new InvocationContext(null));
+        var result = await sut.InvokeAsync(new InvocationContext(null!));
         Assert.AreEqual(0, result);
     }
 
     [TestMethod]
     public async Task Invoke_Defaults_GeneratesAndWrites()
     {
-        var sut = GetSut(new List<IDocsProvider>()
+        var sut = GetSut(new List<IDocsProvider>
         {
             new MarkdownDocsProvider()
         });
@@ -85,24 +83,24 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
 
         _matcher.Setup(x => x.AddIncludePatterns(It.IsAny<IEnumerable<string>>()));
         _matcher.Setup(x => x.GetResultsInFullPath(sut.FolderPath)).Returns(
-            new List<string>()
+            new List<string>
             {
                 modulePath
             });
-        
+
         // Loading
         _staticFileSystem.Setup(x => x.Directory.Exists(sut.Out)).Returns(false);
-        _staticFileSystem.Setup(x => x.Directory.CreateDirectory(sut.Out)).Returns((IDirectoryInfo)null);
+        _staticFileSystem.Setup(x => x.Directory.CreateDirectory(sut.Out)).Returns((IDirectoryInfo)null!);
         _staticFileSystem.Setup(x => x.File.ReadAllTextAsync(modulePath, It.IsAny<CancellationToken>())).ReturnsAsync(template);
 
-        
+
         //Writing
         _staticFileSystem.Setup(x => x.Directory.Exists(moduleOut)).Returns(false);
-        _staticFileSystem.Setup(x => x.Directory.CreateDirectory(moduleOut)).Returns((IDirectoryInfo)null);
+        _staticFileSystem.Setup(x => x.Directory.CreateDirectory(moduleOut)).Returns((IDirectoryInfo)null!);
         _staticFileSystem.Setup(x => x.File.WriteAllTextAsync(moduleOutFile, It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
 
-        var result = await sut.InvokeAsync(new InvocationContext(null));
+        var result = await sut.InvokeAsync(new InvocationContext(null!));
         Assert.AreEqual(1, result);
     }
 

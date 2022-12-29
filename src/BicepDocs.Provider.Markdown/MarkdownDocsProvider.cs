@@ -13,7 +13,7 @@ public class MarkdownDocsProvider : IDocsProvider
 {
     public DocProvider Provider => DocProvider.Markdown;
 
-    public async Task<IImmutableList<GenerationFile>> GenerateModuleDocs(GeneratorContext context)
+    public Task<IImmutableList<GenerationFile>> GenerateModuleDocs(GeneratorContext context)
     {
         var outputFiles = new List<GenerationFile>();
         var markdownDocument = new MarkdownDocument();
@@ -62,6 +62,6 @@ public class MarkdownDocsProvider : IDocsProvider
             outputFiles.Add(new MarkdownGenerationFile(context.Paths.OutputPath, markdownDocument, context.Template));
         }
 
-        return outputFiles.ToImmutableArray();
+        return Task.FromResult<IImmutableList<GenerationFile>>(outputFiles.ToImmutableArray());
     }
 }

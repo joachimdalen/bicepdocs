@@ -23,7 +23,7 @@ public class ResourceGeneratorTests : BicepFileTestBase
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
             {
-                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>()
+                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>
                 {
                     "microsoft.web",
                     "sites"
@@ -32,8 +32,7 @@ public class ResourceGeneratorTests : BicepFileTestBase
         }.ToImmutableList();
 
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(null, TestConstants.GetMockModulePaths());
-        ResourceGenerator.BuildResources(document, ctx, resources);
+        ResourceGenerator.BuildResources(document, TestConstants.DefaultContext, resources);
 
         Assert.AreEqual(2, document.Count);
 
@@ -52,7 +51,7 @@ public class ResourceGeneratorTests : BicepFileTestBase
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
             {
-                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>()
+                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>
                 {
                     "microsoft.web",
                     "sites"
@@ -60,7 +59,7 @@ public class ResourceGeneratorTests : BicepFileTestBase
             },
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
             {
-                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>()
+                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>
                 {
                     "microsoft.web",
                     "sites"
@@ -69,8 +68,7 @@ public class ResourceGeneratorTests : BicepFileTestBase
         }.ToImmutableList();
 
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(null, TestConstants.GetMockModulePaths());
-        ResourceGenerator.BuildResources(document, ctx, resources);
+        ResourceGenerator.BuildResources(document, TestConstants.DefaultContext, resources);
 
         Assert.AreEqual(2, document.Count);
 
@@ -120,7 +118,7 @@ output resourceId string = resourceGroup.id";
 output resourceId string = resourceGroup.id";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new GeneratorOptions()
+        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new GeneratorOptions
         {
             IncludeResources = false
         });
@@ -161,7 +159,7 @@ param something string = 'nothing'";
                 Name = "siteOne",
                 Scope = "subscription()",
                 IsExisting = true,
-                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>()
+                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>
                 {
                     "microsoft.web",
                     "sites"
@@ -195,7 +193,7 @@ param something string = 'nothing'";
                 Name = "siteOne",
                 Scope = "subscription()",
                 IsExisting = true,
-                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>()
+                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>
                 {
                     "microsoft.web",
                     "sites"
@@ -206,7 +204,7 @@ param something string = 'nothing'";
                 Name = "siteTwo",
                 Scope = "subscription()",
                 IsExisting = true,
-                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>()
+                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>
                 {
                     "microsoft.web",
                     "sites"
@@ -263,7 +261,7 @@ output resourceId string = resourceGroup.id";
 output resourceId string = resourceGroup.id";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new GeneratorOptions()
+        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new GeneratorOptions
         {
             IncludeReferencedResources = false
         });

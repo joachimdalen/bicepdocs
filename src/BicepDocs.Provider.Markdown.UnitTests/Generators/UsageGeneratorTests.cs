@@ -22,7 +22,7 @@ module exampleInstance 'br/MyRegistry:bicep/modules/customModule:2022-10-29' = {
 
 ```";
 
-        var parameters = new List<ParsedParameter>()
+        var parameters = new List<ParsedParameter>
         {
             new("location", "string")
             {
@@ -55,7 +55,7 @@ module exampleInstance 'br/MyRegistry:bicep/modules/customModule:2022-10-29' = {
 
 ```";
 
-        var parameters = new List<ParsedParameter>()
+        var parameters = new List<ParsedParameter>
         {
             new("location", "string")
             {
@@ -81,7 +81,7 @@ module exampleInstance 'br/MyRegistry:bicep/modules/customModule:2022-10-29' = {
     [TestMethod]
     public void BuildResources_DisabledInOptions_DoesNotGenerate()
     {
-        var parameters = new List<ParsedParameter>()
+        var parameters = new List<ParsedParameter>
         {
             new("location", "string")
             {
@@ -90,7 +90,7 @@ module exampleInstance 'br/MyRegistry:bicep/modules/customModule:2022-10-29' = {
             }
         }.ToImmutableList();
         var document = new MarkdownDocument();
-        UsageGenerator.BuildUsage(document, new GeneratorOptions(){IncludeUsage = false}, parameters);
+        UsageGenerator.BuildUsage(document, new GeneratorOptions {IncludeUsage = false}, parameters);
 
         Assert.AreEqual(0, document.Count);
     }
