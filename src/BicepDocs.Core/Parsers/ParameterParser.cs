@@ -1,5 +1,5 @@
 using System.Collections.Immutable;
-using System.Text;
+using Bicep.Core.Navigation;
 using Bicep.Core.Semantics;
 using Bicep.Core.Syntax;
 using LandingZones.Tools.BicepDocs.Core.Models;
@@ -27,35 +27,14 @@ public static class ParameterParser
             };
             if (defaultValueSyntaxes.TryGetValue(templateParameter.Key, out var syntaxBase) && syntaxBase != null)
             {
-                switch (syntaxBase.DefaultValue)
+                parameter.DefaultValue = syntaxBase.DefaultValue.ToTextPreserveFormatting();
+                parameter.IsComplexDefault = syntaxBase.DefaultValue switch
                 {
-                    case BooleanLiteralSyntax booleanLiteralSyntax:
-                    {
-                        parameter.DefaultValue = GetValue(templateParameter.Key, booleanLiteralSyntax);
-                        break;
-                    }
-                    case ObjectSyntax objectSyntax when objectSyntax.ToNamedPropertyDictionary().IsEmpty:
-                    {
-                        parameter.DefaultValue = "{}";
-                        break;
-                    }
-                    case ObjectSyntax objectSyntax:
-                        parameter.DefaultValue = BuildObject(objectSyntax);
-                        parameter.IsComplexDefault = true;
-                        break;
-                    case ArraySyntax arraySyntax:
-                        parameter.DefaultValue = !arraySyntax.Items.Any()
-                            ? "[]"
-                            : BuildArray(templateParameter.Key, arraySyntax);
-                        parameter.IsComplexDefault = IsComplexArray(arraySyntax);
-                        break;
-                    case StringSyntax stringSyntax when stringSyntax.IsInterpolated():
-                        parameter.DefaultValue = "TODO";
-                        break;
-                    case StringSyntax stringSyntax:
-                        parameter.DefaultValue = stringSyntax.TryGetLiteralValue();
-                        break;
-                }
+                    ObjectSyntax objectSyntax when objectSyntax.ToNamedPropertyDictionary().IsEmpty => false,
+                    ObjectSyntax => true,
+                    ArraySyntax arraySyntax => IsComplexArray(arraySyntax),
+                    _ => false
+                };
             }
 
             var paramType = templateParameter.Value.TypeReference.Type.Name;
@@ -68,22 +47,6 @@ public static class ParameterParser
         }
 
         return parameters.ToImmutableList();
-    }
-
-
-    private static string GetValue(string parameter, SyntaxBase syntaxBase,
-        string? indentation = null)
-    {
-        return syntaxBase switch
-        {
-            BooleanLiteralSyntax booleanLiteralSyntax => booleanLiteralSyntax.Value.ToString(),
-            IntegerLiteralSyntax integerLiteralSyntax => integerLiteralSyntax.Value.ToString(),
-            StringSyntax stringSyntax when stringSyntax.IsInterpolated() => "TODO",
-            StringSyntax stringSyntax => $"'{stringSyntax.TryGetLiteralValue()!}'",
-            ArraySyntax arraySyntax => BuildArray(parameter, arraySyntax, indentation),
-            ObjectSyntax objectSyntax => BuildObject(objectSyntax),
-            _ => "TODO"
-        };
     }
 
     private static bool IsComplexArray(ArraySyntax syntax)
@@ -103,70 +66,5 @@ public static class ParameterParser
             ObjectSyntax => true,
             _ => true
         };
-    }
-
-    private static string BuildObject(ObjectSyntax objectSyntax, string objIndentation = "", bool close = true,
-        bool closeLine = true)
-    {
-        var stringBuilder = new StringBuilder();
-        stringBuilder.AppendLine(objectSyntax.OpenBrace.Text);
-
-        var properties = objectSyntax.ToNamedPropertyValueDictionary();
-        var indentation = objIndentation + objectSyntax.GetBodyIndentation();
-        foreach (var (key, value) in properties)
-        {
-            stringBuilder.Append(indentation);
-            if (value is ObjectSyntax objProp)
-            {
-                stringBuilder.Append($"{key}: {BuildObject(objProp, indentation, false)}");
-                stringBuilder.Append(indentation);
-                stringBuilder.AppendLine(objectSyntax.CloseBrace.Text);
-                indentation = objProp.GetBodyIndentation();
-            }
-            else
-            {
-                stringBuilder.AppendLine($"{key}: {GetValue(key, value, indentation)}");
-            }
-        }
-
-        if (close)
-        {
-            if (closeLine)
-                stringBuilder.AppendLine(objectSyntax.CloseBrace.Text);
-            else
-                stringBuilder.Append(objectSyntax.CloseBrace.Text);
-        }
-
-        return stringBuilder.ToString();
-    }
-
-    private static string BuildArray(string parameter, ArraySyntax arraySyntax,
-        string? indentation = "")
-    {
-        var stringBuilder = new StringBuilder();
-        stringBuilder.Append(arraySyntax.OpenBracket.Text);
-        var paramCount = 0;
-        foreach (var item in arraySyntax.Items)
-        {
-            if (paramCount != 0)
-                stringBuilder.Append(indentation);
-
-            if (item.Value is ObjectSyntax objectSyntax)
-            {
-                stringBuilder.Append(BuildObject(objectSyntax, indentation, true, false));
-            }
-            else
-            {
-                if (paramCount == 0 || paramCount == arraySyntax.Items.Count() - 1)
-                    stringBuilder.Append(GetValue(parameter, item.Value, indentation) + " ");
-                else
-                    stringBuilder.AppendLine(GetValue(parameter, item.Value, indentation));
-            }
-
-            paramCount++;
-        }
-
-        stringBuilder.Append(arraySyntax.CloseBracket.Text);
-        return stringBuilder.ToString();
     }
 }
