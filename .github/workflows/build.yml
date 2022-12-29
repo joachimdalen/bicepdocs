@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  CI: true
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build-cli:
+    name: Build CLI (${{ matrix.rid }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          #- rid: win-x64
+          - rid: linux-x64
+          #- rid: linux-musl-x64
+          - rid: osx-x64
+          #- rid: linux-arm64
+          #- rid: win-arm64
+          #- rid: osx-arm64
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+      - name: Build BicepDocs
+        run: dotnet build --configuration release src/BicepDocs.sln
+      - name: Run tests
+        run: dotnet test --configuration release ./src/**/*Tests.csproj
+      - name: Publish BicepDocs
+        run: dotnet publish --configuration release --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:TrimmerDefaultAction=copyused -p:SuppressTrimAnalysisWarnings=true -r ${{ matrix.rid }} ./src/BicepDocs.Cli/BicepDocs.Cli.csproj
+      - name: Upload BicepDocs
+        uses: actions/upload-artifact@v3
+        with:
+          name: bicepdocs-${{ matrix.rid }}
+          path: ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/*
+          if-no-files-found: error
