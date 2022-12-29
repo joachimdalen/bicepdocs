@@ -54,7 +54,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
         Assert.IsFalse(param.IsComplexDefault);
         Assert.AreEqual("stringParam", param.Name);
         Assert.AreEqual("string", param.Type);
-        Assert.AreEqual("string-value", param.DefaultValue);
+        Assert.AreEqual("'string-value'", param.DefaultValue);
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
         Assert.IsFalse(param.IsComplexDefault);
         Assert.AreEqual("boolParam", param.Name);
         Assert.AreEqual("bool", param.Type);
-        Assert.AreEqual("True", param.DefaultValue);
+        Assert.AreEqual("true", param.DefaultValue);
     }
 
     [TestMethod]
@@ -117,9 +117,8 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
         Assert.AreEqual("objectParam", param.Name);
         Assert.AreEqual("object", param.Type);
         Assert.AreEqual(@"{
-  name: 'hello'
-}
-", param.DefaultValue);
+name: 'hello'
+}", param.DefaultValue);
     }
 
     [TestMethod]
@@ -163,8 +162,11 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
         Assert.IsTrue(param.IsComplexDefault);
         Assert.AreEqual("arrayParam", param.Name);
         Assert.AreEqual("array", param.Type);
-        Assert.AreEqual(@"['one' 'two'
-'three' ]", param.DefaultValue);
+        Assert.AreEqual(@"[
+'one'
+'two'
+'three'
+]", param.DefaultValue);
     }
     
     [TestMethod]
@@ -193,6 +195,6 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
         Assert.AreEqual(3, param.AllowedValues.Count);
         Assert.AreEqual("stringParam", param.Name);
         Assert.AreEqual("'one' | 'three' | 'two'", param.Type);
-        Assert.AreEqual(@"string-value", param.DefaultValue);
+        Assert.AreEqual("'string-value'", param.DefaultValue);
     }
 }
