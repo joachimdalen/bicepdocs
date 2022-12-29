@@ -29,9 +29,6 @@ jobs:
           #- rid: osx-arm64
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
-          submodules: true
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
       - name: Build BicepDocs
