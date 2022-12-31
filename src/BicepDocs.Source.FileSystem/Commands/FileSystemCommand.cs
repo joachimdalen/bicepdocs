@@ -18,8 +18,8 @@ public class FileSystemCommand : Command
         IsRequired = true
     };
 
-    private static readonly Option<DocFormatter> Provider =
-        new(name: "--provider", description: "The provided used to format the docs")
+    private static readonly Option<DocFormatter> Formatter =
+        new(name: "--formatter", description: "The formatter used to format the docs")
         {
             IsRequired = true
         };
@@ -38,7 +38,7 @@ public class FileSystemCommand : Command
 
         AddOption(FolderPath);
         AddOption(Out);
-        AddOption(Provider);
+        AddOption(Formatter);
         AddOption(Exclude);
         AddOption(DryRun);
     }
