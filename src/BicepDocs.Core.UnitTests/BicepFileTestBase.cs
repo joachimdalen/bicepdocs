@@ -13,7 +13,7 @@ public abstract class BicepFileTestBase
     protected BicepFileTestBase()
     {
         var sp = new ServiceCollection();
-        sp.AddBicepCore();
+        sp.AddBicepCore().AddBicepFileService();
         ServiceProvider = new DefaultServiceProviderFactory().CreateBuilder(sp).BuildServiceProvider();
         FileSystem = ServiceProvider.GetRequiredService<IFileSystem>();
     }

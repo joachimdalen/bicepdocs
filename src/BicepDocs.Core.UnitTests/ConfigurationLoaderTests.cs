@@ -1,5 +1,5 @@
 using LandingZones.Tools.BicepDocs.Core.Abstractions;
-using LandingZones.Tools.BicepDocs.Core.Models;
+using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using Moq;
 
 namespace LandingZones.Tools.BicepDocs.Core.UnitTests;
@@ -42,7 +42,7 @@ providers:
 
         var sut = new ConfigurationLoader(_staticFileSystemMock.Object);
         var opt = await sut.GetOptions("config.yml");
-        var provOpt = sut.GetProviderOptions<ProviderOptions>(opt, DocProvider.Docusaurus);
+        var provOpt = sut.GetProviderOptions<ProviderOptions>(opt, DocFormatter.Docusaurus);
         Assert.IsNotNull(provOpt);
         Assert.IsTrue(provOpt.AddPageTags);
     }
@@ -60,7 +60,7 @@ providers:
 
         var sut = new ConfigurationLoader(_staticFileSystemMock.Object);
         var opt = await sut.GetOptions("config.yml");
-        var provOpt = sut.GetProviderOptions<ProviderOptions>(opt, DocProvider.Markdown);
+        var provOpt = sut.GetProviderOptions<ProviderOptions>(opt, DocFormatter.Markdown);
         Assert.IsNull(provOpt);
     }
     
@@ -77,7 +77,7 @@ providers:
 
         var sut = new ConfigurationLoader(_staticFileSystemMock.Object);
         var opt = await sut.GetOptions("config.yml");
-        var provOpt = sut.GetProviderOptionsOrDefault<ProviderOptions>(opt, DocProvider.Docusaurus);
+        var provOpt = sut.GetProviderOptionsOrDefault<ProviderOptions>(opt, DocFormatter.Docusaurus);
         Assert.IsNotNull(provOpt);
         Assert.IsTrue(provOpt.AddPageTags);
     }
@@ -95,7 +95,7 @@ providers:
 
         var sut = new ConfigurationLoader(_staticFileSystemMock.Object);
         var opt = await sut.GetOptions("config.yml");
-        var provOpt = sut.GetProviderOptionsOrDefault<ProviderOptions>(opt, DocProvider.Markdown);
+        var provOpt = sut.GetProviderOptionsOrDefault<ProviderOptions>(opt, DocFormatter.Markdown);
         Assert.IsNotNull(provOpt);
         Assert.IsFalse(provOpt.AddPageTags);
     }

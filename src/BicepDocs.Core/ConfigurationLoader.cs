@@ -1,5 +1,5 @@
 using LandingZones.Tools.BicepDocs.Core.Abstractions;
-using LandingZones.Tools.BicepDocs.Core.Models;
+using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -18,20 +18,20 @@ public sealed class ConfigurationLoader
     /// Get the configuration file from path given
     /// </summary>
     /// <param name="filePath">Path to the yaml configuration file</param>
-    /// <returns>Instance of <see cref="GeneratorOptions"/></returns>
-    public async Task<GeneratorOptions> GetOptions(string filePath)
+    /// <returns>Instance of <see cref="FormatterOptions"/></returns>
+    public async Task<FormatterOptions> GetOptions(string filePath)
     {
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .IgnoreUnmatchedProperties()
             .Build();
         var content = await _fileSystem.File.ReadAllTextAsync(filePath);
-        return deserializer.Deserialize<GeneratorOptions>(content);
+        return deserializer.Deserialize<FormatterOptions>(content);
     }
 
-    public T? GetProviderOptions<T>(GeneratorOptions options, DocProvider providerKey) where T : class, new()
+    public T? GetProviderOptions<T>(FormatterOptions options, DocFormatter formatterKey) where T : class, new()
     {
-        if (!options.Providers.TryGetValue(providerKey, out var providerString))
+        if (!options.Providers.TryGetValue(formatterKey, out var providerString))
         {
             return null;
         }
@@ -44,9 +44,9 @@ public sealed class ConfigurationLoader
         return deserializer.Deserialize<T>(s);
     }
 
-    public T GetProviderOptionsOrDefault<T>(GeneratorOptions options, DocProvider providerKey) where T : class, new()
+    public T GetProviderOptionsOrDefault<T>(FormatterOptions options, DocFormatter formatterKey) where T : class, new()
     {
-        var opts = GetProviderOptions<T>(options, providerKey);
+        var opts = GetProviderOptions<T>(options, formatterKey);
         return opts ?? new T();
     }
 }

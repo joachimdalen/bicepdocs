@@ -4,10 +4,10 @@ using System.CommandLine.NamingConventionBinder;
 using System.CommandLine.Parsing;
 using LandingZones.Tools.BicepDocs.Cli.Commands;
 using LandingZones.Tools.BicepDocs.Cli.Commands.Generate;
-using LandingZones.Tools.BicepDocs.Cli.Commands.Generate.FileSystem;
 using LandingZones.Tools.BicepDocs.Core;
-using LandingZones.Tools.BicepDocs.Provider.Docusaurus;
-using LandingZones.Tools.BicepDocs.Provider.Markdown;
+using LandingZones.Tools.BicepDocs.Formatter.Docusaurus;
+using LandingZones.Tools.BicepDocs.Formatter.Markdown;
+using LandingZones.Tools.BicepDocs.Source.FileSystem;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -39,6 +39,8 @@ public static class Program
             .AddConfigurationLoader()
             .AddBicepCore()
             .AddBicepDecompiler()
+            .AddBicepFileService()
+            .AddFileSystemSource()
             .AddMarkdownDocProvider()
             .AddDocusaurusDocsProvider()
             .AddLogging()
@@ -47,5 +49,5 @@ public static class Program
             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
             .MinimumLevel.Override("System", LogEventLevel.Warning)
             .WriteTo.Console())
-        .UseCommandHandler<FileSystemCommand, FileSystemCommandHandler>();
+        .AddFileSystemCommands();
 }

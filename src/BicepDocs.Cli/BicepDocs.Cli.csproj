@@ -28,10 +28,9 @@
 
     <ItemGroup>
         <ProjectReference Include="..\BicepDocs.Core\BicepDocs.Core.csproj" />
-        <ProjectReference
-            Include="..\BicepDocs.Provider.Docusaurus\BicepDocs.Provider.Docusaurus.csproj" />
-        <ProjectReference
-            Include="..\BicepDocs.Provider.Markdown\BicepDocs.Provider.Markdown.csproj" />
+        <ProjectReference Include="..\BicepDocs.Formatter.Docusaurus\BicepDocs.Formatter.Docusaurus.csproj" />
+        <ProjectReference Include="..\BicepDocs.Formatter.Markdown\BicepDocs.Formatter.Markdown.csproj" />
+        <ProjectReference Include="..\BicepDocs.Source.FileSystem\BicepDocs.Source.FileSystem.csproj" />
     </ItemGroup>
 
     <ItemGroup>

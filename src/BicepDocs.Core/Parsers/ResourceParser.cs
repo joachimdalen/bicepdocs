@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 using Bicep.Core.Navigation;
 using Bicep.Core.Semantics;
 using Bicep.Core.Semantics.Metadata;
-using LandingZones.Tools.BicepDocs.Core.Models;
+using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
 
 namespace LandingZones.Tools.BicepDocs.Core.Parsers;
 
