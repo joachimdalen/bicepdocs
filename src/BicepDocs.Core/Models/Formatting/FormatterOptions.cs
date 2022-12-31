@@ -15,7 +15,7 @@ public class FormatterOptions
     
     public string MetaKeyword { get; set; } = MetadataParser.MetadataKey;
     
-    public Dictionary<DocFormatter, object> Providers { get; set; } = new();
+    public Dictionary<DocFormatter, object> Formatters { get; set; } = new();
 
     public HashSet<DocSection> SectionOrder { get; set; } = new()
     {

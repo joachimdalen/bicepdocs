@@ -30,11 +30,11 @@ provider:
     }
 
     [TestMethod]
-    public async Task GetProviderOptions_Configured_ReturnsOptions()
+    public async Task GetFormatterOptions_Configured_ReturnsOptions()
     {
         const string configFile = @"
 includeExistingResources: false
-providers:
+formatters:
   docusaurus:
     addPageTags: true
 ";
@@ -42,17 +42,17 @@ providers:
 
         var sut = new ConfigurationLoader(_staticFileSystemMock.Object);
         var opt = await sut.GetOptions("config.yml");
-        var provOpt = sut.GetProviderOptions<ProviderOptions>(opt, DocFormatter.Docusaurus);
+        var provOpt = sut.GetFormatterOptions<ProviderOptions>(opt, DocFormatter.Docusaurus);
         Assert.IsNotNull(provOpt);
         Assert.IsTrue(provOpt.AddPageTags);
     }
 
     [TestMethod]
-    public async Task GetProviderOptions_NotConfigured_ReturnsNull()
+    public async Task GetFormatterOptions_NotConfigured_ReturnsNull()
     {
         const string configFile = @"
 includeExistingResources: false
-providers:
+format:
   docusaurus:
     addPageTags: true
 ";
@@ -60,16 +60,16 @@ providers:
 
         var sut = new ConfigurationLoader(_staticFileSystemMock.Object);
         var opt = await sut.GetOptions("config.yml");
-        var provOpt = sut.GetProviderOptions<ProviderOptions>(opt, DocFormatter.Markdown);
+        var provOpt = sut.GetFormatterOptions<ProviderOptions>(opt, DocFormatter.Markdown);
         Assert.IsNull(provOpt);
     }
     
     [TestMethod]
-    public async Task GetProviderOptionsOrDefault_Configured_ReturnsOptions()
+    public async Task GetFormatterOptionsOrDefault_Configured_ReturnsOptions()
     {
         const string configFile = @"
 includeExistingResources: false
-providers:
+formatters:
   docusaurus:
     addPageTags: true
 ";
@@ -77,13 +77,13 @@ providers:
 
         var sut = new ConfigurationLoader(_staticFileSystemMock.Object);
         var opt = await sut.GetOptions("config.yml");
-        var provOpt = sut.GetProviderOptionsOrDefault<ProviderOptions>(opt, DocFormatter.Docusaurus);
+        var provOpt = sut.GetFormatterOptionsOrDefault<ProviderOptions>(opt, DocFormatter.Docusaurus);
         Assert.IsNotNull(provOpt);
         Assert.IsTrue(provOpt.AddPageTags);
     }
 
     [TestMethod]
-    public async Task GetProviderOptionsOrDefault_NotConfigured_ReturnsDefault()
+    public async Task GetFormatterOptionsOrDefault_NotConfigured_ReturnsDefault()
     {
         const string configFile = @"
 includeExistingResources: false
@@ -95,7 +95,7 @@ providers:
 
         var sut = new ConfigurationLoader(_staticFileSystemMock.Object);
         var opt = await sut.GetOptions("config.yml");
-        var provOpt = sut.GetProviderOptionsOrDefault<ProviderOptions>(opt, DocFormatter.Markdown);
+        var provOpt = sut.GetFormatterOptionsOrDefault<ProviderOptions>(opt, DocFormatter.Markdown);
         Assert.IsNotNull(provOpt);
         Assert.IsFalse(provOpt.AddPageTags);
     }

@@ -44,7 +44,7 @@ public class DocusaurusDocsProvider : IDocsProvider
     {
         var files = await _markdownDocsProvider.GenerateModuleDocs(context);
         var generationFiles = new List<GenerationFile>();
-        var configuration = _configurationLoader.GetProviderOptionsOrDefault<DocusaurusOptions>(context.FormatterOptions, Formatter);
+        var configuration = _configurationLoader.GetFormatterOptionsOrDefault<DocusaurusOptions>(context.FormatterOptions, Formatter);
 
         if (configuration.AddTags)
         {

@@ -29,9 +29,9 @@ public sealed class ConfigurationLoader
         return deserializer.Deserialize<FormatterOptions>(content);
     }
 
-    public T? GetProviderOptions<T>(FormatterOptions options, DocFormatter formatterKey) where T : class, new()
+    public T? GetFormatterOptions<T>(FormatterOptions options, DocFormatter formatterKey) where T : class, new()
     {
-        if (!options.Providers.TryGetValue(formatterKey, out var providerString))
+        if (!options.Formatters.TryGetValue(formatterKey, out var providerString))
         {
             return null;
         }
@@ -44,9 +44,9 @@ public sealed class ConfigurationLoader
         return deserializer.Deserialize<T>(s);
     }
 
-    public T GetProviderOptionsOrDefault<T>(FormatterOptions options, DocFormatter formatterKey) where T : class, new()
+    public T GetFormatterOptionsOrDefault<T>(FormatterOptions options, DocFormatter formatterKey) where T : class, new()
     {
-        var opts = GetProviderOptions<T>(options, formatterKey);
+        var opts = GetFormatterOptions<T>(options, formatterKey);
         return opts ?? new T();
     }
 }
