@@ -36,7 +36,7 @@ sectionOrder:
 disableVersioning: false
 
 # Configuration for individual providers
-providers:
+formatters:
   docusaurus:
     # Do not add page tags (resource providers)
     addPageTags: true
