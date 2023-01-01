@@ -46,7 +46,7 @@ public class OutputGeneratorTests : BicepFileTestBase
 output resourceId string = resourceGroup.id";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions
+        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions
         {
             IncludeOutputs = false
         });
@@ -73,7 +73,7 @@ output resourceId string = resourceGroup.id";
 output resourceId string = resourceGroup.id";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
+        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
         OutputGenerator.BuildOutputs(document, ctx);
 
         Assert.AreEqual(2, document.Count);
@@ -93,7 +93,7 @@ output resourceId string = resourceGroup.id";
 }";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
+        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
         OutputGenerator.BuildOutputs(document, ctx);
 
         Assert.AreEqual(0, document.Count);

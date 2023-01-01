@@ -3,9 +3,9 @@ using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 
 namespace LandingZones.Tools.BicepDocs.Core;
 
-public class GeneratorContext
+public class FormatterContext
 {
-    public GeneratorContext(SemanticModel template, ModulePaths paths, FormatterOptions? options = null)
+    public FormatterContext(SemanticModel template, ModulePaths paths, FormatterOptions? options = null)
     {
         Template = template;
         Paths = paths;

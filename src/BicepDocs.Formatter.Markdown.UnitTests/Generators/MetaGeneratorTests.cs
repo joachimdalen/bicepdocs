@@ -12,10 +12,9 @@ public class MetaGeneratorTests
     {
         const string expected = "# My title";
         var md = new MarkdownDocument();
-        MetaGenerator.BuildTitle(md, new MetadataModel
-        {
-            Title = "My title"
-        }, TestConstants.DefaultContext);
+        MetaGenerator.BuildTitle(md, new MetadataModel(
+            Title: "My title"
+        ), TestConstants.DefaultFormatterContext);
 
         Assert.AreEqual(expected, md.ToMarkdown());
     }
@@ -25,7 +24,7 @@ public class MetaGeneratorTests
     {
         const string expected = "# vault";
         var md = new MarkdownDocument();
-        MetaGenerator.BuildTitle(md, new MetadataModel(),  TestConstants.DefaultContext);
+        MetaGenerator.BuildTitle(md, new MetadataModel(), TestConstants.DefaultFormatterContext);
 
         Assert.AreEqual(expected, md.ToMarkdown());
     }

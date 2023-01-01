@@ -40,7 +40,7 @@ public class DocusaurusDocsFormatter : IDocsFormatter
 
     public DocFormatter Formatter => DocFormatter.Docusaurus;
 
-    public async Task<IImmutableList<GenerationFile>> GenerateModuleDocs(GeneratorContext context)
+    public async Task<IImmutableList<GenerationFile>> GenerateModuleDocs(FormatterContext context)
     {
         var files = await _markdownDocsFormatter.GenerateModuleDocs(context);
         var generationFiles = new List<GenerationFile>();

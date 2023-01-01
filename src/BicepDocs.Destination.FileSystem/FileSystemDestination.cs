@@ -21,27 +21,20 @@ public class FileSystemDestination : IDocsDestination
 
     public async Task Write(IImmutableList<GenerationFile> generationFiles)
     {
-        /*
-         if (!_staticFileSystem.Directory.Exists(Out) && !DryRun)
-        {
-            _staticFileSystem.Directory.CreateDirectory(Out);
-        }
-         */
-        
         foreach (var outFile in generationFiles)
         {
-            //_logger.LogInformation("Processed file  {FileName} ==> {OutPath}", paths.VirtualPath, Path.GetRelativePath(Out, outFile.FilePath));
-
             switch (outFile)
             {
                 case TextGenerationFile txtFile:
                 {
                     await WriteFile(txtFile.FolderPath, txtFile.FilePath, txtFile.Content);
+                    _logger.LogInformation("Processed file  {FileName}", outFile.FilePath);
                     if (!string.IsNullOrEmpty(txtFile.VersionFilePath) &&
                         !string.IsNullOrEmpty(txtFile.VersionFolderPath))
                     {
                         await WriteFile(txtFile.VersionFolderPath, txtFile.VersionFilePath,
                             txtFile.Content);
+                        _logger.LogInformation("Processed file  {FileName}", outFile.VersionFilePath);
                     }
 
                     break;

@@ -1,15 +1,9 @@
 namespace LandingZones.Tools.BicepDocs.Core.Models.Parsing;
 
-public class ParsedParameter
+public record ParsedParameter(string Name, string Type)
 {
-    public ParsedParameter(string name, string type)
-    {
-        Name = name;
-        Type = type;
-    }
-
-    public string Name { get; set; }
-    public string Type { get; set; }
+    public string Name { get; set; } = Name;
+    public string Type { get; set; } = Type;
     public string? Description { get; set; }
     public string? DefaultValue { get; set; }
     public bool IsComplexDefault { get; set; }

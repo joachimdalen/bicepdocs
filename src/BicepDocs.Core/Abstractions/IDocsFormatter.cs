@@ -6,5 +6,5 @@ namespace LandingZones.Tools.BicepDocs.Core.Abstractions;
 public interface IDocsFormatter
 {
     DocFormatter Formatter { get; }
-    Task<IImmutableList<GenerationFile>> GenerateModuleDocs(GeneratorContext context);
+    Task<IImmutableList<GenerationFile>> GenerateModuleDocs(FormatterContext context);
 }

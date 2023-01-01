@@ -1,15 +1,3 @@
 namespace LandingZones.Tools.BicepDocs.Core.Models.Parsing;
 
-public class ParsedOutput
-{
-    public ParsedOutput(string name, string type, string? description)
-    {
-        Name = name;
-        Type = type;
-        Description = description;
-    }
-
-    public string Name { get; }
-    public string Type { get; }
-    public string? Description { get; }
-}
+public record ParsedOutput(string Name, string Type, string? Description);

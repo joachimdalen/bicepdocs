@@ -20,7 +20,7 @@ internal static class OutputGenerator
         document.Append(outPutTable);
     }
 
-    internal static void BuildOutputs(MarkdownDocument document, GeneratorContext context)
+    internal static void BuildOutputs(MarkdownDocument document, FormatterContext context)
     {
         if (!context.FormatterOptions.IncludeOutputs) return;
         var outputs = OutputParser.ParseOutputs(context.Template);

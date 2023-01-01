@@ -33,7 +33,7 @@ public class ResourceGeneratorTests : BicepFileTestBase
         }.ToImmutableList();
 
         var document = new MarkdownDocument();
-        ResourceGenerator.BuildResources(document, TestConstants.DefaultContext, resources);
+        ResourceGenerator.BuildResources(document, TestConstants.DefaultFormatterContext, resources);
 
         Assert.AreEqual(2, document.Count);
 
@@ -69,7 +69,7 @@ public class ResourceGeneratorTests : BicepFileTestBase
         }.ToImmutableList();
 
         var document = new MarkdownDocument();
-        ResourceGenerator.BuildResources(document, TestConstants.DefaultContext, resources);
+        ResourceGenerator.BuildResources(document, TestConstants.DefaultFormatterContext, resources);
 
         Assert.AreEqual(2, document.Count);
 
@@ -96,7 +96,7 @@ output resourceId string = resourceGroup.id";
         var document = new MarkdownDocument();
 
         var semanticModel = await GetModel(template);
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions()
+        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions()
         );
         ResourceGenerator.BuildResources(document, ctx);
 
@@ -119,7 +119,7 @@ output resourceId string = resourceGroup.id";
 output resourceId string = resourceGroup.id";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions
+        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions
         {
             IncludeResources = false
         });
@@ -135,7 +135,7 @@ output resourceId string = resourceGroup.id";
 param something string = 'nothing'";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
+        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
         ResourceGenerator.BuildResources(document, ctx);
 
         Assert.AreEqual(0, document.Count);
@@ -241,7 +241,7 @@ output resourceId string = resourceGroup.id";
         var document = new MarkdownDocument();
 
         var semanticModel = await GetModel(template);
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions()
+        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions()
         );
         ResourceGenerator.BuildReferencedResources(document, ctx);
 
@@ -262,7 +262,7 @@ output resourceId string = resourceGroup.id";
 output resourceId string = resourceGroup.id";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions
+        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions
         {
             IncludeReferencedResources = false
         });
@@ -278,7 +278,7 @@ output resourceId string = resourceGroup.id";
 param something string = 'nothing'";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
+        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
         ResourceGenerator.BuildReferencedResources(document, ctx);
 
         Assert.AreEqual(0, document.Count);
@@ -296,7 +296,7 @@ param something string = 'nothing'";
 output resourceId string = resourceGroup.id";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new GeneratorContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
+        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
         ResourceGenerator.BuildReferencedResources(document, ctx);
 
         Assert.AreEqual(0, document.Count);

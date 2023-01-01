@@ -8,7 +8,7 @@ namespace LandingZones.Tools.BicepDocs.Formatter.Markdown.Generators;
 
 internal static class ResourceGenerator
 {
-    internal static void BuildResources(MarkdownDocument document, GeneratorContext context, IImmutableList<ParsedResource> resources)
+    internal static void BuildResources(MarkdownDocument document, FormatterContext context, IImmutableList<ParsedResource> resources)
     {
         document.Append(new MkHeader("Resources", MkHeaderLevel.H2));
         var resourceList = new MkList();
@@ -27,7 +27,7 @@ internal static class ResourceGenerator
         document.Append(resourceList);
     }
 
-    internal static void BuildResources(MarkdownDocument document, GeneratorContext context)
+    internal static void BuildResources(MarkdownDocument document, FormatterContext context)
     {
         if (!context.FormatterOptions.IncludeResources) return;
         var resources = ResourceParser.ParseResources(context.Template);
@@ -35,7 +35,7 @@ internal static class ResourceGenerator
         BuildResources(document, context, resources);
     }
 
-    internal static void BuildReferencedResources(MarkdownDocument document, GeneratorContext context)
+    internal static void BuildReferencedResources(MarkdownDocument document, FormatterContext context)
     {
         if (!context.FormatterOptions.IncludeReferencedResources) return;
         var resources = ResourceParser.ParseResources(context.Template);

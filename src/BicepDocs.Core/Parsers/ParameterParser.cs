@@ -19,8 +19,8 @@ public static class ParameterParser
         {
             var parameter = new ParsedParameter
             (
-                name: templateParameter.Key,
-                type: templateParameter.Value.TypeReference.Type.Name
+                Name: templateParameter.Key,
+                Type: templateParameter.Value.TypeReference.Type.Name
             )
             {
                 Description = templateParameter.Value.Description

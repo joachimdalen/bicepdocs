@@ -13,7 +13,7 @@ public class MarkdownDocsFormatter : IDocsFormatter
 {
     public DocFormatter Formatter => DocFormatter.Markdown;
 
-    public Task<IImmutableList<GenerationFile>> GenerateModuleDocs(GeneratorContext context)
+    public Task<IImmutableList<GenerationFile>> GenerateModuleDocs(FormatterContext context)
     {
         var outputFiles = new List<GenerationFile>();
         var markdownDocument = new MarkdownDocument();

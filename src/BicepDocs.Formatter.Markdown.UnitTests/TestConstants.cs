@@ -16,5 +16,5 @@ public static class TestConstants
             outputFolder: outputBaseFolder);
     }
 
-    public static GeneratorContext DefaultContext => new(null!, GetMockModulePaths());
+    public static FormatterContext DefaultFormatterContext => new(null!, GetMockModulePaths());
 }

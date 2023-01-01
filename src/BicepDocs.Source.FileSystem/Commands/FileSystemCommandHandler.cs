@@ -17,10 +17,9 @@ namespace LandingZones.Tools.BicepDocs.Source.FileSystem.Commands;
 public sealed class FileSystemCommandHandler : ICommandHandler
 {
     private readonly ILogger<FileSystemCommandHandler> _logger;
-    private readonly IEnumerable<IDocsFormatter> _generators;
+    private readonly IEnumerable<IDocsFormatter> _formatters;
     private readonly IEnumerable<IDocsDestination> _destinations;
     private readonly IEnumerable<IBicepSource> _sources;
-    private readonly IStaticFileSystem _staticFileSystem;
     private readonly ConfigurationLoader _configurationLoader;
     private readonly IBicepFileService _bicepFileService;
     public string FolderPath { get; set; } = default!;
@@ -33,19 +32,17 @@ public sealed class FileSystemCommandHandler : ICommandHandler
 
     public FileSystemCommandHandler(
         ILogger<FileSystemCommandHandler> logger,
-        IEnumerable<IDocsFormatter> generators,
+        IEnumerable<IDocsFormatter> formatters,
         IEnumerable<IDocsDestination> destinations,
         IEnumerable<IBicepSource> sources,
-        IStaticFileSystem staticFileSystem,
         ConfigurationLoader configurationLoader,
         IBicepFileService bicepFileService
     )
     {
         _logger = logger;
-        _generators = generators;
+        _formatters = formatters;
         _destinations = destinations;
         _sources = sources;
-        _staticFileSystem = staticFileSystem;
         _configurationLoader = configurationLoader;
         _bicepFileService = bicepFileService;
     }
@@ -57,7 +54,7 @@ public sealed class FileSystemCommandHandler : ICommandHandler
 
     public async Task<int> InvokeAsync(InvocationContext context)
     {
-        var formatProvider = _generators.FirstOrDefault(x => x.Formatter == Formatter);
+        var formatProvider = _formatters.FirstOrDefault(x => x.Formatter == Formatter);
         if (formatProvider == null)
         {
             throw new ArgumentNullException($"Failed to find generation provider for {Formatter}");
@@ -100,14 +97,14 @@ public sealed class FileSystemCommandHandler : ICommandHandler
                 await _bicepFileService.GetSemanticModelFromContent(paths.VirtualFolder, paths.VirtualPath,
                     fileContent);
 
-            FormatterOptions? generatorOptions = null;
+            FormatterOptions? formatterOptions = null;
             if (!string.IsNullOrEmpty(Config))
             {
-                generatorOptions = await _configurationLoader.GetOptions(Config);
+                formatterOptions = await _configurationLoader.GetOptions(Config);
             }
 
-            var generatorContext = new GeneratorContext(sourceFile, paths, generatorOptions);
-            var generationFiles = await formatProvider.GenerateModuleDocs(generatorContext);
+            var formatterContext = new FormatterContext(sourceFile, paths, formatterOptions);
+            var generationFiles = await formatProvider.GenerateModuleDocs(formatterContext);
             var convertedFiles = generationFiles.Select(x =>
             {
                 if (x is MarkdownGenerationFile markdownGenerationFile)

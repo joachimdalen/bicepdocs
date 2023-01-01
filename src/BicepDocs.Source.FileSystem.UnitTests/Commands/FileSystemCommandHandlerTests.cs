@@ -147,7 +147,6 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
             generators,
             destinations,
             sources,
-            _staticFileSystem.Object,
             _configurationLoader,
             _bicepFileService
         )

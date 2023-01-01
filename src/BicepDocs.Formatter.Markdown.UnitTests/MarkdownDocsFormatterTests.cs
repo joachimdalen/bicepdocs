@@ -28,7 +28,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   tags: tags
 }";
         var semanticModel = await GetModel(template);
-        var ctx = new GeneratorContext(semanticModel, GetPaths());
+        var ctx = new FormatterContext(semanticModel, GetPaths());
         var sut = new MarkdownDocsFormatter();
 
         var files = await sut.GenerateModuleDocs(ctx);
@@ -61,7 +61,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   tags: tags
 }";
         var semanticModel = await GetModel(template);
-        var ctx = new GeneratorContext(semanticModel, GetPaths());
+        var ctx = new FormatterContext(semanticModel, GetPaths());
         var sut = new MarkdownDocsFormatter();
 
         var files = await sut.GenerateModuleDocs(ctx);
