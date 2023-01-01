@@ -4,6 +4,20 @@ The Docusaurus provider builds documentation adapted for [Docusaurus](https://do
 
 **It does not create a Docusaurus site for you, to do this, follow the [official guide](https://docusaurus.io/docs/installation)**
 
+## Configuration
+
+Options for the docusaurus formatter can be provided under `formatters.docusaurus` in the configuration file. For full reference, see the [example-config.yml](../example-config.yml).
+
+```yaml
+formatters:
+  docusaurus:
+    addPageTags: true
+```
+
+| Option        | Description                                                                                                 |
+| ------------- | ----------------------------------------------------------------------------------------------------------- |
+| `addPageTags` | Add the resource provider as a tag to the page for better navigation using [page metadata](#page-metadata). |
+
 ## Metadata
 
 The following metadata and files are added when you use the Docusaurus prodvider.

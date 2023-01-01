@@ -23,11 +23,15 @@ bicepdocs generate filesystem \
 
 ## Supported Sources
 
+The source is responsible for fetching the bicep files and providing the [Formatter](#supported-formatters) with the text representation of the file.
+
 | Source     | Description                            |
 | ---------- | -------------------------------------- |
 | filesystem | Loads bicep files from the file system |
 
-## Supported Sources
+## Supported Formatters
+
+The formatter is responsible for converting the bicep file into the wanted documentation format. Currently all formatters is based on markdown.
 
 | Formatter                                     | Description                                                                                      |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -35,6 +39,8 @@ bicepdocs generate filesystem \
 | [docusaurus](./docs/formatters/docusaurus.md) | Converts bicep files and formats them as markdown while adding metadata and files for Docusaurus |
 
 ## Supported Destinations
+
+The destination takes the formatted documentation file and writes it to the wanted location.
 
 | Destination | Description                                   |
 | ----------- | --------------------------------------------- |
@@ -57,13 +63,14 @@ metadata moduleDocs = {
 
 Certain options can be configured using a yaml file. For full reference, see the [example-config.yml](./docs/example-config.yml). Provide the file path to the configuration file using the global paramter `--config`
 
-| Option                     | Description                                                                                      |
-| -------------------------- | ------------------------------------------------------------------------------------------------ |
-| `includeExistingResources` | When `true` will include referenced resources using the `existing` keyword in the resources list |
-| `metaKeyword`              | Metadata definition keyword used for module metadata                                             |
-| `includeParameters`        | Include the parameters section                                                                   |
-| `includeUsage`             | Include the code example /usage section                                                          |
-| `includeResources`         | Include the list of resources                                                                    |
-| `includeOutputs`           | Inlude the outputs section                                                                       |
-| `sectionOrder`             | Section order for the generated document                                                         |
-| `disableVersioning`        | Do not generate versioned output folders                                                         |
+| Option                     | Description                                                                                         |
+| -------------------------- | --------------------------------------------------------------------------------------------------- |
+| `includeExistingResources` | When `true` will include referenced resources using the `existing` keyword in the resources list    |
+| `metaKeyword`              | Metadata definition keyword used for module metadata                                                |
+| `includeParameters`        | Include the parameters section                                                                      |
+| `includeUsage`             | Include the code example /usage section                                                             |
+| `includeResources`         | Include the list of resources                                                                       |
+| `includeOutputs`           | Inlude the outputs section                                                                          |
+| `sectionOrder`             | Section order for the generated document                                                            |
+| `disableVersioning`        | Do not generate versioned output folders                                                            |
+| `formatters`               | Options for the individual formatters. See the documentation for the formatter for more information |
