@@ -1,4 +1,4 @@
-using LandingZones.Tools.BicepDocs.Core.Models;
+using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 
 namespace LandingZones.Tools.BicepDocs.Core;
 

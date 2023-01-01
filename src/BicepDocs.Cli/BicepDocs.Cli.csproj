@@ -19,7 +19,7 @@
 
     <ItemGroup>
         <PackageReference Include="Azure.Bicep.Decompiler" Version="0.13.1" />
-        <PackageReference Include="Serilog" Version="2.12.1-dev-01594" />
+        <PackageReference Include="Serilog" Version="2.12.0" />
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
         <PackageReference Include="System.CommandLine.Hosting" Version="0.4.0-alpha.22272.1" />
         <PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
@@ -28,10 +28,10 @@
 
     <ItemGroup>
         <ProjectReference Include="..\BicepDocs.Core\BicepDocs.Core.csproj" />
-        <ProjectReference
-            Include="..\BicepDocs.Provider.Docusaurus\BicepDocs.Provider.Docusaurus.csproj" />
-        <ProjectReference
-            Include="..\BicepDocs.Provider.Markdown\BicepDocs.Provider.Markdown.csproj" />
+        <ProjectReference Include="..\BicepDocs.Destination.FileSystem\BicepDocs.Destination.FileSystem.csproj" />
+        <ProjectReference Include="..\BicepDocs.Formatter.Docusaurus\BicepDocs.Formatter.Docusaurus.csproj" />
+        <ProjectReference Include="..\BicepDocs.Formatter.Markdown\BicepDocs.Formatter.Markdown.csproj" />
+        <ProjectReference Include="..\BicepDocs.Source.FileSystem\BicepDocs.Source.FileSystem.csproj" />
     </ItemGroup>
 
     <ItemGroup>

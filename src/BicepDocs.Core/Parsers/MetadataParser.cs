@@ -1,6 +1,6 @@
 using Bicep.Core.Semantics;
 using Bicep.Core.Syntax;
-using LandingZones.Tools.BicepDocs.Core.Models;
+using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 
 namespace LandingZones.Tools.BicepDocs.Core.Parsers;
 

@@ -6,7 +6,7 @@ BicepDocs is a tool to build documentation for Bicep modules.
 
 See a quick example for the [bicep file](./docs/providers/examples/inputs/resources/resource-groups.bicep) that has been converted to a [markdown file](./docs/providers/examples/generated-output/resources/resource-groups.md) using the [markdown provider](./docs/providers/markdown-provider.md).
 
-Check the [Roadmap](#roadmap) for planned features and changes.
+Check the [Roadmap](https://github.com/joachimdalen/bicepdocs/issues) for planned features and changes.
 
 ## Quickstart
 
@@ -16,17 +16,35 @@ To generate documentation from modules on the file system
 bicepdocs generate filesystem \
 --folderPath "path-to-input-folder" \
 --out "path-to-write-files-to" \
---provider markdown
+--formatter markdown
 [--config "path-to-config-file"]
 
 ```
 
-## Supported Providers
+## Supported Sources
 
-| Provider   | Description                                                |
-| ---------- | ---------------------------------------------------------- |
-| markdown   | Writes output files compatible with markdown               |
-| docusaurus | Writes markdown files with supported docusaurus formatting |
+The source is responsible for fetching the bicep files and providing the [Formatter](#supported-formatters) with the text representation of the file.
+
+| Source     | Description                            |
+| ---------- | -------------------------------------- |
+| filesystem | Loads bicep files from the file system |
+
+## Supported Formatters
+
+The formatter is responsible for converting the bicep file into the wanted documentation format. Currently all formatters is based on markdown.
+
+| Formatter                                     | Description                                                                                      |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| [markdown](./docs/formatters/markdown.md)     | Converts bicep files and formats them as markdown                                                |
+| [docusaurus](./docs/formatters/docusaurus.md) | Converts bicep files and formats them as markdown while adding metadata and files for Docusaurus |
+
+## Supported Destinations
+
+The destination takes the formatted documentation file and writes it to the wanted location.
+
+| Destination | Description                                   |
+| ----------- | --------------------------------------------- |
+| filesystem  | Writes the formatted files to the file system |
 
 ## Metadata
 
@@ -45,28 +63,14 @@ metadata moduleDocs = {
 
 Certain options can be configured using a yaml file. For full reference, see the [example-config.yml](./docs/example-config.yml). Provide the file path to the configuration file using the global paramter `--config`
 
-| Option                     | Description                                                                                      |
-| -------------------------- | ------------------------------------------------------------------------------------------------ |
-| `includeExistingResources` | When `true` will include referenced resources using the `existing` keyword in the resources list |
-| `metaKeyword`              | Metadata definition keyword used for module metadata                                             |
-| `includeParameters`        | Include the parameters section                                                                   |
-| `includeUsage`             | Include the code example /usage section                                                          |
-| `includeResources`         | Include the list of resources                                                                    |
-| `includeOutputs`           | Inlude the outputs section                                                                       |
-| `sectionOrder`             | Section order for the generated document                                                         |
-| `disableVersioning`        | Do not generate versioned output folders                                                         |
-
-## Documentation Generated
-
-See the following documentaion for the different providers
-
-- `--provider markdown` : [Markdown Provider](./docs/providers/markdown-provider.md)
-- `--provider docusaurus` : [Docusaurus Provider](./docs/providers/docusaurus-provider.md)
-
-## Roadmap
-
-Some of the features that are on the Roadmap for BicepDocs:
-
-- Generate documentation from published modules in a Container Registry
-- [Azure DevOps Wiki Provider (Create and upload the documentation to the wiki)](https://github.com/joachimdalen/bicepdocs/issues/2)
-- [Confluence Provider](https://github.com/joachimdalen/bicepdocs/issues/1)
+| Option                     | Description                                                                                         |
+| -------------------------- | --------------------------------------------------------------------------------------------------- |
+| `includeExistingResources` | When `true` will include referenced resources using the `existing` keyword in the resources list    |
+| `metaKeyword`              | Metadata definition keyword used for module metadata                                                |
+| `includeParameters`        | Include the parameters section                                                                      |
+| `includeUsage`             | Include the code example /usage section                                                             |
+| `includeResources`         | Include the list of resources                                                                       |
+| `includeOutputs`           | Inlude the outputs section                                                                          |
+| `sectionOrder`             | Section order for the generated document                                                            |
+| `disableVersioning`        | Do not generate versioned output folders                                                            |
+| `formatters`               | Options for the individual formatters. See the documentation for the formatter for more information |

@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 using Bicep.Core.Navigation;
 using Bicep.Core.Semantics;
 using Bicep.Core.Syntax;
-using LandingZones.Tools.BicepDocs.Core.Models;
+using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
 
 namespace LandingZones.Tools.BicepDocs.Core.Parsers;
 
@@ -19,8 +19,8 @@ public static class ParameterParser
         {
             var parameter = new ParsedParameter
             (
-                name: templateParameter.Key,
-                type: templateParameter.Value.TypeReference.Type.Name
+                Name: templateParameter.Key,
+                Type: templateParameter.Value.TypeReference.Type.Name
             )
             {
                 Description = templateParameter.Value.Description

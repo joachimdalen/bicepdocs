@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>LandingZones.Tools.BicepDocs.Formatter.Docusaurus.UnitTests</AssemblyName>
+        <RootNamespace>LandingZones.Tools.BicepDocs.Formatter.Docusaurus.UnitTests</RootNamespace>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
+        <PackageReference Include="coverlet.collector" Version="3.2.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BicepDocs.Core.UnitTests\BicepDocs.Core.UnitTests.csproj" />
+      <ProjectReference Include="..\BicepDocs.Formatter.Docusaurus\BicepDocs.Formatter.Docusaurus.csproj" />
+    </ItemGroup>
+
+</Project>

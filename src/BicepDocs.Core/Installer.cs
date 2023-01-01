@@ -50,4 +50,9 @@ public static class Installer
     {
         return services.AddSingleton<ConfigurationLoader>();
     }
+
+    public static IServiceCollection AddBicepFileService(this IServiceCollection services)
+    {
+        return services.AddTransient<IBicepFileService, BicepFileService>();
+    }
 }
