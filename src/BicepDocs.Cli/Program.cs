@@ -8,6 +8,7 @@ using LandingZones.Tools.BicepDocs.Core;
 using LandingZones.Tools.BicepDocs.Destination.FileSystem;
 using LandingZones.Tools.BicepDocs.Formatter.Docusaurus;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown;
+using LandingZones.Tools.BicepDocs.Source.AzureContainerRegistry;
 using LandingZones.Tools.BicepDocs.Source.FileSystem;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -42,6 +43,7 @@ public static class Program
             .AddBicepDecompiler()
             .AddBicepFileService()
             .AddFileSystemSource()
+            .AddAzureContainerRegistrySource()
             .AddMarkdownDocFormatter()
             .AddDocusaurusDocsFormatter()
             .AddFileSystemDestination()
@@ -51,5 +53,6 @@ public static class Program
             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
             .MinimumLevel.Override("System", LogEventLevel.Warning)
             .WriteTo.Console())
-        .AddFileSystemCommands();
+        .AddFileSystemCommands()
+        .AddAzureContainerRegistryCommands();
 }
