@@ -16,27 +16,12 @@ public class BicepFileService : IBicepFileService
         _compiler = compiler;
     }
 
-    public async Task<SemanticModel> GetSemanticModelFromContent(string fileContent, string fileName = "deploy.bicep")
+    public async Task<SemanticModel> GetSemanticModelFromContent(string folder, string path, string content)
     {
-        const string basePath = "/modules";
-        var filePath = Path.Join(basePath, fileName);
-        if (!_fileSystem.Directory.Exists(basePath))
-        {
-            _fileSystem.Directory.CreateDirectory(basePath);
-        }
-
-        await _fileSystem.File.WriteAllTextAsync(filePath, fileContent);
-        var compilation = await _compiler.CreateCompilation(new Uri(filePath));
+        _fileSystem.Directory.CreateDirectory(folder);
+        await _fileSystem.File.WriteAllTextAsync(path, content);
+        var compilation = await _compiler.CreateCompilation(new Uri(path));
         var sourceFile = compilation.GetEntrypointSemanticModel();
         return sourceFile;
-    }
-
-
-    public async Task<SemanticModel> GetSemanticModelFromPath(string bicepFilePath)
-    {
-        var fileName = Path.GetFileName(bicepFilePath);
-        var fileContent = await File.ReadAllTextAsync(bicepFilePath);
-
-        return await GetSemanticModelFromContent(fileContent, fileName);
     }
 }

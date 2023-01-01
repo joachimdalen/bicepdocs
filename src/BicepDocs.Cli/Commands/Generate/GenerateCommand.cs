@@ -1,5 +1,5 @@
 using System.CommandLine;
-using LandingZones.Tools.BicepDocs.Cli.Commands.Generate.FileSystem;
+using LandingZones.Tools.BicepDocs.Source.FileSystem.Commands;
 
 namespace LandingZones.Tools.BicepDocs.Cli.Commands.Generate;
 
