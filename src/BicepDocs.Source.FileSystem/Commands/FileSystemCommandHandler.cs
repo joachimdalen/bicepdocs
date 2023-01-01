@@ -17,7 +17,7 @@ namespace LandingZones.Tools.BicepDocs.Source.FileSystem.Commands;
 public sealed class FileSystemCommandHandler : ICommandHandler
 {
     private readonly ILogger<FileSystemCommandHandler> _logger;
-    private readonly IEnumerable<IDocsProvider> _generators;
+    private readonly IEnumerable<IDocsFormatter> _generators;
     private readonly IEnumerable<IDocsDestination> _destinations;
     private readonly IEnumerable<IBicepSource> _sources;
     private readonly IStaticFileSystem _staticFileSystem;
@@ -33,7 +33,7 @@ public sealed class FileSystemCommandHandler : ICommandHandler
 
     public FileSystemCommandHandler(
         ILogger<FileSystemCommandHandler> logger,
-        IEnumerable<IDocsProvider> generators,
+        IEnumerable<IDocsFormatter> generators,
         IEnumerable<IDocsDestination> destinations,
         IEnumerable<IBicepSource> sources,
         IStaticFileSystem staticFileSystem,

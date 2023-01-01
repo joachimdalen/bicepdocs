@@ -5,8 +5,8 @@ namespace LandingZones.Tools.BicepDocs.Formatter.Docusaurus;
 
 public static class Installer
 {
-    public static IServiceCollection AddDocusaurusDocsProvider(this IServiceCollection services)
+    public static IServiceCollection AddDocusaurusDocsFormatter(this IServiceCollection services)
     {
-        return services.AddTransient<IDocsProvider, DocusaurusDocsProvider>();
+        return services.AddTransient<IDocsFormatter, DocusaurusDocsFormatter>();
     }
 }

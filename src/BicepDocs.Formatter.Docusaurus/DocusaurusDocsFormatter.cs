@@ -15,10 +15,10 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace LandingZones.Tools.BicepDocs.Formatter.Docusaurus;
 
-public class DocusaurusDocsProvider : IDocsProvider
+public class DocusaurusDocsFormatter : IDocsFormatter
 {
-    private readonly ILogger<DocusaurusDocsProvider> _logger;
-    private readonly MarkdownDocsProvider _markdownDocsProvider;
+    private readonly ILogger<DocusaurusDocsFormatter> _logger;
+    private readonly MarkdownDocsFormatter _markdownDocsFormatter;
     private readonly ConfigurationLoader _configurationLoader;
 
     private readonly JsonSerializerOptions _serializeOptions = new()
@@ -28,13 +28,13 @@ public class DocusaurusDocsProvider : IDocsProvider
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
-    public DocusaurusDocsProvider(
-        ILogger<DocusaurusDocsProvider> logger,
-        MarkdownDocsProvider markdownDocsProvider,
+    public DocusaurusDocsFormatter(
+        ILogger<DocusaurusDocsFormatter> logger,
+        MarkdownDocsFormatter markdownDocsFormatter,
         ConfigurationLoader configurationLoader)
     {
         _logger = logger;
-        _markdownDocsProvider = markdownDocsProvider;
+        _markdownDocsFormatter = markdownDocsFormatter;
         _configurationLoader = configurationLoader;
     }
 
@@ -42,7 +42,7 @@ public class DocusaurusDocsProvider : IDocsProvider
 
     public async Task<IImmutableList<GenerationFile>> GenerateModuleDocs(GeneratorContext context)
     {
-        var files = await _markdownDocsProvider.GenerateModuleDocs(context);
+        var files = await _markdownDocsFormatter.GenerateModuleDocs(context);
         var generationFiles = new List<GenerationFile>();
         var configuration = _configurationLoader.GetFormatterOptionsOrDefault<DocusaurusOptions>(context.FormatterOptions, Formatter);
 

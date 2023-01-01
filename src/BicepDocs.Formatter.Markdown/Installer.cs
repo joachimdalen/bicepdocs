@@ -5,8 +5,8 @@ namespace LandingZones.Tools.BicepDocs.Formatter.Markdown;
 
 public static class Installer
 {
-    public static IServiceCollection AddMarkdownDocProvider(this IServiceCollection services)
+    public static IServiceCollection AddMarkdownDocFormatter(this IServiceCollection services)
     {
-        return services.AddTransient<IDocsProvider, MarkdownDocsProvider>().AddTransient<MarkdownDocsProvider>();
+        return services.AddTransient<IDocsFormatter, MarkdownDocsFormatter>().AddTransient<MarkdownDocsFormatter>();
     }
 }

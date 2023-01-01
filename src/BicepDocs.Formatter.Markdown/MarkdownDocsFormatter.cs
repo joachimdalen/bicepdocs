@@ -9,7 +9,7 @@ using LandingZones.Tools.BicepDocs.Formatter.Markdown.Models;
 
 namespace LandingZones.Tools.BicepDocs.Formatter.Markdown;
 
-public class MarkdownDocsProvider : IDocsProvider
+public class MarkdownDocsFormatter : IDocsFormatter
 {
     public DocFormatter Formatter => DocFormatter.Markdown;
 

@@ -1,27 +1,13 @@
 using LandingZones.Tools.BicepDocs.Core;
-using LandingZones.Tools.BicepDocs.Core.Abstractions;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using LandingZones.Tools.BicepDocs.Core.UnitTests;
-using LandingZones.Tools.BicepDocs.Formatter.Docusaurus.Models;
-using LandingZones.Tools.BicepDocs.Formatter.Docusaurus.Models.Markdown;
-using LandingZones.Tools.BicepDocs.Formatter.Markdown;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown.Models;
-using Microsoft.Extensions.Logging.Abstractions;
-using Moq;
 
-namespace LandingZones.Tools.BicepDocs.Formatter.Docusaurus.UnitTests;
+namespace LandingZones.Tools.BicepDocs.Formatter.Markdown.UnitTests;
 
 [TestClass]
-public class DocusaurusDocsProviderTests : BicepFileTestBase
+public class MarkdownDocsFormatterTests : BicepFileTestBase
 {
-    private readonly ConfigurationLoader _configurationLoader;
-
-    public DocusaurusDocsProviderTests()
-    {
-        Mock<IStaticFileSystem> staticFileSystem = new(MockBehavior.Strict);
-        _configurationLoader = new ConfigurationLoader(staticFileSystem.Object);
-    }
-
     [TestMethod]
     public async Task GenerateModuleDocs_NonVersionedModule_ReturnsSingleFile()
     {
@@ -43,36 +29,19 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
 }";
         var semanticModel = await GetModel(template);
         var ctx = new GeneratorContext(semanticModel, GetPaths());
-        var mdProvider = new MarkdownDocsProvider();
-        var sut = new DocusaurusDocsProvider(NullLogger<DocusaurusDocsProvider>.Instance, mdProvider,
-            _configurationLoader);
+        var sut = new MarkdownDocsFormatter();
 
         var files = await sut.GenerateModuleDocs(ctx);
-        Assert.AreEqual(2, files.Count);
+        Assert.AreEqual(1, files.Count);
         var otp = files[0];
         Assert.AreEqual("/output-folder/some-dir/docs/resources/resourceGroups.md", otp.FilePath);
+        Assert.IsInstanceOfType(otp, typeof(MarkdownGenerationFile));
         Assert.IsNull(otp.VersionFilePath);
         Assert.IsNull(otp.VersionFolderPath);
-
-        var mdFile = otp as MarkdownGenerationFile;
-        Assert.IsNotNull(mdFile);
-        var firstElement = mdFile.Document[0];
-        Assert.IsInstanceOfType<MdFrontMatter>(firstElement);
-
-        var meta = files[1];
-        Assert.IsInstanceOfType(meta, typeof(TextGenerationFile));
-        Assert.AreEqual(@"{
-  ""label"": ""Resources""
-}", (meta as TextGenerationFile)?.Content);
     }
-
-    // [TestMethod]
-    public async Task GenerateModuleDocs_NonMarkdownFile_DoesNotProcess()
-    {
-    }
-
+    
     [TestMethod]
-    public async Task GenerateModuleDocs_AddTagsDisabled_DoesNotAdd()
+    public async Task GenerateModuleDocs_VersionedModule_ReturnsSingleFile()
     {
         const string template = @"
 param resourceGroupName string
@@ -83,6 +52,7 @@ metadata moduleDocs = {
   title: 'Resource Group'
   owner: 'Demo User <demo.user@local.test>'
   description: 'Deploy a new resource group with tags'
+  version: '2022-12-26'
 }
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
@@ -91,29 +61,18 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   tags: tags
 }";
         var semanticModel = await GetModel(template);
-        var ctx = new GeneratorContext(semanticModel, GetPaths(), new FormatterOptions
-        {
-            Formatters = new Dictionary<DocFormatter, object>
-            {
-                {
-                    DocFormatter.Docusaurus, new { addTags = false }
-                }
-            }
-        });
-        var mdProvider = new MarkdownDocsProvider();
-        var sut = new DocusaurusDocsProvider(NullLogger<DocusaurusDocsProvider>.Instance, mdProvider,
-            _configurationLoader);
+        var ctx = new GeneratorContext(semanticModel, GetPaths());
+        var sut = new MarkdownDocsFormatter();
 
         var files = await sut.GenerateModuleDocs(ctx);
-        Assert.AreEqual(2, files.Count);
+        Assert.AreEqual(1, files.Count);
         var otp = files[0];
         Assert.AreEqual("/output-folder/some-dir/docs/resources/resourceGroups.md", otp.FilePath);
-        var mdFile = otp as MarkdownGenerationFile;
-        Assert.IsNotNull(mdFile);
-        var firstElement = mdFile.Document[0];
-        Assert.IsNotInstanceOfType<MdFrontMatter>(firstElement);
-    }
+        Assert.IsInstanceOfType(otp, typeof(MarkdownGenerationFile));
+        Assert.AreEqual("/output-folder/some-dir/docs/resources/versions/2022-12-26/resourceGroups.md", otp.VersionFilePath);
+        Assert.AreEqual("/output-folder/some-dir/docs/resources/resourceGroups.md", otp.FilePath);
 
+    }
     private ModulePaths GetPaths()
     {
         var inputFolder = "/input/folder/modules";

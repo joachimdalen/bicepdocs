@@ -32,6 +32,16 @@ public static class CodeGenerator
             return parameter.Type == "string" ? $"'{parameter.Name}'" : parameter.Name;
         }
 
-        return parameter.Type == "string" ? $"'{parameter.DefaultValue}'" : parameter.DefaultValue;
+        if (parameter.Type != "string")
+        {
+            return parameter.DefaultValue;
+        }
+
+        if (parameter.DefaultValue.StartsWith('\'') && parameter.DefaultValue.EndsWith('\''))
+        {
+            return parameter.DefaultValue;
+        }
+
+        return $"'{parameter.DefaultValue}'";
     }
 }

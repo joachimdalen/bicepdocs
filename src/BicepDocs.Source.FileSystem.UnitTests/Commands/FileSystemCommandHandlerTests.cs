@@ -40,9 +40,9 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
             {
                 GetFileSystemSource()
             },
-            new List<IDocsProvider>
+            new List<IDocsFormatter>
             {
-                new MarkdownDocsProvider()
+                new MarkdownDocsFormatter()
             }, new List<IDocsDestination>
             {
                 GetFileSystemDestination()
@@ -65,9 +65,9 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
             {
                 GetFileSystemSource()
             },
-            new List<IDocsProvider>
+            new List<IDocsFormatter>
             {
-                new MarkdownDocsProvider()
+                new MarkdownDocsFormatter()
             }, new List<IDocsDestination>
             {
                 GetFileSystemDestination()
@@ -90,9 +90,9 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
             {
                 GetFileSystemSource()
             },
-            new List<IDocsProvider>
+            new List<IDocsFormatter>
             {
-                new MarkdownDocsProvider()
+                new MarkdownDocsFormatter()
             }, new List<IDocsDestination>
             {
                 GetFileSystemDestination()
@@ -139,7 +139,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
 
     private FileSystemCommandHandler GetSut(
         IEnumerable<IBicepSource> sources,
-        IEnumerable<IDocsProvider> generators,
+        IEnumerable<IDocsFormatter> generators,
         IEnumerable<IDocsDestination> destinations)
     {
         var sut = new FileSystemCommandHandler(

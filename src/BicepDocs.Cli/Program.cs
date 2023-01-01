@@ -5,6 +5,7 @@ using System.CommandLine.Parsing;
 using LandingZones.Tools.BicepDocs.Cli.Commands;
 using LandingZones.Tools.BicepDocs.Cli.Commands.Generate;
 using LandingZones.Tools.BicepDocs.Core;
+using LandingZones.Tools.BicepDocs.Destination.FileSystem;
 using LandingZones.Tools.BicepDocs.Formatter.Docusaurus;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown;
 using LandingZones.Tools.BicepDocs.Source.FileSystem;
@@ -41,8 +42,9 @@ public static class Program
             .AddBicepDecompiler()
             .AddBicepFileService()
             .AddFileSystemSource()
-            .AddMarkdownDocProvider()
-            .AddDocusaurusDocsProvider()
+            .AddMarkdownDocFormatter()
+            .AddDocusaurusDocsFormatter()
+            .AddFileSystemDestination()
             .AddLogging()
         )
         .UseSerilog((context, logging) => logging
