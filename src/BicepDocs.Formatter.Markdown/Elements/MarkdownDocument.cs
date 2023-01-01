@@ -18,6 +18,8 @@ public class MarkdownDocument
         _elements = _elements.Prepend(blockBase).ToList();
     }
 
+    public MkBlockBase this[int index] => _elements[index];
+
     public string ToMarkdown()
     {
         var sb = new StringBuilder();
