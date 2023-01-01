@@ -95,7 +95,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
             Formatters = new Dictionary<DocFormatter, object>
             {
                 {
-                    DocFormatter.Docusaurus, new { addTags = false }
+                    DocFormatter.Docusaurus, new { addPageTags = false }
                 }
             }
         });

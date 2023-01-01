@@ -46,7 +46,7 @@ public class DocusaurusDocsFormatter : IDocsFormatter
         var generationFiles = new List<GenerationFile>();
         var configuration = _configurationLoader.GetFormatterOptionsOrDefault<DocusaurusOptions>(context.FormatterOptions, Formatter);
 
-        if (configuration.AddTags)
+        if (configuration.AddPageTags)
         {
             foreach (var generationFile in files)
             {
