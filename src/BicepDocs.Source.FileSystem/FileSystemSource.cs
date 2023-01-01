@@ -33,7 +33,7 @@ public class FileSystemSource : IBicepSource
 
     public DocSource Source => DocSource.FileSystem;
 
-    public async Task<SourceResult> GetSourceFiles(SourceOptions options)
+    public Task<SourceResult> GetSourceFiles(SourceOptions options)
     {
         if (options is not FileSystemSourceOptions fileSystemSourceOptions)
         {
@@ -49,18 +49,18 @@ public class FileSystemSource : IBicepSource
         if (bicepFiles == null)
         {
             _logger.LogWarning("Failed to find any bicep files");
-            return new SourceResult(false, -1);
+            return Task.FromResult(new SourceResult(false, -1));
         }
 
         if (bicepFiles.Count == 0)
         {
             _logger.LogWarning("Failed to find any bicep files");
-            return new SourceResult(false, -1);
+            return Task.FromResult(new SourceResult(false, -1));
         }
 
         _logger.LogInformation("Found {FileCount} bicep files", bicepFiles.Count);
 
-        return new SourceResult(true, 1, bicepFiles.Select(x => new SourceFile(x)).ToImmutableList());
+        return Task.FromResult(new SourceResult(true, 1, bicepFiles.Select(x => new SourceFile(x)).ToImmutableList()));
     }
 
     public async Task<string> GetSourceContent(SourceFile source)

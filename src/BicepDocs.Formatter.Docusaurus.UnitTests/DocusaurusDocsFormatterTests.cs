@@ -65,11 +65,6 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
 }", (meta as TextGenerationFile)?.Content);
     }
 
-    // [TestMethod]
-    public async Task GenerateModuleDocs_NonMarkdownFile_DoesNotProcess()
-    {
-    }
-
     [TestMethod]
     public async Task GenerateModuleDocs_AddTagsDisabled_DoesNotAdd()
     {
