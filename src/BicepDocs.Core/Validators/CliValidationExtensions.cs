@@ -15,15 +15,14 @@ public static class CliValidationExtensions
                 return;
             }
 
-            if (!File.GetAttributes(value).HasFlag(FileAttributes.Directory))
+            switch (folderMustExist)
             {
-                validationResult.ErrorMessage = "Path is not a valid directory";
-                return;
-            }
-
-            if (folderMustExist && !Directory.Exists(value))
-            {
-                validationResult.ErrorMessage = "Path is not a directory";
+                case true when !File.GetAttributes(value).HasFlag(FileAttributes.Directory):
+                    validationResult.ErrorMessage = "Path is not a valid directory";
+                    return;
+                case true when !Directory.Exists(value):
+                    validationResult.ErrorMessage = "Path is not a directory";
+                    break;
             }
         });
     }
