@@ -2,8 +2,12 @@ name: Build
 
 on:
   push:
-    branches: [main]
+    tags:
+      - "**"
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 env:
   CI: true
@@ -18,10 +22,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          #- rid: win-x64
+        #  - rid: win-x64
           - rid: linux-x64
-          #- rid: linux-musl-x64
           - rid: osx-x64
+          #- rid: linux-musl-x64
           #- rid: linux-arm64
           #- rid: win-arm64
           #- rid: osx-arm64
@@ -41,3 +45,24 @@ jobs:
           name: bicepdocs-${{ matrix.rid }}
           path: ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/*
           if-no-files-found: error
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          path: ./binaries
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: ./binaries
+      # - name: Release
+      #   uses: softprops/action-gh-release@v1
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   with:
+      #     draft: true
+      #     prerelease: true
+      #     fail_on_unmatched_files: true
+      #     generate_release_notes: true
+      #     files: ./binaries
+      #   env:
+      #     GITHUB_REPOSITORY: my_gh_org/my_gh_repo
