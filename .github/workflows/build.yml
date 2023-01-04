@@ -39,11 +39,13 @@ jobs:
         run: dotnet test --configuration release ./src/**/*Tests.csproj
       - name: Publish BicepDocs
         run: dotnet publish --configuration release --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:TrimmerDefaultAction=copyused -p:SuppressTrimAnalysisWarnings=true -r ${{ matrix.rid }} ./src/BicepDocs.Cli/BicepDocs.Cli.csproj
+      - name: Rename binary
+        run: mv ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs-${{ matrix.rid }}
       - name: Upload BicepDocs
         uses: actions/upload-artifact@v3
         with:
           name: bicepdocs-${{ matrix.rid }}
-          path: ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/*
+          path: ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs-${{ matrix.rid }}
           if-no-files-found: error
   release:
     name: Create Release
