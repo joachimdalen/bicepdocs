@@ -5,6 +5,11 @@ on:
     tags:
       - "**"
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to create release for"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -22,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        #  - rid: win-x64
+          #  - rid: win-x64
           - rid: linux-x64
           - rid: osx-x64
           #- rid: linux-musl-x64
@@ -58,14 +63,13 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: ./binaries
-      # - name: Release
-      #   uses: softprops/action-gh-release@v1
-      #   if: startsWith(github.ref, 'refs/tags/')
-      #   with:
-      #     draft: true
-      #     prerelease: true
-      #     fail_on_unmatched_files: true
-      #     generate_release_notes: true
-      #     files: ./binaries
-      #   env:
-      #     GITHUB_REPOSITORY: my_gh_org/my_gh_repo
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        #if: startsWith(github.ref, 'refs/tags/')
+        with:
+          draft: true
+          prerelease: true
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+          files: ./binaries/**/*
+          tag_name: ${{  github.event.inputs.version }}
