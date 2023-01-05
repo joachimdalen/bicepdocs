@@ -51,10 +51,18 @@ jobs:
         if: matrix.rid == 'win-x64'
         run: mv ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs.exe ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs-${{ matrix.rid }}.exe
       - name: Upload BicepDocs
+        if: matrix.rid != 'win-x64'
         uses: actions/upload-artifact@v3
         with:
           name: bicepdocs-${{ matrix.rid }}
           path: ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs-${{ matrix.rid }}
+          if-no-files-found: error
+      - name: Upload BicepDocs
+        if: matrix.rid == 'win-x64'
+        uses: actions/upload-artifact@v3
+        with:
+          name: bicepdocs-${{ matrix.rid }}
+          path: ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs-${{ matrix.rid }}.exe
           if-no-files-found: error
   release:
     name: Create Release
