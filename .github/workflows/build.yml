@@ -27,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          #  - rid: win-x64
+          - rid: win-x64
           - rid: linux-x64
           - rid: osx-x64
           #- rid: linux-musl-x64
@@ -45,7 +45,11 @@ jobs:
       - name: Publish BicepDocs
         run: dotnet publish --configuration release --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:TrimmerDefaultAction=copyused -p:SuppressTrimAnalysisWarnings=true -r ${{ matrix.rid }} ./src/BicepDocs.Cli/BicepDocs.Cli.csproj
       - name: Rename binary
+        if: matrix.rid != 'win-x64'
         run: mv ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs-${{ matrix.rid }}
+      - name: Rename binary (win)
+        if: matrix.rid == 'win-x64'
+        run: mv ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs.exe ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs-${{ matrix.rid }}.exe
       - name: Upload BicepDocs
         uses: actions/upload-artifact@v3
         with:
