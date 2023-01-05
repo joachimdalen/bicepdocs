@@ -5,7 +5,7 @@ namespace LandingZones.Tools.BicepDocs.Cli.Commands.Generate;
 
 public class GenerateCommand : Command
 {
-    public GenerateCommand() : base("generate", "Generate documentation for modules published to a registry")
+    public GenerateCommand() : base("generate", "Generate documentation for modules")
     {
         AddCommand(new FileSystemCommand());
     }

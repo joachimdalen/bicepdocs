@@ -42,8 +42,12 @@ jobs:
         run: dotnet build --configuration release src/BicepDocs.sln
       - name: Run tests
         run: dotnet test --configuration release ./src/**/*Tests.csproj
+      - id: get-version
+        run: |
+          version=$(echo ${{ github.ref }} | cut -dv -f2)
+          echo "::set-output name=version::$version"
       - name: Publish BicepDocs
-        run: dotnet publish --configuration release --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:TrimmerDefaultAction=copyused -p:SuppressTrimAnalysisWarnings=true -r ${{ matrix.rid }} ./src/BicepDocs.Cli/BicepDocs.Cli.csproj
+        run: dotnet publish --configuration release --self-contained true -p:AssemblyVersion=${{ steps.get-version.outputs.version }} -p:PublishTrimmed=true -p:PublishSingleFile=true -p:TrimmerDefaultAction=copyused -p:SuppressTrimAnalysisWarnings=true -r ${{ matrix.rid }} ./src/BicepDocs.Cli/BicepDocs.Cli.csproj
       - name: Rename binary
         if: matrix.rid != 'win-x64'
         run: mv ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs-${{ matrix.rid }}
