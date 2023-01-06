@@ -1,0 +1,59 @@
+name: "\U0001F41E Report a problem"
+description: "Report an issue with bicepdocs"
+title: (fill in)"
+labels:
+  - "@type/bug"
+  - "@status/needs-confirmation"
+body:
+  - type: dropdown
+    attributes:
+      label: What formatter are you using?
+      description: |
+        Please keep in mind that some problems might be formatter specific
+      options:
+        - "Markdown"
+        - "Docusaurus"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Bicep version
+      description: |
+        What version of bicep are you using? (Run `bicep --version`.)
+      placeholder: |
+        e.g. v0.13.1
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Bicepdocs version
+      description: |
+        What version of bicepdocs are you using? (Run `bicepdocs --version`.)
+      placeholder: |
+        e.g. v0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: What operating system are you using?
+      description: |
+        Please keep in mind that bicepdocs has OS specific binaries
+      options:
+        - "macOS"
+        - "Linux"
+        - "Windows"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What is the bug you want to report?
+      description: |
+        Please include a *minimal* reproduction case. In most cases the actual bicep template that fails will do. If you are unable to add the actual template, see if you can reproduce the issue with a template that can be shared. Some issue might be very hard to debug without the template that is causing the issues.
+      value: |
+        Provide a description of your bug here 
+
+        ```bicep
+        <!-- Add the bicep template here. If the template is very large, please use a text pasting service like Github Gists -->
+        ```
+    validations:
+      required: true
