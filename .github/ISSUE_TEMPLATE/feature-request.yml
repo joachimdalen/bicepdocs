@@ -1,0 +1,29 @@
+name: "\U0001F4DD Request a new feature"
+description: "Request additional features that does not exist in bicepdocs today"
+title: "(fill in)"
+labels:
+  - "@type/feature"
+body:
+  - type: input
+    attributes:
+      label: Bicepdocs version
+      description: |
+        What version of bicepdocs are you using? (Run `bicepdocs --version`.)
+      placeholder: |
+        e.g. v0.1.0
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What problem do you want to solve with this feature?
+      description: |
+        Please explain your use case. Add enough details for the change to make sense and why it should exist.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: If you were to solve it, how would you do it?
+      description: |
+        Explain what you think is the best solution or implementation to your requested feature
+    validations:
+      required: true
