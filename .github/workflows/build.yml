@@ -3,13 +3,13 @@ name: Build
 on:
   push:
     tags:
-      - "**"
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "Version to create release for"
-        required: true
-        type: string
+      - "v*"
+  # workflow_dispatch:
+  #   inputs:
+  #     version:
+  #       description: "Version to create release for"
+  #       required: true
+  #       type: string
 
 permissions:
   contents: write
@@ -44,8 +44,8 @@ jobs:
         run: dotnet test --configuration release ./src/**/*Tests.csproj
       - id: get-version
         run: |
-          version=$(echo ${{ github.ref }} | cut -dv -f2)
-          echo "::set-output name=version::$version"
+          parsedVersion=$(echo ${{ github.ref }} | cut -dv -f2)
+          echo "::set-output name=version::$parsedVersion"
       - name: Publish BicepDocs
         run: dotnet publish --configuration release --self-contained true -p:AssemblyVersion=${{ steps.get-version.outputs.version }} -p:PublishTrimmed=true -p:PublishSingleFile=true -p:TrimmerDefaultAction=copyused -p:SuppressTrimAnalysisWarnings=true -r ${{ matrix.rid }} ./src/BicepDocs.Cli/BicepDocs.Cli.csproj
       - name: Rename binary
@@ -87,4 +87,4 @@ jobs:
           fail_on_unmatched_files: true
           generate_release_notes: true
           files: ./binaries/**/*
-          tag_name: ${{  github.event.inputs.version }}
+#          tag_name: ${{  github.event.inputs.version }}
