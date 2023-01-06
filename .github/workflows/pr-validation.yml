@@ -18,6 +18,13 @@ jobs:
   build-cli:
     name: Build CLI (${{ matrix.rid }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rid: win-x64
+          - rid: linux-x64
+          - rid: osx-x64
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET Core
@@ -26,3 +33,6 @@ jobs:
         run: dotnet build --configuration release src/BicepDocs.sln
       - name: Run tests
         run: dotnet test --configuration release ./src/**/*Tests.csproj
+      - name: Build binary
+        run: dotnet publish --configuration release --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:TrimmerDefaultAction=copyused -p:SuppressTrimAnalysisWarnings=true -r ${{ matrix.rid }} ./src/BicepDocs.Cli/BicepDocs.Cli.csproj
+    

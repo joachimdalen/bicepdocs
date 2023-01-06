@@ -1,8 +1,10 @@
 # Bicep Documentation Generator
 
-BicepDocs is a tool to build documentation for Bicep modules.
+**BicepDocs is currently under development. Please report issues you find. Also see the list of known issues before reporting.**
 
-> BicepDocs is currently under development. Please report issues you find. Also see the list of known issues before reporting.
+> Bicepdocs is not endorsed or affiliated with Microsoft
+
+BicepDocs is a tool to build documentation for [Bicep](https://github.com/Azure/bicep) modules. It aims to provide a way to easily document your custom modules without having to manually maintain and update documentation.
 
 See a quick example for the [bicep file](./docs/providers/examples/inputs/resources/resource-groups.bicep) that has been converted to a [markdown file](./docs/providers/examples/generated-output/resources/resource-groups.md) using the [markdown provider](./docs/providers/markdown-provider.md).
 
@@ -16,9 +18,82 @@ To generate documentation from modules on the file system
 bicepdocs generate filesystem \
 --folderPath "path-to-input-folder" \
 --out "path-to-write-files-to" \
---formatter markdown
+--formatter markdown \
 [--config "path-to-config-file"]
 
+```
+
+## Installation
+
+### macOS
+
+**Using Homebrew:**
+
+```bash
+# Add the bicepdocs tap
+brew tap joachimdalen/bicepdocs
+
+# Install bicepdocs
+brew install bicepdocs
+```
+
+**Using BASH:**
+
+```bash
+# Get the latest released binary
+curl -Lo bicepdocs https://github.com/joachimdalen/bicepdocs/releases/latest/download/bicepdocs-osx-x64
+
+# Make the file executable
+chmod +x ./bicepdocs
+
+# Add Gatekeeper exception (requires admin)
+sudo spctl --add ./bicepdocs
+
+# Add the executable to your PATH
+sudo mv ./bicepdocs /usr/local/bin/bicepdocs
+
+# Verify the installation
+bicepdocs --help
+```
+
+### Linux
+
+```pwsh
+# Get the latest released binary
+curl -Lo bicepdocs https://github.com/joachimdalen/bicepdocs/releases/latest/download/bicepdocs-linux-x64
+
+# Make the file executable
+chmod +x ./bicepdocs
+
+# Add the executable to your PATH
+sudo mv ./bicepdocs /usr/local/bin/bicepdocs
+
+# Verify the installation
+bicepdocs --help
+```
+
+### Windows
+
+Other installation methods are planned: [Improve installation experience for Windows users](https://github.com/joachimdalen/bicepdocs/issues/19)
+
+**Using Powershell:**
+
+```pwsh
+# Create the install folder
+$installPath = "$env:USERPROFILE\.bicepdocs"
+$installDir = New-Item -ItemType Directory -Path $installPath -Force
+$installDir.Attributes += 'Hidden'
+
+# Get the latest released binary
+(New-Object Net.WebClient).DownloadFile("https://github.com/joachimdalen/bicepdocs/releases/latest/download/bicepdocs-win-x64.exe", "$installPath\bicepdocs.exe")
+
+# Add the executable to your PATH
+$currentPath = (Get-Item -path "HKCU:\Environment" ).GetValue('Path', '', 'DoNotExpandEnvironmentNames')
+if (-not $currentPath.Contains("%USERPROFILE%\.bicepdocs")) { setx PATH ($currentPath + ";%USERPROFILE%\.bicepdocs") }
+if (-not $env:path.Contains($installPath)) { $env:path += ";$installPath" }
+
+# Verify the installation
+bicepdocs --help
 ```
 
 ## Supported Sources
