@@ -104,7 +104,7 @@ public class ParameterGeneratorTests
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | string | resourceGroup().location |";
+| `location` | The location of the resource | string | `resourceGroup().location` |";
 
         var parameters = new List<ParsedParameter>
         {
