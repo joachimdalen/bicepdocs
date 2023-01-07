@@ -28,8 +28,6 @@ public sealed class FileSystemCommandHandler : ICommandHandler
     public string? Config { get; set; } = null;
     public string[]? Exclude { get; set; }
 
-    public bool DryRun { get; set; }
-
     public FileSystemCommandHandler(
         ILogger<FileSystemCommandHandler> logger,
         IEnumerable<IDocsFormatter> formatters,
@@ -83,14 +81,7 @@ public sealed class FileSystemCommandHandler : ICommandHandler
         foreach (var bicepFile in bicepFiles.Files)
         {
             var paths = PathResolver.ResolveModulePaths(bicepFile.Name, FolderPath, Out);
-            if (DryRun)
-            {
-                _logger.LogInformation("[DRY-RUN]: Processing file {FileName}", paths.VirtualPath);
-            }
-            else
-            {
-                _logger.LogInformation("Processing file {FileName}", paths.VirtualPath);
-            }
+            _logger.LogInformation("Processing file {FileName}", paths.VirtualPath);
 
             var fileContent = await fileSystemSource.GetSourceContent(bicepFile);
             var sourceFile =
