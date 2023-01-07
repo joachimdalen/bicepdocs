@@ -7,6 +7,17 @@ public static class PathResolver
     private const string VirtualBasePath = "/modules";
     private const string VersionsBasePath = "versions";
 
+    public static string ResolvePath(string path, string? baseDirectory = null)
+    {
+        if (Path.IsPathFullyQualified(path))
+        {
+            return path;
+        }
+
+        var p = Path.Combine(baseDirectory ?? Environment.CurrentDirectory, path);
+        return Path.GetFullPath(p);
+    }
+
     public static ModuleVersionPaths ResolveVersionPath(ModulePaths modulePaths, string version)
     {
         var relativeOutput = Path.GetRelativePath(modulePaths.OutputBaseFolder, modulePaths.OutputFolder);
@@ -31,7 +42,8 @@ public static class PathResolver
             BaseFileName: Path.GetFileNameWithoutExtension(bicepFilePath),
             InputFolder: baseInputFolder,
             OutputBaseFolder: outputFolder,
-            OutputFolder: Path.GetDirectoryName(outputPath) ?? throw new ArgumentException("Failed to resolve OutputFolder", nameof(outputFolder)),
+            OutputFolder: Path.GetDirectoryName(outputPath) ??
+                          throw new ArgumentException("Failed to resolve OutputFolder", nameof(outputFolder)),
             OutputFileName: Path.ChangeExtension(fileName, "md"),
             InputFileName: fileName,
             OutputPath: outputPathMd
