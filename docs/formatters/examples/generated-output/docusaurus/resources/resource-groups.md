@@ -1,3 +1,13 @@
+---
+
+
+tags:
+
+- Microsoft.Resources
+
+---
+
+
 # Resource Group
 
 > A module to demonstrate documentation generation
@@ -5,36 +15,38 @@
 ## Usage
 
 ```bicep
-module exampleInstance 'br/MyRegistry:bicep/modules/customModule:2022-10-29' = {
+module exampleInstance 'ts/IacModules:resources/resource-groups:2022-12-17' = {
   name: 'exampleInstance'
   params: {
-    boolInput: False
+    boolInput: false
     complexObject: {
-  propTwo: 'two'
-  prop: 'one'
-}
-
-    inputArray: [{
-  prop: 'one'
-}]
-    inputArraySimple: ['one' 'two' ]
-    intInput: intInput
+      prop: 'one'
+      propTwo: 'two'
+    }
+    inputArray: [
+      { prop: 'one' }
+    ]
+    inputArraySimple: [
+      'one'
+      'two'
+    ]
+    intInput: 124
     resourceGroupLocation: resourceGroupLocation
     resourceGroupName: 'resourceGroupName'
     tags: {}
+  }
 }
-
 ```
 
 ## Parameters
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `boolInput` | Bool input | bool | False |
+| `boolInput` | Bool input | bool | false |
 | `complexObject` | Object input | object | [complexObjectValue](#complexobjectvalue) |
 | `inputArray` | Complex array input | array | [inputArrayValue](#inputarrayvalue) |
-| `inputArraySimple` | Simple array input | array | ['one' 'two' ] |
-| `intInput` | int input | int |  |
+| `inputArraySimple` | Simple array input | array | [  'one'  'two'] |
+| `intInput` | int input | int | 124 |
 | `resourceGroupLocation` | Location of the resource group | [resourceGroupLocationAllow](#resourcegrouplocationallow) |  |
 | `resourceGroupName` | Name of the resource group | string |  |
 | `tags` | Tags to append to resource group | object | {} |
@@ -56,18 +68,17 @@ module exampleInstance 'br/MyRegistry:bicep/modules/customModule:2022-10-29' = {
 
 ```bicep
 {
-  propTwo: 'two'
   prop: 'one'
+  propTwo: 'two'
 }
-
 ```
 
 ### inputArrayValue
 
 ```bicep
-[{
-  prop: 'one'
-}]
+[
+  { prop: 'one' }
+]
 ```
 
 ### resourceGroupLocationAllow
