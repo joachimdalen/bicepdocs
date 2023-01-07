@@ -3,6 +3,18 @@ namespace LandingZones.Tools.BicepDocs.Core.UnitTests;
 [TestClass]
 public class PathResolverTests
 {
+
+    [DataTestMethod]
+    [DataRow("./docs/somefolder","/root","/root/docs/somefolder")]
+    [DataRow("/root/docs/somefolder","/root","/root/docs/somefolder")]
+    [DataRow("../docs/somefolder","/root/mypath","/root/docs/somefolder")]
+    public void ResolvePath_Input_Resolves(string input, string baseDirectory, string expected)
+    {
+        var resolved = PathResolver.ResolvePath(input, baseDirectory);
+        
+        Assert.AreEqual(expected, resolved);
+    }
+    
     [TestMethod]
     public void PathResolver_ResolveModulePaths_Resolves()
     {

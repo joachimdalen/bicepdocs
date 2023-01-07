@@ -52,6 +52,9 @@ public sealed class FileSystemCommandHandler : ICommandHandler
 
     public async Task<int> InvokeAsync(InvocationContext context)
     {
+        var inputPath = PathResolver.ResolvePath(FolderPath);
+        var outputPath = PathResolver.ResolvePath(Out);
+        
         var formatProvider = _formatters.FirstOrDefault(x => x.Formatter == Formatter);
         if (formatProvider == null)
         {
@@ -70,7 +73,7 @@ public sealed class FileSystemCommandHandler : ICommandHandler
             throw new ArgumentNullException($"Failed to find source provider for {DocSource.FileSystem}");
         }
 
-        var bicepFiles = await fileSystemSource.GetSourceFiles(new FileSystemSourceOptions(FolderPath, Out, Exclude));
+        var bicepFiles = await fileSystemSource.GetSourceFiles(new FileSystemSourceOptions(inputPath, outputPath, Exclude));
 
         if (!bicepFiles.IsSuccess)
         {
@@ -80,7 +83,7 @@ public sealed class FileSystemCommandHandler : ICommandHandler
 
         foreach (var bicepFile in bicepFiles.Files)
         {
-            var paths = PathResolver.ResolveModulePaths(bicepFile.Name, FolderPath, Out);
+            var paths = PathResolver.ResolveModulePaths(bicepFile.Name, inputPath, outputPath);
             _logger.LogInformation("Processing file {FileName}", paths.VirtualPath);
 
             var fileContent = await fileSystemSource.GetSourceContent(bicepFile);
