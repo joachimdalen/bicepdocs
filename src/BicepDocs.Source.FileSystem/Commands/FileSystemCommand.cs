@@ -27,9 +27,6 @@ public class FileSystemCommand : Command
     private static readonly Option<string[]> Exclude =
         new(name: "--exclude", description: "Glob patterns to exclude generation from");
 
-    private static readonly Option<bool> DryRun = new(name: "--dryrun",
-        description: "Only output what files would be written without generating them", getDefaultValue: () => false);
-
     public FileSystemCommand() : base("filesystem",
         "Generate documentation for modules from a folder in the filesystem")
     {
@@ -40,6 +37,5 @@ public class FileSystemCommand : Command
         AddOption(Out);
         AddOption(Formatter);
         AddOption(Exclude);
-        AddOption(DryRun);
     }
 }
