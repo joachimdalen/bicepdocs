@@ -3,17 +3,20 @@ using LandingZones.Tools.BicepDocs.Core;
 using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
 using LandingZones.Tools.BicepDocs.Core.Parsers;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown.Elements;
+using LandingZones.Tools.BicepDocs.Formatter.Markdown.Extensions;
 
 namespace LandingZones.Tools.BicepDocs.Formatter.Markdown.Generators;
 
 internal static class ResourceGenerator
 {
-    internal static void BuildResources(MarkdownDocument document, FormatterContext context, IImmutableList<ParsedResource> resources)
+    internal static void BuildResources(MarkdownDocument document, FormatterContext context,
+        IImmutableList<ParsedResource> resources)
     {
         document.Append(new MkHeader("Resources", MkHeaderLevel.H2));
         var resourceList = new MkList();
         var processed = new List<string>();
-        foreach (var resource in resources.Where(resource => !resource.IsExisting || context.FormatterOptions.IncludeExistingResources))
+        foreach (var resource in resources.Where(resource =>
+                     !resource.IsExisting || context.FormatterOptions.IncludeExistingResources))
         {
             if (processed.Contains(resource.Identifier))
             {
@@ -49,7 +52,8 @@ internal static class ResourceGenerator
         var resourceTable = new MkTable().AddColumn("Provider").AddColumn("Name").AddColumn("Scope");
         foreach (var resource in resources.Where(resource => resource.IsExisting))
         {
-            resourceTable.AddRow(resource.Identifier, resource.Name ?? "-", !string.IsNullOrEmpty(resource.Scope) ? $"`{resource.Scope}`" : "-");
+            resourceTable.AddRow(resource.Identifier, resource.Name?.WrapInBackticks() ?? "-",
+                !string.IsNullOrEmpty(resource.Scope) ? resource.Scope.WrapInBackticks() : "-");
         }
 
         document.Append(resourceTable);

@@ -38,6 +38,31 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
     }
 
     [TestMethod]
+    public async Task Parameter_Interpolated_Parses()
+    {
+        const string template = @"targetScope = 'subscription'
+
+@description('Name of the resource group')
+param resourceGroupName string
+
+param resourceGroupLocation string = resourceGroup().location
+
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
+  name: resourceGroupName
+  location: resourceGroupLocation
+}";
+        var semanticModel = await GetModel(template);
+        var parameters = ParameterParser.ParseParameters(semanticModel);
+
+        var resourceGroupLocation = parameters.First(x => x.Name == "resourceGroupLocation");
+        Assert.IsFalse(resourceGroupLocation.IsComplexAllow);
+        Assert.IsTrue(resourceGroupLocation.IsInterpolated);
+        Assert.AreEqual("resourceGroupLocation", resourceGroupLocation.Name);
+        Assert.AreEqual("string", resourceGroupLocation.Type);
+        Assert.AreEqual("resourceGroup().location", resourceGroupLocation.DefaultValue);
+    }
+
+    [TestMethod]
     public async Task Parameter_String_Parses()
     {
         const string template = @"param stringParam string = 'string-value'
@@ -141,6 +166,35 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
         Assert.AreEqual("[]", param.DefaultValue);
     }
 
+    [DataTestMethod]
+    [DataRow(false, true)]
+    [DataRow(1, false)]
+    [DataRow("'hello'", false)]
+    [DataRow("{one: 'two'}", true)]
+    [DataRow("[{one: 'two'}]", true)]
+    public async Task Parameter_ArrayWithSingleItem_Parses(object defaultValue, bool isComplex)
+    {
+        var template = @$"param arrayParam array = [
+{defaultValue}
+]
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {{
+  name: resourceGroupName
+  location: resourceGroupLocation
+  tags: tags
+}}";
+        var semanticModel = await GetModel(template);
+        var parameters = ParameterParser.ParseParameters(semanticModel);
+
+        var param = parameters.First(x => x.Name == "arrayParam");
+        Assert.IsFalse(param.IsComplexAllow);
+        Assert.AreEqual(isComplex, param.IsComplexDefault);
+        Assert.AreEqual("arrayParam", param.Name);
+        Assert.AreEqual("array", param.Type);
+        Assert.AreEqual(@$"[
+{defaultValue}
+]", param.DefaultValue);
+    }
+
     [TestMethod]
     public async Task Parameter_ComplexArray_Parses()
     {
@@ -168,7 +222,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
 'three'
 ]", param.DefaultValue);
     }
-    
+
     [TestMethod]
     public async Task Parameter_AllowedValues_Parses()
     {

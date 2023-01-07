@@ -98,6 +98,35 @@ public class ParameterGeneratorTests
     }
 
     [TestMethod]
+    public void BuildParameters_Interpolated_BuildsCorrectly()
+    {
+        const string expected = @"## Parameters
+
+| Parameter | Description | Type | Default |
+| --- | --- | --- | --- |
+| `location` | The location of the resource | string | `resourceGroup().location` |";
+
+        var parameters = new List<ParsedParameter>
+        {
+            new("location", "string")
+            {
+                Description = "The location of the resource",
+                DefaultValue = "resourceGroup().location",
+                IsInterpolated = true
+            }
+        }.ToImmutableList();
+        var document = new MarkdownDocument();
+
+        ParameterGenerator.BuildParameters(document, new FormatterOptions(), parameters);
+
+        Assert.AreEqual(2, document.Count);
+
+        var md = document.ToMarkdown();
+
+        Assert.AreEqual(expected, md);
+    }
+
+    [TestMethod]
     public void BuildParameters_ComplexParameterType_BuildsCorrectly()
     {
         const string expected = @"## Parameters
@@ -271,10 +300,4 @@ public class ParameterGeneratorTests
     }
 
     #endregion
-
-    // TODO:
-    // Simple parameter type
-    // Complex paramter type
-    // Simple default value
-    // Complex default value
 }

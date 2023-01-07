@@ -35,6 +35,13 @@ public static class ParameterParser
                     ArraySyntax arraySyntax => IsComplexArray(arraySyntax),
                     _ => false
                 };
+
+                parameter.IsInterpolated = syntaxBase.DefaultValue switch
+                {
+                    StringSyntax stringSyntax when stringSyntax.IsInterpolated() => true,
+                    PropertyAccessSyntax => true,
+                    _ => false
+                };
             }
 
             var paramType = templateParameter.Value.TypeReference.Type.Name;

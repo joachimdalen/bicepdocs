@@ -1,5 +1,23 @@
 # Markdown Provider
 
+## Configuration
+
+Options for the markdown formatter can be provided under `formatters.markdown` in the configuration file. For full reference, see the [example-config.yml](../example-config.yml).
+
+```yaml
+markdown:
+  usage:
+    moduleType: local
+    moduleAlias: IacModules
+```
+
+| Option              | Description                                                                                   |
+| ------------------- | --------------------------------------------------------------------------------------------- |
+| `usage.moduleType`  | Determins if the usage examples uses `br` or `ts`. Accepted values are `local` and `registry` |
+| `usage.moduleAlias` | The alias used. Same as `moduleAliases` in `bicepconfig.json`                                 |
+
+## Generation
+
 The tool assumes a file structure of something like under the path:
 `/home/Users/build/`
 

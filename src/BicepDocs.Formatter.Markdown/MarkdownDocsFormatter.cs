@@ -11,6 +11,13 @@ namespace LandingZones.Tools.BicepDocs.Formatter.Markdown;
 
 public class MarkdownDocsFormatter : IDocsFormatter
 {
+    private readonly ConfigurationLoader _configurationLoader;
+
+    public MarkdownDocsFormatter(ConfigurationLoader configurationLoader)
+    {
+        _configurationLoader = configurationLoader;
+    }
+
     public DocFormatter Formatter => DocFormatter.Markdown;
 
     public Task<IImmutableList<GenerationFile>> GenerateModuleDocs(FormatterContext context)
@@ -19,6 +26,8 @@ public class MarkdownDocsFormatter : IDocsFormatter
         var markdownDocument = new MarkdownDocument();
         var metadata = MetadataParser.GetMetadata(context.Template, context.FormatterOptions.MetaKeyword);
         var parameters = ParameterParser.ParseParameters(context.Template);
+        var configuration =
+            _configurationLoader.GetFormatterOptionsOrDefault<MarkdownOptions>(context.FormatterOptions, Formatter);
 
         foreach (var docSection in context.FormatterOptions.SectionOrder)
         {
@@ -34,7 +43,13 @@ public class MarkdownDocsFormatter : IDocsFormatter
                     ParameterGenerator.BuildParameters(markdownDocument, context.FormatterOptions, parameters);
                     break;
                 case DocSection.Usage:
-                    UsageGenerator.BuildUsage(markdownDocument, context.FormatterOptions, parameters);
+                    UsageGenerator.BuildUsage(
+                        markdownDocument,
+                        context.FormatterOptions,
+                        parameters,
+                        configuration.Usage,
+                        Path.ChangeExtension(context.Paths.RelativeInputPath, null),
+                        metadata?.Version ?? "<version>");
                     break;
                 case DocSection.Resources:
                     ResourceGenerator.BuildResources(markdownDocument, context);
@@ -54,7 +69,8 @@ public class MarkdownDocsFormatter : IDocsFormatter
         if (!string.IsNullOrEmpty(metadata?.Version) && context.FormatterOptions.DisableVersioning == false)
         {
             var versionPaths = PathResolver.ResolveVersionPath(context.Paths, metadata.Version);
-            outputFiles.Add(new MarkdownGenerationFile(context.Paths.OutputPath, markdownDocument, context.Template, versionPaths.OutputPath));
+            outputFiles.Add(new MarkdownGenerationFile(context.Paths.OutputPath, markdownDocument, context.Template,
+                versionPaths.OutputPath));
         }
         else
         {

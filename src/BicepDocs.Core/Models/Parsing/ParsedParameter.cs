@@ -9,4 +9,5 @@ public record ParsedParameter(string Name, string Type)
     public bool IsComplexDefault { get; set; }
     public List<string>? AllowedValues { get; set; }
     public bool IsComplexAllow { get; set; }
+    public bool IsInterpolated { get; set; }
 }

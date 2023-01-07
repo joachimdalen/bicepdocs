@@ -42,7 +42,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
 }";
         var semanticModel = await GetModel(template);
         var ctx = new FormatterContext(semanticModel, GetPaths());
-        var mdFormatter = new MarkdownDocsFormatter();
+        var mdFormatter = new MarkdownDocsFormatter(_configurationLoader);
         var sut = new DocusaurusDocsFormatter(NullLogger<DocusaurusDocsFormatter>.Instance, mdFormatter,
             _configurationLoader);
 
@@ -94,7 +94,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
                 }
             }
         });
-        var mdFormatter = new MarkdownDocsFormatter();
+        var mdFormatter = new MarkdownDocsFormatter(_configurationLoader);
         var sut = new DocusaurusDocsFormatter(NullLogger<DocusaurusDocsFormatter>.Instance, mdFormatter,
             _configurationLoader);
 

@@ -42,7 +42,7 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
             },
             new List<IDocsFormatter>
             {
-                new MarkdownDocsFormatter()
+                new MarkdownDocsFormatter(_configurationLoader)
             }, new List<IDocsDestination>
             {
                 GetFileSystemDestination()
@@ -67,7 +67,7 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
             },
             new List<IDocsFormatter>
             {
-                new MarkdownDocsFormatter()
+                new MarkdownDocsFormatter(_configurationLoader)
             }, new List<IDocsDestination>
             {
                 GetFileSystemDestination()
@@ -92,7 +92,7 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
             },
             new List<IDocsFormatter>
             {
-                new MarkdownDocsFormatter()
+                new MarkdownDocsFormatter(_configurationLoader)
             }, new List<IDocsDestination>
             {
                 GetFileSystemDestination()
