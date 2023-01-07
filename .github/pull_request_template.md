@@ -6,7 +6,7 @@ Shortly describe your change...
 
 Fill inn..
 
-- [ ] I agree that by publishing this pull request I am submitting my own code that I have the rights to use and implement. I also assign full ownership of the code over to the `bicepdocs` maintainers under the MIT licenese.
+- [ ] I agree that by publishing this pull request I am submitting my own code that I have the rights to use and implement. I also assign full ownership of the code over to the `bicepdocs` maintainers under the MIT license.
 
 **Please check the appropriate options:**
 
