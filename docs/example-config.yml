@@ -41,6 +41,10 @@ formatters:
     # Do not add page tags (resource providers)
     addPageTags: true
   markdown:
+    # input values for usage examples
     usage:
+      # determins if the usage examples uses "br" or "ts".
+      # accepted values are 'local' and 'registry'
       moduleType: local
+      # the alias used. Same as "moduleAliases" in bicepconfig.json
       moduleAlias: IacModules
