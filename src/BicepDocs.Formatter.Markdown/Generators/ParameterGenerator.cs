@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown.Elements;
+using LandingZones.Tools.BicepDocs.Formatter.Markdown.Extensions;
 
 namespace LandingZones.Tools.BicepDocs.Formatter.Markdown.Generators;
 
@@ -15,25 +16,28 @@ internal static class ParameterGenerator
         document.Append(new MkHeader("Parameters", MkHeaderLevel.H2));
         var paramOverviewTable = new MkTable().AddColumn("Parameter").AddColumn("Description").AddColumn("Type")
             .AddColumn("Default");
-        foreach (var templateParameter in parameters.OrderBy(x => x.Name))
+        foreach (var tp in parameters.OrderBy(x => x.Name))
         {
-            var defaultValue = templateParameter.DefaultValue;
+            var type = tp.IsComplexAllow
+                ? new MkAnchor($"{tp.Name}Allow", $"#{tp.Name}Allow".ToLower()).ToMarkdown()
+                : tp.Type.Replace("|", "\\|");
+            var dfValue = GetParameterDefault(tp);
 
-            var type = templateParameter.IsComplexAllow
-                ? new MkAnchor($"{templateParameter.Name}Allow", $"#{templateParameter.Name}Allow".ToLower())
-                    .ToMarkdown()
-                : templateParameter.Type.Replace("|", "\\|");
-            var dfValue = templateParameter.IsComplexDefault
-                ? new MkAnchor($"{templateParameter.Name}Value", $"#{templateParameter.Name}Value".ToLower())
-                    .ToMarkdown()
-                : defaultValue?.Replace(Environment.NewLine, string.Empty) ?? string.Empty;
-
-            paramOverviewTable.AddRow($"`{templateParameter.Name}`", templateParameter.Description ?? "",
-                type,
-                dfValue);
+            paramOverviewTable.AddRow(tp.Name.WrapInBackticks(), tp.Description ?? "", type, dfValue);
         }
 
         document.Append(paramOverviewTable);
+    }
+
+    private static string GetParameterDefault(ParsedParameter tp)
+    {
+        if (string.IsNullOrEmpty(tp.DefaultValue))
+            return string.Empty;
+
+        if (tp.IsComplexDefault)
+            return new MkAnchor($"{tp.Name}Value", $"#{tp.Name}Value".ToLower()).ToMarkdown();
+
+        return tp.IsInterpolated ? tp.DefaultValue.WrapInBackticks() : tp.DefaultValue;
     }
 
     internal static void BuildParameterReferences(MarkdownDocument document, FormatterOptions options,
@@ -51,7 +55,7 @@ internal static class ParameterGenerator
         }
 
         document.Append(new MkHeader("References", MkHeaderLevel.H2));
-        
+
         if (hasComplexParameters)
         {
             foreach (var parameterDefault in complexParameters)

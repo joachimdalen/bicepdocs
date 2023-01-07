@@ -40,3 +40,7 @@ formatters:
   docusaurus:
     # Do not add page tags (resource providers)
     addPageTags: true
+  markdown:
+    usage:
+      moduleType: local
+      moduleAlias: IacModules

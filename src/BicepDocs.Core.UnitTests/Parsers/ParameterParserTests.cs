@@ -38,6 +38,31 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
     }
 
     [TestMethod]
+    public async Task Parameter_Interpolated_Parses()
+    {
+        const string template = @"targetScope = 'subscription'
+
+@description('Name of the resource group')
+param resourceGroupName string
+
+param resourceGroupLocation string = resourceGroup().location
+
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
+  name: resourceGroupName
+  location: resourceGroupLocation
+}";
+        var semanticModel = await GetModel(template);
+        var parameters = ParameterParser.ParseParameters(semanticModel);
+
+        var resourceGroupLocation = parameters.First(x => x.Name == "resourceGroupLocation");
+        Assert.IsFalse(resourceGroupLocation.IsComplexAllow);
+        Assert.IsTrue(resourceGroupLocation.IsInterpolated);
+        Assert.AreEqual("resourceGroupLocation", resourceGroupLocation.Name);
+        Assert.AreEqual("string", resourceGroupLocation.Type);
+        Assert.AreEqual("resourceGroup().location", resourceGroupLocation.DefaultValue);
+    }
+
+    [TestMethod]
     public async Task Parameter_String_Parses()
     {
         const string template = @"param stringParam string = 'string-value'
@@ -168,7 +193,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
 'three'
 ]", param.DefaultValue);
     }
-    
+
     [TestMethod]
     public async Task Parameter_AllowedValues_Parses()
     {

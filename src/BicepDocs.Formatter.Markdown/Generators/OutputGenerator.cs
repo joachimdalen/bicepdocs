@@ -3,6 +3,7 @@ using LandingZones.Tools.BicepDocs.Core;
 using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
 using LandingZones.Tools.BicepDocs.Core.Parsers;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown.Elements;
+using LandingZones.Tools.BicepDocs.Formatter.Markdown.Extensions;
 
 namespace LandingZones.Tools.BicepDocs.Formatter.Markdown.Generators;
 
@@ -14,7 +15,7 @@ internal static class OutputGenerator
         var outPutTable = new MkTable().AddColumn("Name").AddColumn("Type").AddColumn("Description");
         foreach (var output in outputs)
         {
-            outPutTable.AddRow($"`{output.Name}`", output.Type, output.Description ?? "");
+            outPutTable.AddRow(output.Name.WrapInBackticks(), output.Type, output.Description ?? "");
         }
 
         document.Append(outPutTable);

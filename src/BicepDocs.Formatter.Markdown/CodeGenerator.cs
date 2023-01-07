@@ -1,12 +1,14 @@
 using System.Collections.Immutable;
 using System.Text;
 using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
+using LandingZones.Tools.BicepDocs.Core.Services;
 
 namespace LandingZones.Tools.BicepDocs.Formatter.Markdown;
 
 public static class CodeGenerator
 {
-    public static string GetExample(string moduleName, string path, string apiVersion,
+    public static string GetBicepExample(string moduleName, string moduleAlias, string moduleType, string path,
+        string moduleVersion,
         IImmutableList<ParsedParameter> parameters)
     {
         var sb = new StringBuilder();
@@ -18,11 +20,12 @@ public static class CodeGenerator
         }
 
         var s = sb.ToString();
-
-        return $@"module {moduleName} '{path}:{apiVersion}' = {{
+        var example = $@"module {moduleName} '{moduleType}/{moduleAlias}:{path}:{moduleVersion}' = {{
   name: '{moduleName}'
   params: {{{s}}}
-";
+}}";
+
+        return BicepFormatter.FormatBicepCode(example);
     }
 
     private static string GetDefaultValue(ParsedParameter parameter)
@@ -37,7 +40,8 @@ public static class CodeGenerator
             return parameter.DefaultValue;
         }
 
-        if (parameter.DefaultValue.StartsWith('\'') && parameter.DefaultValue.EndsWith('\''))
+        if (parameter.DefaultValue.StartsWith('\'') && parameter.DefaultValue.EndsWith('\'') ||
+            parameter.IsInterpolated)
         {
             return parameter.DefaultValue;
         }

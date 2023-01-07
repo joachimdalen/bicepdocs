@@ -1,13 +1,23 @@
 using LandingZones.Tools.BicepDocs.Core;
+using LandingZones.Tools.BicepDocs.Core.Abstractions;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using LandingZones.Tools.BicepDocs.Core.UnitTests;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown.Models;
+using Moq;
 
 namespace LandingZones.Tools.BicepDocs.Formatter.Markdown.UnitTests;
 
 [TestClass]
 public class MarkdownDocsFormatterTests : BicepFileTestBase
 {
+    private readonly ConfigurationLoader _configurationLoader;
+
+    public MarkdownDocsFormatterTests()
+    {
+        Mock<IStaticFileSystem> staticFileSystem = new(MockBehavior.Strict);
+        _configurationLoader = new ConfigurationLoader(staticFileSystem.Object);
+    }
+    
     [TestMethod]
     public async Task GenerateModuleDocs_NonVersionedModule_ReturnsSingleFile()
     {
@@ -29,7 +39,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
 }";
         var semanticModel = await GetModel(template);
         var ctx = new FormatterContext(semanticModel, GetPaths());
-        var sut = new MarkdownDocsFormatter();
+        var sut = new MarkdownDocsFormatter(_configurationLoader);
 
         var files = await sut.GenerateModuleDocs(ctx);
         Assert.AreEqual(1, files.Count);
@@ -62,7 +72,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
 }";
         var semanticModel = await GetModel(template);
         var ctx = new FormatterContext(semanticModel, GetPaths());
-        var sut = new MarkdownDocsFormatter();
+        var sut = new MarkdownDocsFormatter(_configurationLoader);
 
         var files = await sut.GenerateModuleDocs(ctx);
         Assert.AreEqual(1, files.Count);
