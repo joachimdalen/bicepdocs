@@ -152,7 +152,7 @@ param something string = 'nothing'";
 
 | Provider | Name | Scope |
 | --- | --- | --- |
-| Microsoft.Web/sites/2022-12-18 | siteOne | `subscription()` |";
+| Microsoft.Web/sites/2022-12-18 | `siteOne` | `subscription()` |";
         var resources = new List<ParsedResource>
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
@@ -185,8 +185,8 @@ param something string = 'nothing'";
 
 | Provider | Name | Scope |
 | --- | --- | --- |
-| Microsoft.Web/sites/2022-12-18 | siteOne | `subscription()` |
-| Microsoft.Web/sites/2022-12-18 | siteTwo | `subscription()` |";
+| Microsoft.Web/sites/2022-12-18 | `siteOne` | `subscription()` |
+| Microsoft.Web/sites/2022-12-18 | `siteTwo` | `subscription()` |";
         var resources = new List<ParsedResource>
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
@@ -230,7 +230,7 @@ param something string = 'nothing'";
 
 | Provider | Name | Scope |
 | --- | --- | --- |
-| Microsoft.Resources/resourceGroups@2021-01-01 | resourceGroupName | - |";
+| Microsoft.Resources/resourceGroups@2021-01-01 | `resourceGroupName` | - |";
 
         const string template = @"resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' existing = {
   name: resourceGroupName
