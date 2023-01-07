@@ -10,4 +10,14 @@ public record ParsedParameter(string Name, string Type)
     public List<string>? AllowedValues { get; set; }
     public bool IsComplexAllow { get; set; }
     public bool IsInterpolated { get; set; }
+
+    public int? MinLength { get; set; }
+
+    public int? MinValue { get; set; }
+
+    public int? MaxLength { get; set; }
+
+    public int? MaxValue { get; set; }
+    
+    public bool Secure { get; set; }
 }
