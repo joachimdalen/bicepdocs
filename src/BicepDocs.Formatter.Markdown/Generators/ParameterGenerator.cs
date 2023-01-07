@@ -37,7 +37,7 @@ internal static class ParameterGenerator
         if (tp.IsComplexDefault)
             return new MkAnchor($"{tp.Name}Value", $"#{tp.Name}Value".ToLower()).ToMarkdown();
 
-        return tp.IsInterpolated ? tp.DefaultValue.WrapInBackticks() : tp.DefaultValue;
+        return (tp.IsInterpolated ? tp.DefaultValue.WrapInBackticks() : tp.DefaultValue).Replace(Environment.NewLine, "");
     }
 
     internal static void BuildParameterReferences(MarkdownDocument document, FormatterOptions options,

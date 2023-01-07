@@ -52,7 +52,7 @@ internal static class ResourceGenerator
         var resourceTable = new MkTable().AddColumn("Provider").AddColumn("Name").AddColumn("Scope");
         foreach (var resource in resources.Where(resource => resource.IsExisting))
         {
-            resourceTable.AddRow(resource.Identifier, resource.Name ?? "-",
+            resourceTable.AddRow(resource.Identifier, resource.Name?.WrapInBackticks() ?? "-",
                 !string.IsNullOrEmpty(resource.Scope) ? resource.Scope.WrapInBackticks() : "-");
         }
 
