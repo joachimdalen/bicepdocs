@@ -119,7 +119,7 @@ internal static class ParameterGenerator
 
         if (parameter is { MinValue: { }, MaxValue: { } })
         {
-            return $"from {parameter.MinValue} to {parameter.MaxValue}";
+            return $"from {parameter.MinValue} to {parameter.MaxValue}.";
         }
 
         if (parameter.MinValue != null)

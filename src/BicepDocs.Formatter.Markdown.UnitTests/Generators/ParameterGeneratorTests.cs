@@ -42,6 +42,46 @@ public class ParameterGeneratorTests
         Assert.AreEqual(0, document.Count);
     }
 
+    [DataTestMethod]
+    [DataRow(1, null, null, null, false, "<br/> <br/>Accepted values: from 1.")]
+    [DataRow(null, 1, null, null, false, "<br/> <br/>Accepted values: to 1.")]
+    [DataRow(1, 10, null, null, false, "<br/> <br/>Accepted values: from 1 to 10.")]
+    [DataRow(null, null, 1, null, false, "<br/> <br/>Character limit: 1-X")]
+    [DataRow(null, null, null, 10, false, "<br/> <br/>Character limit: X-10")]
+    [DataRow(null, null, 1, 10, false, "<br/> <br/>Character limit: 1-10")]
+    [DataRow(null, null, null, null, true, "(secure)")]
+    public void BuildParameters_DecoratorSet_BuildsCorrectly(int? minValue, int? maxValue, int? minLength,
+        int? maxLength, bool secure, string expectedDesc)
+    {
+        string expected = $@"## Parameters
+
+| Parameter | Description | Type | Default |
+| --- | --- | --- | --- |
+| `location` | The location of the resource | string {expectedDesc} |  |";
+
+        var parameters = new List<ParsedParameter>
+        {
+            new("location", "string")
+            {
+                Description = "The location of the resource",
+                MinValue = minValue,
+                MaxValue = maxValue,
+                MinLength = minLength,
+                MaxLength = maxLength,
+                Secure = secure
+            }
+        }.ToImmutableList();
+        var document = new MarkdownDocument();
+
+        ParameterGenerator.BuildParameters(document, new FormatterOptions(), parameters);
+
+        Assert.AreEqual(2, document.Count);
+
+        var md = document.ToMarkdown();
+
+        Assert.AreEqual(expected, md);
+    }
+
     [TestMethod]
     public void BuildParameters_SimpleParameterType_BuildsCorrectly()
     {
