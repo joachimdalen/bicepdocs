@@ -3,9 +3,7 @@ using Bicep.Core;
 using Bicep.Core.Navigation;
 using Bicep.Core.Semantics;
 using Bicep.Core.Syntax;
-using Bicep.Core.TypeSystem;
 using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
-using ArrayType = Azure.Bicep.Types.Concrete.ArrayType;
 
 namespace LandingZones.Tools.BicepDocs.Core.Parsers;
 
