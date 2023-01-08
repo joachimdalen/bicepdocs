@@ -22,6 +22,9 @@ param resourceGroupName string
   'westeurope'
 ])
 @description('Location of the resource group')
+@minLength(3)
+@maxLength(24)
+@secure()
 param resourceGroupLocation string
 
 @description('Tags to append to resource group')
@@ -31,6 +34,8 @@ param tags object = {}
 param boolInput bool = false
 
 @description('int input')
+@minValue(1)
+@maxValue(2333)
 param intInput int = 124
 
 @description('Complex array input')
@@ -45,6 +50,7 @@ param inputArraySimple array = [
 ]
 
 @description('Object input')
+@secure()
 param complexObject object = {
   prop: 'one'
   propTwo: 'two'

@@ -46,7 +46,7 @@ module exampleInstance 'ts/IacModules:resources/resource-groups:2022-12-17' = {
 | `complexObject` | Object input | object | [complexObjectValue](#complexobjectvalue) |
 | `inputArray` | Complex array input | array | [inputArrayValue](#inputarrayvalue) |
 | `inputArraySimple` | Simple array input | array | [  'one'  'two'] |
-| `intInput` | int input | int | 124 |
+| `intInput` | int input | int <br/> <br/>Acceptable values range from 1 to 2333. | 124 |
 | `resourceGroupLocation` | Location of the resource group | [resourceGroupLocationAllow](#resourcegrouplocationallow) |  |
 | `resourceGroupName` | Name of the resource group | string |  |
 | `tags` | Tags to append to resource group | object | {} |

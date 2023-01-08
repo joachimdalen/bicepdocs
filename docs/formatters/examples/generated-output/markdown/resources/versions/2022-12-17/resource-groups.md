@@ -33,11 +33,11 @@ module exampleInstance 'ts/IacModules:resources/resource-groups:2022-12-17' = {
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
 | `boolInput` | Bool input | bool | false |
-| `complexObject` | Object input | object | [complexObjectValue](#complexobjectvalue) |
+| `complexObject` | Object input | object (secure) | [complexObjectValue](#complexobjectvalue) |
 | `inputArray` | Complex array input | array | [inputArrayValue](#inputarrayvalue) |
 | `inputArraySimple` | Simple array input | array | [  'one'  'two'] |
-| `intInput` | int input | int | 124 |
-| `resourceGroupLocation` | Location of the resource group | [resourceGroupLocationAllow](#resourcegrouplocationallow) |  |
+| `intInput` | int input | int <br/> <br/>Accepted values: from 1 to 2333. | 124 |
+| `resourceGroupLocation` | Location of the resource group | [resourceGroupLocationAllow](#resourcegrouplocationallow) (secure) <br/> <br/>Character limit: 3-24 |  |
 | `resourceGroupName` | Name of the resource group | string |  |
 | `tags` | Tags to append to resource group | object | {} |
 
