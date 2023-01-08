@@ -47,7 +47,7 @@ jobs:
           parsedVersion=$(echo ${{ github.ref }} | cut -dv -f2)
           echo "::set-output name=version::$parsedVersion"
       - name: Publish BicepDocs
-        run: dotnet publish --configuration release --self-contained true -p:AssemblyVersion=${{ steps.get-version.outputs.version }} -p:PublishTrimmed=true -p:PublishSingleFile=true -p:TrimmerDefaultAction=copyused -p:SuppressTrimAnalysisWarnings=true -r ${{ matrix.rid }} ./src/BicepDocs.Cli/BicepDocs.Cli.csproj
+        run: dotnet publish --configuration release --self-contained true -p:AssemblyVersion=${{ steps.get-version.outputs.version }} -p:Version=${{ steps.get-version.outputs.version }} -p:PublishTrimmed=true -p:PublishSingleFile=true -p:TrimmerDefaultAction=copyused -p:SuppressTrimAnalysisWarnings=true -r ${{ matrix.rid }} ./src/BicepDocs.Cli/BicepDocs.Cli.csproj
       - name: Rename binary
         if: matrix.rid != 'win-x64'
         run: mv ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs-${{ matrix.rid }}
@@ -82,8 +82,8 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          draft: true
-          prerelease: true
+          draft: false
+          prerelease: false
           fail_on_unmatched_files: true
           generate_release_notes: true
           files: ./binaries/**/*
