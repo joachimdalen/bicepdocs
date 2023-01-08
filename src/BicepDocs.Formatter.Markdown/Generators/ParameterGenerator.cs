@@ -18,9 +18,7 @@ internal static class ParameterGenerator
             .AddColumn("Default");
         foreach (var tp in parameters.OrderBy(x => x.Name))
         {
-            var type = tp.IsComplexAllow
-                ? new MkAnchor($"{tp.Name}Allow", $"#{tp.Name}Allow".ToLower()).ToMarkdown()
-                : tp.Type.Replace("|", "\\|");
+            var type = BuildType(tp);
             var dfValue = GetParameterDefault(tp);
 
             paramOverviewTable.AddRow(tp.Name.WrapInBackticks(), tp.Description ?? "", type, dfValue);
@@ -37,7 +35,8 @@ internal static class ParameterGenerator
         if (tp.IsComplexDefault)
             return new MkAnchor($"{tp.Name}Value", $"#{tp.Name}Value".ToLower()).ToMarkdown();
 
-        return (tp.IsInterpolated ? tp.DefaultValue.WrapInBackticks() : tp.DefaultValue).Replace(Environment.NewLine, "");
+        return (tp.IsInterpolated ? tp.DefaultValue.WrapInBackticks() : tp.DefaultValue).Replace(Environment.NewLine,
+            "");
     }
 
     internal static void BuildParameterReferences(MarkdownDocument document, FormatterOptions options,
@@ -75,5 +74,90 @@ internal static class ParameterGenerator
                     document.Append(new MkList(parameterDefault.AllowedValues));
             }
         }
+    }
+
+    private static string? BuildType(ParsedParameter parameter)
+    {
+        string type = string.Empty;
+
+        if (parameter.IsComplexAllow)
+        {
+            type += new MkAnchor($"{parameter.Name}Allow", $"#{parameter.Name}Allow".ToLower()).ToMarkdown();
+            if (parameter.Secure)
+            {
+                type += " (secure)";
+            }
+        }
+        else
+        {
+            type += parameter.Type.Replace("|", "\\|");
+            if (parameter.Secure) type += " (secure)";
+        }
+
+
+        var minMax = GetCharacterLimit(parameter);
+        if (minMax != null)
+        {
+            type += " <br/> <br/>";
+            type += $"Character limit: {minMax}";
+        }
+
+        var value = GetAcceptedValues(parameter);
+        if (value != null)
+        {
+            type += " <br/> <br/>";
+            type += $"Accepted values: {value}";;
+        }
+
+        return type;
+    }
+
+    public static string? GetAcceptedValues(ParsedParameter parameter)
+    {
+        if (parameter.MinValue == null && parameter.MaxValue == null)
+            return null;
+
+        if (parameter is { MinValue: { }, MaxValue: { } })
+        {
+            return $"from {parameter.MinValue} to {parameter.MaxValue}";
+        }
+
+        if (parameter.MinValue != null)
+        {
+            return $"from {parameter.MinValue}.";
+        }
+
+        if (parameter.MaxValue != null)
+        {
+            return $"to {parameter.MaxValue}.";
+        }
+
+        return null;
+    }
+
+
+    private static string? GetCharacterLimit(ParsedParameter parameter)
+    {
+        if (parameter.MinLength == null && parameter.MaxLength == null)
+        {
+            return null;
+        }
+
+        if (parameter is { MinLength: { }, MaxLength: { } })
+        {
+            return $"{parameter.MinLength}-{parameter.MaxLength}";
+        }
+
+        if (parameter.MinLength != null)
+        {
+            return $"{parameter.MinLength}-X";
+        }
+
+        if (parameter.MaxLength != null)
+        {
+            return $"X-{parameter.MaxLength}";
+        }
+
+        return null;
     }
 }

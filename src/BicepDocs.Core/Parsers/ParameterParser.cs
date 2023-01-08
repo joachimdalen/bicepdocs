@@ -38,35 +38,11 @@ public static class ParameterParser
                 continue;
             }
 
-
-            switch (paramType)
-            {
-                case "array":
-                {
-                    parameter.MaxLength = GetDecorator(symbol, LanguageConstants.ParameterMaxLengthPropertyName);
-                    parameter.MinLength = GetDecorator(symbol, LanguageConstants.ParameterMinLengthPropertyName);
-                    break;
-                }
-                case "string":
-                {
-                    parameter.MaxLength = GetDecorator(symbol, LanguageConstants.ParameterMaxLengthPropertyName);
-                    parameter.MinLength = GetDecorator(symbol, LanguageConstants.ParameterMinLengthPropertyName);
-                    parameter.Secure = HasDecorator(symbol, LanguageConstants.ParameterSecurePropertyName);
-                    break;
-                }
-                case "int":
-                {
-                    parameter.MinValue = GetDecorator(symbol, LanguageConstants.ParameterMinValuePropertyName);
-                    parameter.MaxValue = GetDecorator(symbol, LanguageConstants.ParameterMaxValuePropertyName);
-                    break;
-                }
-
-                case "object":
-                {
-                    parameter.Secure = HasDecorator(symbol, LanguageConstants.ParameterSecurePropertyName);
-                    break;
-                }
-            }
+            parameter.MaxLength = GetDecorator(symbol, LanguageConstants.ParameterMaxLengthPropertyName);
+            parameter.MinLength = GetDecorator(symbol, LanguageConstants.ParameterMinLengthPropertyName);
+            parameter.Secure = HasDecorator(symbol, LanguageConstants.ParameterSecurePropertyName);
+            parameter.MinValue = GetDecorator(symbol, LanguageConstants.ParameterMinValuePropertyName);
+            parameter.MaxValue = GetDecorator(symbol, LanguageConstants.ParameterMaxValuePropertyName);
 
 
             var defaultValueSyntaxBase = GetDefaultValue(symbol);
