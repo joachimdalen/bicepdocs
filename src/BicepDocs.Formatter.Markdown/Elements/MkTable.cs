@@ -34,6 +34,6 @@ public class MkTable : MkBlockBase
             sb.AppendLine($"| {string.Join(" | ", row)} |");
         }
 
-        return sb.ToString().Replace("<", "\\<").Replace(">", "\\>");
+        return sb.ToString().Replace("<", "\\<").Replace(">", "\\>").Replace("\\<br/\\>", "<br/>");
     }
 }

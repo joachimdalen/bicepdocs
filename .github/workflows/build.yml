@@ -41,7 +41,7 @@ jobs:
       - name: Build BicepDocs
         run: dotnet build --configuration release src/BicepDocs.sln
       - name: Run tests
-        run: dotnet test --configuration release ./src/**/*Tests.csproj
+        run: dotnet test --configuration release src/BicepDocs.sln
       - id: get-version
         run: |
           parsedVersion=$(echo ${{ github.ref }} | cut -dv -f2)

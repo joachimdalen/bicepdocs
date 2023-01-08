@@ -37,6 +37,61 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
         Assert.AreEqual("Tags to append to resource group", tags.Description);
     }
 
+
+    [TestMethod]
+    public async Task Parameter_Constraints_Parses()
+    {
+        const string template = @"targetScope = 'subscription'
+
+@minLength(3)
+@maxLength(24)
+@description('Name of the resource group')
+param resourceGroupName string
+
+@minLength(3)
+@maxLength(24)
+param someArr array = []
+
+@maxValue(100)
+@minValue(1)
+param intVal int = 1
+
+@secure()
+param objectVal object = {}
+
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
+  name: resourceGroupName
+}";
+        var semanticModel = await GetModel(template);
+        var parameters = ParameterParser.ParseParameters(semanticModel);
+
+        var resourceGroupName = parameters.First(x => x.Name == "resourceGroupName");
+        Assert.AreEqual("resourceGroupName", resourceGroupName.Name);
+        Assert.AreEqual("string", resourceGroupName.Type);
+        Assert.AreEqual("Name of the resource group", resourceGroupName.Description);
+        Assert.AreEqual(3, resourceGroupName.MinLength);
+        Assert.AreEqual(24, resourceGroupName.MaxLength);
+
+
+        var someArr = parameters.First(x => x.Name == "someArr");
+        Assert.AreEqual("someArr", someArr.Name);
+        Assert.AreEqual("array", someArr.Type);
+        Assert.AreEqual(3, someArr.MinLength);
+        Assert.AreEqual(24, someArr.MaxLength);
+
+
+        var intVal = parameters.First(x => x.Name == "intVal");
+        Assert.AreEqual("intVal", intVal.Name);
+        Assert.AreEqual("int", intVal.Type);
+        Assert.AreEqual(100, intVal.MaxValue);
+        Assert.AreEqual(1, intVal.MinValue);
+
+        var objectVal = parameters.First(x => x.Name == "objectVal");
+        Assert.AreEqual("objectVal", objectVal.Name);
+        Assert.AreEqual("object", objectVal.Type);
+        Assert.IsTrue(objectVal.Secure);
+    }
+
     [TestMethod]
     public async Task Parameter_Interpolated_Parses()
     {

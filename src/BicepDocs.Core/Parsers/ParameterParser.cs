@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using Bicep.Core;
 using Bicep.Core.Navigation;
 using Bicep.Core.Semantics;
 using Bicep.Core.Syntax;
@@ -10,10 +11,6 @@ public static class ParameterParser
 {
     public static ImmutableList<ParsedParameter> ParseParameters(SemanticModel model)
     {
-        var defaultValueSyntaxes = model.Root.ParameterDeclarations
-            .ToImmutableDictionary(x => x.Name, y => y.DeclaringParameter.Modifier as ParameterDefaultValueSyntax)
-            .ToDictionary(x => x.Key, y => y.Value);
-
         var parameters = new List<ParsedParameter>();
         foreach (var templateParameter in model.Parameters.OrderBy(x => x.Key))
         {
@@ -25,24 +22,6 @@ public static class ParameterParser
             {
                 Description = templateParameter.Value.Description
             };
-            if (defaultValueSyntaxes.TryGetValue(templateParameter.Key, out var syntaxBase) && syntaxBase != null)
-            {
-                parameter.DefaultValue = syntaxBase.DefaultValue.ToTextPreserveFormatting();
-                parameter.IsComplexDefault = syntaxBase.DefaultValue switch
-                {
-                    ObjectSyntax objectSyntax when objectSyntax.ToNamedPropertyDictionary().IsEmpty => false,
-                    ObjectSyntax => true,
-                    ArraySyntax arraySyntax => IsComplexArray(arraySyntax),
-                    _ => false
-                };
-
-                parameter.IsInterpolated = syntaxBase.DefaultValue switch
-                {
-                    StringSyntax stringSyntax when stringSyntax.IsInterpolated() => true,
-                    PropertyAccessSyntax => true,
-                    _ => false
-                };
-            }
 
             var paramType = templateParameter.Value.TypeReference.Type.Name;
             var allowList = paramType.Split('\'').Select(x => x.Trim()).Where(x => x.Length > 1).ToArray();
@@ -50,10 +29,69 @@ public static class ParameterParser
             parameter.IsComplexAllow = allowList.Length > 2;
             parameter.AllowedValues = allowValues;
 
+            var symbol = GetParameterSymbol(model, templateParameter.Key);
+            if (symbol == null)
+            {
+                parameters.Add(parameter);
+                continue;
+            }
+
+            parameter.MaxLength = GetDecorator(symbol, LanguageConstants.ParameterMaxLengthPropertyName);
+            parameter.MinLength = GetDecorator(symbol, LanguageConstants.ParameterMinLengthPropertyName);
+            parameter.Secure = HasDecorator(symbol, LanguageConstants.ParameterSecurePropertyName);
+            parameter.MinValue = GetDecorator(symbol, LanguageConstants.ParameterMinValuePropertyName);
+            parameter.MaxValue = GetDecorator(symbol, LanguageConstants.ParameterMaxValuePropertyName);
+
+
+            var defaultValueSyntaxBase = GetDefaultValue(symbol);
+            if (defaultValueSyntaxBase != null)
+            {
+                parameter.DefaultValue = defaultValueSyntaxBase.ToTextPreserveFormatting();
+                parameter.IsComplexDefault = defaultValueSyntaxBase switch
+                {
+                    ObjectSyntax objectSyntax when objectSyntax.ToNamedPropertyDictionary().IsEmpty => false,
+                    ObjectSyntax => true,
+                    ArraySyntax arraySyntax => IsComplexArray(arraySyntax),
+                    _ => false
+                };
+
+                parameter.IsInterpolated = defaultValueSyntaxBase switch
+                {
+                    StringSyntax stringSyntax when stringSyntax.IsInterpolated() => true,
+                    PropertyAccessSyntax => true,
+                    _ => false
+                };
+            }
+
+
             parameters.Add(parameter);
         }
 
         return parameters.ToImmutableList();
+    }
+
+    private static bool HasDecorator(ParameterSymbol parameterSymbol, string decoratorName)
+    {
+        var f = parameterSymbol.DeclaringParameter.Decorators;
+        var fcs = f.FirstOrDefault(x => (x.Expression as FunctionCallSyntax)?.Name?.IdentifierName == decoratorName);
+        return fcs != null;
+    }
+
+    private static ParameterSymbol? GetParameterSymbol(SemanticModel model, string paramName) =>
+        model.Root.ParameterDeclarations.FirstOrDefault(x => x.Name == paramName);
+
+    private static SyntaxBase? GetDefaultValue(ParameterSymbol parameterSymbol)
+    {
+        var declaration = parameterSymbol.DeclaringParameter.Modifier as ParameterDefaultValueSyntax;
+        return declaration?.DefaultValue;
+    }
+
+    private static int? GetDecorator(ParameterSymbol parameterSymbol, string decoratorName)
+    {
+        var f = parameterSymbol.DeclaringParameter.Decorators;
+        var fcs = f.FirstOrDefault(x => (x.Expression as FunctionCallSyntax)?.Name?.IdentifierName == decoratorName);
+        var literalText = (fcs?.Arguments.FirstOrDefault()?.Expression as IntegerLiteralSyntax)?.Literal?.Text;
+        return int.TryParse(literalText, out var value) ? value : default(int?);
     }
 
     private static bool IsComplexArray(ArraySyntax syntax)
