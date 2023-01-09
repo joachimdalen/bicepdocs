@@ -22,14 +22,17 @@ env:
 jobs:
   build-cli:
     name: Build CLI (${{ matrix.rid }})
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - rid: win-x64
+            os: windows-latest
           - rid: linux-x64
+            os: ubuntu-latest
           - rid: osx-x64
+            os: macos-latest
           #- rid: linux-musl-x64
           #- rid: linux-arm64
           #- rid: win-arm64
