@@ -7,6 +7,11 @@ public static class StringExtensions
         return string.Concat(Enumerable.Repeat(text, count));
     }
 
+    public static string ToPlatformPath(this string path)
+    {
+        return path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar);
+    }
+
     public static string FirstCharToUpper(this string? input) =>
         input switch
         {

@@ -20,7 +20,7 @@ public class BicepFileService : IBicepFileService
     {
         _fileSystem.Directory.CreateDirectory(folder);
         await _fileSystem.File.WriteAllTextAsync(path, content);
-        var compilation = await _compiler.CreateCompilation(new Uri(path));
+        var compilation = await _compiler.CreateCompilation(PathResolver.FilePathToUri(path));
         var sourceFile = compilation.GetEntrypointSemanticModel();
         return sourceFile;
     }
