@@ -6,7 +6,7 @@
 
 BicepDocs is a tool to build documentation for [Bicep](https://github.com/Azure/bicep) modules. It aims to provide a way to easily document your custom modules without having to manually maintain and update documentation.
 
-See a quick example for the [bicep file](./docs/providers/examples/inputs/resources/resource-groups.bicep) that has been converted to a [markdown file](./docs/providers/examples/generated-output/resources/resource-groups.md) using the [markdown provider](./docs/providers/markdown-provider.md).
+See a quick example for the [bicep file](./docs/formatters/examples/inputs/resources/resource-groups.bicep) that has been converted to a [markdown file](./docs/formatters/examples/generated-output/resources/resource-groups.md) using the [markdown provider](./docs/formatters/markdown.md).
 
 Check the [Roadmap](https://github.com/joachimdalen/bicepdocs/issues) for planned features and changes.
 
