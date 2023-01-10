@@ -1,0 +1,17 @@
+changelog:
+  categories:
+    - title: Breaking Changes 🛠
+      labels:
+        - "@type/breaking"
+    - title: New Features 🎉
+      labels:
+        - "@type/feature"
+    - title: Enhancements 🛠
+      labels:
+        - "@type/enhancement"
+    - title: Bugs fixed 🐞
+      labels:
+        - "@type/bug"
+    - title: Untagged Changes
+      labels:
+        - "*"
