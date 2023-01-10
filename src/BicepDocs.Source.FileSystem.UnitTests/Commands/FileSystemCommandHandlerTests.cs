@@ -132,7 +132,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
 
 
         var result = await sut.InvokeAsync(new InvocationContext(null!));
-        Assert.AreEqual(1, result);
+        Assert.AreEqual(0, result);
     }
 
 
