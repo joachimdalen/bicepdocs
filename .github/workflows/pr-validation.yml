@@ -51,8 +51,8 @@ jobs:
         if: matrix.rid == 'win-x64'
         run: |
           mv .\src\BicepDocs.Cli\bin\release\net6.0\${{ matrix.rid }}\publish\bicepdocs.exe .
-          .\bicepdocs.exe generate filesystem \
-          --folderPath docs\formatters\examples\inputs \
-          --out .\docs\formatters\examples\generated-output\markdown \
-          --config docs\example-config.yml \
+          .\bicepdocs.exe generate filesystem ^
+          --folderPath docs\formatters\examples\inputs ^
+          --out .\docs\formatters\examples\generated-output\markdown ^
+          --config docs\example-config.yml ^
           --formatter markdown
