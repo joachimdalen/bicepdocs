@@ -41,7 +41,7 @@ jobs:
       - name: Test samples
         if: matrix.rid != 'win-x64'
         run: |
-          mv ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs
+          mv ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs .
           ./bicepdocs generate filesystem \
           --folderPath docs/formatters/examples/inputs \
           --out ./docs/formatters/examples/generated-output/markdown \
@@ -50,7 +50,7 @@ jobs:
       - name: Test samples (win)
         if: matrix.rid == 'win-x64'
         run: |
-          mv .\src\BicepDocs.Cli\bin\release\net6.0\${{ matrix.rid }}\publish\bicepdocs.exe
+          mv .\src\BicepDocs.Cli\bin\release\net6.0\${{ matrix.rid }}\publish\bicepdocs.exe .
           .\bicepdocs.exe generate filesystem \
           --folderPath docs\formatters\examples\inputs \
           --out .\docs\formatters\examples\generated-output\markdown \
