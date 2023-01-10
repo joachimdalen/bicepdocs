@@ -2,6 +2,7 @@ using System.CommandLine.Invocation;
 using System.IO.Abstractions;
 using LandingZones.Tools.BicepDocs.Core;
 using LandingZones.Tools.BicepDocs.Core.Abstractions;
+using LandingZones.Tools.BicepDocs.Core.Extensions;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using LandingZones.Tools.BicepDocs.Core.UnitTests;
 using LandingZones.Tools.BicepDocs.Destination.FileSystem;
@@ -51,7 +52,7 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
 
 
         _matcher.Setup(x => x.AddIncludePatterns(It.IsAny<IEnumerable<string>>()));
-        _matcher.Setup(x => x.GetResultsInFullPath(sut.FolderPath)).Returns((List<string>)null!);
+        _matcher.Setup(x => x.GetResultsInFullPath(sut.FolderPath.WithPlatformRootPath())).Returns((List<string>)null!);
 
         var result = await sut.InvokeAsync(new InvocationContext(null!));
         Assert.AreEqual(-1, result);
@@ -76,7 +77,7 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
 
 
         _matcher.Setup(x => x.AddIncludePatterns(It.IsAny<IEnumerable<string>>()));
-        _matcher.Setup(x => x.GetResultsInFullPath(sut.FolderPath)).Returns(new List<string>());
+        _matcher.Setup(x => x.GetResultsInFullPath(sut.FolderPath.WithPlatformRootPath())).Returns(new List<string>());
 
         var result = await sut.InvokeAsync(new InvocationContext(null!));
         Assert.AreEqual(-1, result);
@@ -106,34 +107,32 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   tags: tags
 }";
 
-        const string modulePath = "/input/modules/rg/resourceGroup.bicep";
-        const string moduleOut = "/output/modules/rg";
-        const string moduleOutFile = "/output/modules/rg/resourceGroup.md";
+         string modulePath = "/input/modules/rg/resourceGroup.bicep".ToPlatformPath();
 
         _matcher.Setup(x => x.AddIncludePatterns(It.IsAny<IEnumerable<string>>()));
-        _matcher.Setup(x => x.GetResultsInFullPath(sut.FolderPath)).Returns(
+        _matcher.Setup(x => x.GetResultsInFullPath(sut.FolderPath.WithPlatformRootPath())).Returns(
             new List<string>
             {
                 modulePath
             });
 
         // Loading
-        _staticFileSystem.Setup(x => x.Directory.Exists(sut.Out)).Returns(false);
-        _staticFileSystem.Setup(x => x.Directory.CreateDirectory(sut.Out)).Returns((IDirectoryInfo)null!);
+        _staticFileSystem.Setup(x => x.Directory.Exists(sut.Out.WithPlatformRootPath())).Returns(false);
+        _staticFileSystem.Setup(x => x.Directory.CreateDirectory(sut.Out.WithPlatformRootPath())).Returns((IDirectoryInfo)null!);
         _staticFileSystem.Setup(x => x.File.ReadAllTextAsync(modulePath, It.IsAny<CancellationToken>()))
             .ReturnsAsync(template);
 
 
         //Writing
-        _staticFileSystem.Setup(x => x.Directory.Exists(moduleOut)).Returns(false);
-        _staticFileSystem.Setup(x => x.Directory.CreateDirectory(moduleOut)).Returns((IDirectoryInfo)null!);
+        _staticFileSystem.Setup(x => x.Directory.Exists(It.IsAny<string>())).Returns(false);
+        _staticFileSystem.Setup(x => x.Directory.CreateDirectory(It.IsAny<string>())).Returns((IDirectoryInfo)null!);
         _staticFileSystem
-            .Setup(x => x.File.WriteAllTextAsync(moduleOutFile, It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.File.WriteAllTextAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
 
         var result = await sut.InvokeAsync(new InvocationContext(null!));
-        Assert.AreEqual(1, result);
+        Assert.AreEqual(0, result);
     }
 
 
@@ -151,8 +150,8 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
             _bicepFileService
         )
         {
-            FolderPath = "/input/modules",
-            Out = "/output/modules",
+            FolderPath = "/input/modules".ToPlatformPath(),
+            Out = "/output/modules".ToPlatformPath(),
             Formatter = DocFormatter.Markdown
         };
 

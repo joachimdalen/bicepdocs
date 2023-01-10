@@ -14,11 +14,11 @@ public class OutputGeneratorTests : BicepFileTestBase
     [TestMethod]
     public void BuildOutputs_Input_BuildsCorrectly()
     {
-        const string expected = @"## Outputs
+        var expected = @"## Outputs
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `resourceId` | string | The resource id of the resource |";
+| `resourceId` | string | The resource id of the resource |".ToPlatformLineEndings();
         var outputs = new List<ParsedOutput>
         {
             new("resourceId", "string", "The resource id of the resource")
@@ -37,13 +37,14 @@ public class OutputGeneratorTests : BicepFileTestBase
     [TestMethod]
     public async Task BuildOutputs_DisabledInOptions_DoesNotGenerate()
     {
-        const string template = @"resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
+        var template = @"resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   name: resourceGroupName
   location: resourceGroupLocation
   tags: tags
 }
 
-output resourceId string = resourceGroup.id";
+output resourceId string = resourceGroup.id".ToPlatformLineEndings();
+        ;
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
         var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions
@@ -58,11 +59,11 @@ output resourceId string = resourceGroup.id";
     [TestMethod]
     public async Task BuildOutputs_TemplateInput_Generates()
     {
-        const string expected = @"## Outputs
+        var expected = @"## Outputs
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `resourceId` | string | The resource id of the resource |";
+| `resourceId` | string | The resource id of the resource |".ToPlatformLineEndings();;
         const string template = @"resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   name: resourceGroupName
   location: resourceGroupLocation

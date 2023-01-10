@@ -17,9 +17,9 @@ public class ResourceGeneratorTests : BicepFileTestBase
     [TestMethod]
     public void BuildResources_Input_BuildsCorrectly()
     {
-        const string expected = @"## Resources
+        var expected = @"## Resources
 
-- [Microsoft.Web/sites/2022-12-18](https://learn.microsoft.com/en-us/azure/templates/microsoft.web/2022-12-18/sites)";
+- [Microsoft.Web/sites/2022-12-18](https://learn.microsoft.com/en-us/azure/templates/microsoft.web/2022-12-18/sites)".ToPlatformLineEndings();;
         var resources = new List<ParsedResource>
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
@@ -45,9 +45,9 @@ public class ResourceGeneratorTests : BicepFileTestBase
     [TestMethod]
     public void BuildResources_MultipleOfSame_BuildsSingle()
     {
-        const string expected = @"## Resources
+        var expected = @"## Resources
 
-- [Microsoft.Web/sites/2022-12-18](https://learn.microsoft.com/en-us/azure/templates/microsoft.web/2022-12-18/sites)";
+- [Microsoft.Web/sites/2022-12-18](https://learn.microsoft.com/en-us/azure/templates/microsoft.web/2022-12-18/sites)".ToPlatformLineEndings();;
         var resources = new List<ParsedResource>
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
@@ -81,9 +81,9 @@ public class ResourceGeneratorTests : BicepFileTestBase
     [TestMethod]
     public async Task BuildResources_InputTemplate_BuildsSingle()
     {
-        const string expected = @"## Resources
+        var expected = @"## Resources
 
-- [Microsoft.Resources/resourceGroups@2021-01-01](https://learn.microsoft.com/en-us/azure/templates/microsoft.resources/2021-01-01/resourcegroups)";
+- [Microsoft.Resources/resourceGroups@2021-01-01](https://learn.microsoft.com/en-us/azure/templates/microsoft.resources/2021-01-01/resourcegroups)".ToPlatformLineEndings();;
 
         const string template = @"resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   name: resourceGroupName
@@ -148,11 +148,11 @@ param something string = 'nothing'";
     [TestMethod]
     public void BuildReferencedResources_Input_BuildsCorrectly()
     {
-        const string expected = @"## Referenced Resources
+        var expected = @"## Referenced Resources
 
 | Provider | Name | Scope |
 | --- | --- | --- |
-| Microsoft.Web/sites/2022-12-18 | `siteOne` | `subscription()` |";
+| Microsoft.Web/sites/2022-12-18 | `siteOne` | `subscription()` |".ToPlatformLineEndings();;
         var resources = new List<ParsedResource>
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
@@ -181,12 +181,12 @@ param something string = 'nothing'";
     [TestMethod]
     public void BuildReferencedResources_MultipleOfSame_BuildsAll()
     {
-        const string expected = @"## Referenced Resources
+        var expected = @"## Referenced Resources
 
 | Provider | Name | Scope |
 | --- | --- | --- |
 | Microsoft.Web/sites/2022-12-18 | `siteOne` | `subscription()` |
-| Microsoft.Web/sites/2022-12-18 | `siteTwo` | `subscription()` |";
+| Microsoft.Web/sites/2022-12-18 | `siteTwo` | `subscription()` |".ToPlatformLineEndings();;
         var resources = new List<ParsedResource>
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
@@ -226,11 +226,11 @@ param something string = 'nothing'";
     [TestMethod]
     public async Task BuildReferencedResources_InputTemplate_BuildsSingle()
     {
-        const string expected = @"## Referenced Resources
+        var expected = @"## Referenced Resources
 
 | Provider | Name | Scope |
 | --- | --- | --- |
-| Microsoft.Resources/resourceGroups@2021-01-01 | `resourceGroupName` | - |";
+| Microsoft.Resources/resourceGroups@2021-01-01 | `resourceGroupName` | - |".ToPlatformLineEndings();;
 
         const string template = @"resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' existing = {
   name: resourceGroupName

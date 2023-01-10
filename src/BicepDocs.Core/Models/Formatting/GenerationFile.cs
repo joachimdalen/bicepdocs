@@ -1,10 +1,12 @@
+using LandingZones.Tools.BicepDocs.Core.Extensions;
+
 namespace LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 
 public abstract class GenerationFile
 {
     protected GenerationFile(string filePath, string? versionFilePath = null)
     {
-        FilePath = filePath;
+        FilePath = filePath.ToPlatformPath();
         FolderPath = Path.GetDirectoryName(filePath) ?? throw new ArgumentException("Failed to resolve folder path");
 
         if (!string.IsNullOrEmpty(versionFilePath))

@@ -1,10 +1,11 @@
+using LandingZones.Tools.BicepDocs.Core.Extensions;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 
 namespace LandingZones.Tools.BicepDocs.Core;
 
 public static class PathResolver
 {
-    private const string VirtualBasePath = "/modules";
+    private const string VirtualBasePath = "modules";
     private const string VersionsBasePath = "versions";
 
     public static string ResolvePath(string path, string? baseDirectory = null)
@@ -22,7 +23,7 @@ public static class PathResolver
     {
         var relativeOutput = Path.GetRelativePath(modulePaths.OutputBaseFolder, modulePaths.OutputFolder);
         var root = relativeOutput.Split(Path.DirectorySeparatorChar);
-        var newPath = Path.Join(root.First(), VersionsBasePath, version,
+        var newPath = Path.Join(root.First(), Path.DirectorySeparatorChar.ToString(), VersionsBasePath, version,
             string.Join(Path.DirectorySeparatorChar, root.Skip(1)));
 
         return new ModuleVersionPaths(OutputFolder: Path.Join(modulePaths.OutputBaseFolder, newPath),
@@ -37,8 +38,8 @@ public static class PathResolver
         var outputPathMd = Path.ChangeExtension(outputPath, "md");
         return new ModulePaths(
             RelativeInputPath: modulePath,
-            VirtualPath: Path.Join(VirtualBasePath, modulePath),
-            VirtualFolder: Path.Join(VirtualBasePath, Path.GetDirectoryName(modulePath)),
+            VirtualPath: Path.Join(Path.DirectorySeparatorChar.ToString(),VirtualBasePath, modulePath),
+            VirtualFolder: Path.Join(Path.DirectorySeparatorChar.ToString(),VirtualBasePath, Path.GetDirectoryName(modulePath)),
             BaseFileName: Path.GetFileNameWithoutExtension(bicepFilePath),
             InputFolder: baseInputFolder,
             OutputBaseFolder: outputFolder,
@@ -49,4 +50,11 @@ public static class PathResolver
             OutputPath: outputPathMd
         );
     }
+
+    public static Uri FilePathToUri(string path) => new UriBuilder
+    {
+        Scheme = "file",
+        Host = null,
+        Path = path.ToPlatformPath(),
+    }.Uri;
 }

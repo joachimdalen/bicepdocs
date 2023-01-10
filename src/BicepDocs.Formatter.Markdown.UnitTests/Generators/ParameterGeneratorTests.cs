@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
+using LandingZones.Tools.BicepDocs.Core.UnitTests;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown.Elements;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown.Generators;
 
@@ -57,7 +58,7 @@ public class ParameterGeneratorTests
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | string {expectedDesc} |  |";
+| `location` | The location of the resource | string {expectedDesc} |  |".ToPlatformLineEndings();;
 
         var parameters = new List<ParsedParameter>
         {
@@ -85,11 +86,11 @@ public class ParameterGeneratorTests
     [TestMethod]
     public void BuildParameters_SimpleParameterType_BuildsCorrectly()
     {
-        const string expected = @"## Parameters
+        var expected = @"## Parameters
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | string |  |";
+| `location` | The location of the resource | string |  |".ToPlatformLineEndings();;
 
         var parameters = new List<ParsedParameter>
         {
@@ -112,11 +113,11 @@ public class ParameterGeneratorTests
     [TestMethod]
     public void BuildParameters_SimpleParameterTypeWithDefault_BuildsCorrectly()
     {
-        const string expected = @"## Parameters
+        var expected = @"## Parameters
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | string | northeurope |";
+| `location` | The location of the resource | string | northeurope |".ToPlatformLineEndings();;
 
         var parameters = new List<ParsedParameter>
         {
@@ -140,11 +141,11 @@ public class ParameterGeneratorTests
     [TestMethod]
     public void BuildParameters_Interpolated_BuildsCorrectly()
     {
-        const string expected = @"## Parameters
+        var expected = @"## Parameters
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | string | `resourceGroup().location` |";
+| `location` | The location of the resource | string | `resourceGroup().location` |".ToPlatformLineEndings();;
 
         var parameters = new List<ParsedParameter>
         {
@@ -169,11 +170,11 @@ public class ParameterGeneratorTests
     [TestMethod]
     public void BuildParameters_ComplexParameterType_BuildsCorrectly()
     {
-        const string expected = @"## Parameters
+        var expected = @"## Parameters
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | [locationAllow](#locationallow) |  |";
+| `location` | The location of the resource | [locationAllow](#locationallow) |  |".ToPlatformLineEndings();;
 
         var parameters = new List<ParsedParameter>
         {
@@ -197,11 +198,11 @@ public class ParameterGeneratorTests
     [TestMethod]
     public void BuildParameters_ComplexParameterTypeWithDefault_BuildsCorrectly()
     {
-        const string expected = @"## Parameters
+        var expected = @"## Parameters
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | [locationAllow](#locationallow) | one |";
+| `location` | The location of the resource | [locationAllow](#locationallow) | one |".ToPlatformLineEndings();;
 
         var parameters = new List<ParsedParameter>
         {
@@ -268,7 +269,7 @@ public class ParameterGeneratorTests
     [TestMethod]
     public void BuildParameterReferences_ComplexDefaultValue_BuildsCorrectly()
     {
-        const string expected = @"## References
+        var expected = @"## References
 
 ### locationValue
 
@@ -276,7 +277,7 @@ public class ParameterGeneratorTests
 {
     one: 'something'
 }
-```";
+```".ToPlatformLineEndings();;
 
         var parameters = new List<ParsedParameter>
         {
@@ -303,14 +304,14 @@ public class ParameterGeneratorTests
     [TestMethod]
     public void BuildParameterReferences_ComplexParameterType_BuildsCorrectly()
     {
-        const string expected = @"## References
+        var expected = @"## References
 
 ### locationAllow
 
 - one
 - two
 - three
-- four";
+- four".ToPlatformLineEndings();;
 
         var parameters = new List<ParsedParameter>
         {

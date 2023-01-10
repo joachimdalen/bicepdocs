@@ -113,6 +113,6 @@ public sealed class FileSystemCommandHandler : ICommandHandler
             await destinationProvider.Write(convertedFiles);
         }
 
-        return 1;
+        return 0;
     }
 }

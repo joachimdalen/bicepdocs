@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
+using LandingZones.Tools.BicepDocs.Core.UnitTests;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown.Elements;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown.Generators;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown.Models;
@@ -19,7 +20,7 @@ public class UsageGeneratorTests
             ModuleType = ModuleUsageType.Registry
         };
         const string modulePath = "workloads/web/function-app";
-        const string expected = @"## Usage
+        var expected = @"## Usage
 
 ```bicep
 module exampleInstance 'br/MyRegistry:workloads/web/function-app:2022-10-29' = {
@@ -28,7 +29,7 @@ module exampleInstance 'br/MyRegistry:workloads/web/function-app:2022-10-29' = {
     location: 'location'
   }
 }
-```";
+```".ToPlatformLineEndings();;
 
         var parameters = new List<ParsedParameter>
         {
@@ -57,7 +58,7 @@ module exampleInstance 'br/MyRegistry:workloads/web/function-app:2022-10-29' = {
             ModuleType = ModuleUsageType.Registry
         };
         const string modulePath = "workloads/web/function-app";
-        const string expected = @"## Usage
+        var expected = @"## Usage
 
 ```bicep
 module exampleInstance 'br/MyRegistry:workloads/web/function-app:2022-10-29' = {
@@ -67,7 +68,7 @@ module exampleInstance 'br/MyRegistry:workloads/web/function-app:2022-10-29' = {
     count: 10
   }
 }
-```";
+```".ToPlatformLineEndings();;
 
         var parameters = new List<ParsedParameter>
         {
