@@ -7,6 +7,6 @@ public class GenerateCommand : Command
 {
     public GenerateCommand() : base("generate", "Generate documentation for modules")
     {
-        AddCommand(new FileSystemCommand());
+        AddCommand(new FileSystemSourceCommand());
     }
 }

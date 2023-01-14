@@ -21,7 +21,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BicepDocs.Core.UnitTests\BicepDocs.Core.UnitTests.csproj" />
-      <ProjectReference Include="..\BicepDocs.Destination.FileSystem\BicepDocs.Destination.FileSystem.csproj" />
+      <ProjectReference Include="..\BicepDocs.Destination.Folder\BicepDocs.Destination.Folder.csproj" />
       <ProjectReference Include="..\BicepDocs.Source.FileSystem\BicepDocs.Source.FileSystem.csproj" />
     </ItemGroup>
 

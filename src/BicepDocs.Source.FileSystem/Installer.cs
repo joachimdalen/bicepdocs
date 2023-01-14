@@ -10,7 +10,7 @@ public static class Installer
 {
     public static IHostBuilder AddFileSystemCommands(this IHostBuilder builder)
     {
-        return builder.UseCommandHandler<FileSystemCommand, FileSystemCommandHandler>();
+        return builder.UseCommandHandler<FileSystemSourceCommand, FileSystemCommandHandler>();
     }
 
     public static IServiceCollection AddFileSystemSource(this IServiceCollection services)

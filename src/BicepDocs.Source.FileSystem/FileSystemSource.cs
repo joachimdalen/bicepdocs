@@ -1,14 +1,15 @@
 ﻿using System.Collections.Immutable;
 using LandingZones.Tools.BicepDocs.Core.Abstractions;
 using LandingZones.Tools.BicepDocs.Core.Models.Source;
+using LandingZones.Tools.BicepDocs.Source.FileSystem.Models;
 using Microsoft.Extensions.Logging;
 
 namespace LandingZones.Tools.BicepDocs.Source.FileSystem;
 
-public record FileSystemSourceOptions(
-    string FolderPath,
-    string OutFolder,
-    string[]? Exclude) : SourceOptions;
+// public record FileSystemSourceOptions(
+//     string FolderPath,
+//     string OutFolder,
+//     string[]? Exclude) : SourceOptions;
 
 public class FileSystemSource : IBicepSource
 {

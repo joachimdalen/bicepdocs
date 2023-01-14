@@ -22,6 +22,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BicepDocs.Core\BicepDocs.Core.csproj" />
-      <ProjectReference Include="..\BicepDocs.Destination.FileSystem\BicepDocs.Destination.FileSystem.csproj" />
+      <ProjectReference Include="..\BicepDocs.Destination.Folder\BicepDocs.Destination.Folder.csproj" />
     </ItemGroup>
 </Project>

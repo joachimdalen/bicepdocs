@@ -4,20 +4,20 @@ using LandingZones.Tools.BicepDocs.Core.Models.Destination;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using Microsoft.Extensions.Logging;
 
-namespace LandingZones.Tools.BicepDocs.Destination.FileSystem;
+namespace LandingZones.Tools.BicepDocs.Destination.Folder;
 
-public class FileSystemDestination : IDocsDestination
+public class FolderDestination : IDocsDestination
 {
-    private readonly ILogger<FileSystemDestination> _logger;
+    private readonly ILogger<FolderDestination> _logger;
     private readonly IStaticFileSystem _staticFileSystem;
 
-    public FileSystemDestination(ILogger<FileSystemDestination> logger, IStaticFileSystem staticFileSystem)
+    public FolderDestination(ILogger<FolderDestination> logger, IStaticFileSystem staticFileSystem)
     {
         _logger = logger;
         _staticFileSystem = staticFileSystem;
     }
 
-    public DocDestination Destination => DocDestination.FileSystem;
+    public DocDestination Destination => DocDestination.Folder;
 
     public async Task Write(IImmutableList<GenerationFile> generationFiles)
     {

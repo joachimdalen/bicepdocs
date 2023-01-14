@@ -28,9 +28,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\BicepDocs.Core\BicepDocs.Core.csproj" />
-        <ProjectReference Include="..\BicepDocs.Destination.FileSystem\BicepDocs.Destination.FileSystem.csproj" />
+        <ProjectReference Include="..\BicepDocs.Destination.Confluence\BicepDocs.Destination.Confluence.csproj" />
+        <ProjectReference Include="..\BicepDocs.Destination.Folder\BicepDocs.Destination.Folder.csproj" />
         <ProjectReference Include="..\BicepDocs.Formatter.Docusaurus\BicepDocs.Formatter.Docusaurus.csproj" />
         <ProjectReference Include="..\BicepDocs.Formatter.Markdown\BicepDocs.Formatter.Markdown.csproj" />
+        <ProjectReference Include="..\BicepDocs.Processor\BicepDocs.Processor.csproj" />
         <ProjectReference Include="..\BicepDocs.Source.FileSystem\BicepDocs.Source.FileSystem.csproj" />
     </ItemGroup>
 

@@ -1,13 +1,8 @@
-using System.Collections.Immutable;
 using System.CommandLine.Invocation;
 using System.Diagnostics.CodeAnalysis;
 using LandingZones.Tools.BicepDocs.Core;
 using LandingZones.Tools.BicepDocs.Core.Abstractions;
-using LandingZones.Tools.BicepDocs.Core.Models.Destination;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
-using LandingZones.Tools.BicepDocs.Core.Models.Source;
-using LandingZones.Tools.BicepDocs.Formatter.Markdown.Extensions;
-using LandingZones.Tools.BicepDocs.Formatter.Markdown.Models;
 using Microsoft.Extensions.Logging;
 
 namespace LandingZones.Tools.BicepDocs.Source.FileSystem.Commands;
@@ -52,6 +47,8 @@ public sealed class FileSystemCommandHandler : ICommandHandler
 
     public async Task<int> InvokeAsync(InvocationContext context)
     {
+        /*
+        var parent = (context.ParseResult.CommandResult.Parent as CommandResult)?.Command.Name;
         var inputPath = PathResolver.ResolvePath(FolderPath);
         var outputPath = PathResolver.ResolvePath(Out);
         
@@ -61,10 +58,10 @@ public sealed class FileSystemCommandHandler : ICommandHandler
             throw new ArgumentNullException($"Failed to find generation provider for {Formatter}");
         }
 
-        var destinationProvider = _destinations.FirstOrDefault(x => x.Destination == DocDestination.FileSystem);
+        var destinationProvider = _destinations.FirstOrDefault(x => x.Destination == DocDestination.Folder);
         if (destinationProvider == null)
         {
-            throw new ArgumentNullException($"Failed to find destination provider for {DocDestination.FileSystem}");
+            throw new ArgumentNullException($"Failed to find destination provider for {DocDestination.Folder}");
         }
 
         var fileSystemSource = _sources.FirstOrDefault(x => x.Source == DocSource.FileSystem);
@@ -112,7 +109,7 @@ public sealed class FileSystemCommandHandler : ICommandHandler
 
             await destinationProvider.Write(convertedFiles);
         }
-
+*/
         return 0;
     }
 }

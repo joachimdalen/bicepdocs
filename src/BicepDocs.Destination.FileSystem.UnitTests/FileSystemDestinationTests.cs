@@ -3,6 +3,7 @@ using System.IO.Abstractions;
 using LandingZones.Tools.BicepDocs.Core.Abstractions;
 using LandingZones.Tools.BicepDocs.Core.Extensions;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
+using LandingZones.Tools.BicepDocs.Destination.Folder;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 
@@ -21,7 +22,7 @@ public class FileSystemDestinationTests
     [TestMethod]
     public void Write_InvalidGenerationFileType_Throws()
     {
-        var sut = new FileSystemDestination(new NullLogger<FileSystemDestination>(), _fileSystemMock.Object);
+        var sut = new FolderDestination(new NullLogger<FolderDestination>(), _fileSystemMock.Object);
         var files = new List<GenerationFile>()
         {
             new DummyGenFile("/somewhere/folder/deploy.md".ToPlatformPath())
@@ -38,7 +39,7 @@ public class FileSystemDestinationTests
             .Setup(x => x.File.WriteAllTextAsync("/somewhere/folder/deploy.md".ToPlatformPath(), It.IsAny<string>(),
                 It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
-        var sut = new FileSystemDestination(new NullLogger<FileSystemDestination>(), _fileSystemMock.Object);
+        var sut = new FolderDestination(new NullLogger<FolderDestination>(), _fileSystemMock.Object);
         var files = new List<GenerationFile>()
         {
             new TextGenerationFile("/somewhere/folder/deploy.md".ToPlatformPath(), "hello-there")
@@ -62,7 +63,7 @@ public class FileSystemDestinationTests
             .Setup(x => x.File.WriteAllTextAsync("/somewhere/v1/folder/deploy.md".ToPlatformPath(), It.IsAny<string>(),
                 It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
-        var sut = new FileSystemDestination(new NullLogger<FileSystemDestination>(), _fileSystemMock.Object);
+        var sut = new FolderDestination(new NullLogger<FolderDestination>(), _fileSystemMock.Object);
         var files = new List<GenerationFile>()
         {
             new TextGenerationFile("/somewhere/folder/deploy.md".ToPlatformPath(), "hello-there", "/somewhere/v1/folder/deploy.md".ToPlatformPath())
@@ -84,7 +85,7 @@ public class FileSystemDestinationTests
             .Setup(x => x.File.WriteAllTextAsync("/somewhere/folder/deploy.md".ToPlatformPath(), It.IsAny<string>(),
                 It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
-        var sut = new FileSystemDestination(new NullLogger<FileSystemDestination>(), _fileSystemMock.Object);
+        var sut = new FolderDestination(new NullLogger<FolderDestination>(), _fileSystemMock.Object);
         var files = new List<GenerationFile>()
         {
             new TextGenerationFile("/somewhere/folder/deploy.md".ToPlatformPath(), "hello-there")

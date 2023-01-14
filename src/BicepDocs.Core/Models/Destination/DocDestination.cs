@@ -2,5 +2,6 @@ namespace LandingZones.Tools.BicepDocs.Core.Models.Destination;
 
 public enum DocDestination
 {
-    FileSystem = 0
+    Folder = 0,
+    Confluence = 1,
 }

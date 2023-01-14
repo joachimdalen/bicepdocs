@@ -5,7 +5,7 @@ using LandingZones.Tools.BicepDocs.Core.Abstractions;
 using LandingZones.Tools.BicepDocs.Core.Extensions;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using LandingZones.Tools.BicepDocs.Core.UnitTests;
-using LandingZones.Tools.BicepDocs.Destination.FileSystem;
+using LandingZones.Tools.BicepDocs.Destination.Folder;
 using LandingZones.Tools.BicepDocs.Formatter.Markdown;
 using LandingZones.Tools.BicepDocs.Source.FileSystem.Commands;
 using Microsoft.Extensions.DependencyInjection;
@@ -161,6 +161,6 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
     private FileSystemSource GetFileSystemSource() =>
         new(_staticFileSystem.Object, _matcher.Object, new NullLogger<FileSystemSource>());
 
-    private FileSystemDestination GetFileSystemDestination() =>
-        new(NullLogger<FileSystemDestination>.Instance, _staticFileSystem.Object);
+    private FolderDestination GetFileSystemDestination() =>
+        new(NullLogger<FolderDestination>.Instance, _staticFileSystem.Object);
 }

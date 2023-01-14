@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{4C4A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BicepDocs.Source.FileSystem", "BicepDocs.Source.FileSystem\BicepDocs.Source.FileSystem.csproj", "{5430B82F-50B4-4FA2-9F5D-62619A22B52A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BicepDocs.Destination.FileSystem", "BicepDocs.Destination.FileSystem\BicepDocs.Destination.FileSystem.csproj", "{93FA624F-CBFA-42A9-B67C-6BD5D5622B61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BicepDocs.Destination.Folder", "BicepDocs.Destination.Folder\BicepDocs.Destination.Folder.csproj", "{93FA624F-CBFA-42A9-B67C-6BD5D5622B61}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Destinations", "Destinations", "{DFDAFE46-69A8-4496-A0EC-853B25D95483}"
 EndProject
@@ -35,6 +35,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Formatters", "Formatters", "{F3FA9BF9-FD5F-4A22-B899-64C874E30D7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BicepDocs.Destination.FileSystem.UnitTests", "BicepDocs.Destination.FileSystem.UnitTests\BicepDocs.Destination.FileSystem.UnitTests.csproj", "{6E79DB5B-A09C-4D01-B6C0-FE0F66FC91ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BicepDocs.Destination.Confluence", "BicepDocs.Destination.Confluence\BicepDocs.Destination.Confluence.csproj", "{F54BA5F1-BAC3-4515-A68D-B032287405BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BicepDocs.Processor", "BicepDocs.Processor\BicepDocs.Processor.csproj", "{7A3914D7-5961-45BB-BD8C-7762B82279B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,6 +90,14 @@ Global
 		{6E79DB5B-A09C-4D01-B6C0-FE0F66FC91ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E79DB5B-A09C-4D01-B6C0-FE0F66FC91ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E79DB5B-A09C-4D01-B6C0-FE0F66FC91ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F54BA5F1-BAC3-4515-A68D-B032287405BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F54BA5F1-BAC3-4515-A68D-B032287405BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F54BA5F1-BAC3-4515-A68D-B032287405BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F54BA5F1-BAC3-4515-A68D-B032287405BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A3914D7-5961-45BB-BD8C-7762B82279B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A3914D7-5961-45BB-BD8C-7762B82279B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A3914D7-5961-45BB-BD8C-7762B82279B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A3914D7-5961-45BB-BD8C-7762B82279B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{992E11FE-FD9A-4250-AB60-0EACAC444599} = {E367F706-9E68-4431-8FC4-BCC89B1211A9}
@@ -100,5 +112,6 @@ Global
 		{6E79DB5B-A09C-4D01-B6C0-FE0F66FC91ED} = {04D258B1-D170-44E3-BD3D-45F510332FB5}
 		{2185B91F-1224-4CF6-9B09-E0C98F392914} = {F3FA9BF9-FD5F-4A22-B899-64C874E30D7E}
 		{B06C5DBB-8DC7-4D46-BC78-B73F5B73AEEF} = {F3FA9BF9-FD5F-4A22-B899-64C874E30D7E}
+		{F54BA5F1-BAC3-4515-A68D-B032287405BC} = {DFDAFE46-69A8-4496-A0EC-853B25D95483}
 	EndGlobalSection
 EndGlobal
