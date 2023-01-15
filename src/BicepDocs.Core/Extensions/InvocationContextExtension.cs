@@ -1,3 +1,4 @@
+using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.NamingConventionBinder;
 using System.CommandLine.Parsing;
@@ -9,6 +10,12 @@ namespace LandingZones.Tools.BicepDocs.Core.Extensions;
 
 public static class InvocationContextExtension
 {
+    public static RootCommand? GetRootCommand(this InvocationContext context)
+    {
+        var command = context.ParseResult.RootCommandResult?.Command as BicepDocsRootCmd;
+        return command;
+    }
+
     public static SourceCommand? GetSourceCommand(this InvocationContext context)
     {
         var command = (context.ParseResult.CommandResult.Parent as CommandResult)?.Command as SourceCommand;
@@ -28,7 +35,15 @@ public static class InvocationContextExtension
         var inst = mb.CreateInstance(context.BindingContext) as T;
         return inst;
     }
-    
+
+    public static T? GetDestinationOptions<T>(this InvocationContext context, DestinationCommand command)
+        where T : class
+    {
+        var mb = context.BindingContext.GetOrCreateModelBinder(command.BinderDescriptor);
+        var inst = mb.CreateInstance(context.BindingContext) as T;
+        return inst;
+    }
+
     public static DocSource GetSourceFromCommand(this InvocationContext context, SourceCommand? command)
     {
         var sourceCommand = (command ?? context.GetSourceCommand())?.Source;
@@ -37,9 +52,10 @@ public static class InvocationContextExtension
         return (DocSource)sourceCommand;
     }
 
-    public static DocDestination GetDestinationFromCommand(this InvocationContext context)
+    public static DocDestination GetDestinationFromCommand(this InvocationContext context,
+        DestinationCommand? command)
     {
-        var parent = context.GetDestinationCommand()?.Destination;
+        var parent = (command ?? context.GetDestinationCommand())?.Destination;
         if (parent == null)
             throw new Exception("Failed to resolve destination");
         return (DocDestination)parent;

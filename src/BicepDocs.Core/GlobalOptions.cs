@@ -1,6 +1,6 @@
 using System.CommandLine;
 
-namespace LandingZones.Tools.BicepDocs.Cli;
+namespace LandingZones.Tools.BicepDocs.Core;
 
 public static class GlobalOptions
 {

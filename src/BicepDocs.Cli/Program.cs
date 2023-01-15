@@ -6,6 +6,7 @@ using System.CommandLine.Parsing;
 using Bicep.Core.Extensions;
 using LandingZones.Tools.BicepDocs.Cli.Commands;
 using LandingZones.Tools.BicepDocs.Core;
+using LandingZones.Tools.BicepDocs.Core.Commands;
 using LandingZones.Tools.BicepDocs.Destination.Confluence.Commands;
 using LandingZones.Tools.BicepDocs.Destination.Folder;
 using LandingZones.Tools.BicepDocs.Destination.Folder.Commands;

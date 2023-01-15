@@ -24,4 +24,13 @@ public class BicepFileService : IBicepFileService
         var sourceFile = compilation.GetEntrypointSemanticModel();
         return sourceFile;
     }
+
+    public async Task<SemanticModel> GetSemanticModelFromContent(string content)
+    {
+        var path = Guid.NewGuid().ToString();
+        await _fileSystem.File.WriteAllTextAsync(path, content);
+        var compilation = await _compiler.CreateCompilation(PathResolver.FilePathToUri(path));
+        var sourceFile = compilation.GetEntrypointSemanticModel();
+        return sourceFile;
+    }
 }

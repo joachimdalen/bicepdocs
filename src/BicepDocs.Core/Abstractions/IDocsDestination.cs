@@ -7,5 +7,6 @@ namespace LandingZones.Tools.BicepDocs.Core.Abstractions;
 public interface IDocsDestination
 {
     DocDestination Destination { get; }
-    Task Write(IImmutableList<GenerationFile> generationFiles);
+    bool RequiresInput { get; }
+    Task Write(IImmutableList<GenerationFile> generationFiles, DestinationOptions? options);
 }

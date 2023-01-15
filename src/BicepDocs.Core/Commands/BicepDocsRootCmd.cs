@@ -1,6 +1,6 @@
 using System.CommandLine;
 
-namespace LandingZones.Tools.BicepDocs.Cli.Commands;
+namespace LandingZones.Tools.BicepDocs.Core.Commands;
 
 public class BicepDocsRootCmd : RootCommand
 {

@@ -6,11 +6,6 @@ using Microsoft.Extensions.Logging;
 
 namespace LandingZones.Tools.BicepDocs.Source.FileSystem;
 
-// public record FileSystemSourceOptions(
-//     string FolderPath,
-//     string OutFolder,
-//     string[]? Exclude) : SourceOptions;
-
 public class FileSystemSource : IBicepSource
 {
     private readonly IStaticFileSystem _staticFileSystem;
@@ -32,9 +27,10 @@ public class FileSystemSource : IBicepSource
         _logger = logger;
     }
 
+    public bool RequiresInput => true;
     public DocSource Source => DocSource.FileSystem;
 
-    public Task<SourceResult> GetSourceFiles(SourceOptions options)
+    public Task<SourceResult> GetSourceFiles(SourceOptions? options)
     {
         if (options is not FileSystemSourceOptions fileSystemSourceOptions)
         {

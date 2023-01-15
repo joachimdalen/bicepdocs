@@ -18,6 +18,12 @@ public class FolderDestination : IDocsDestination
     }
 
     public DocDestination Destination => DocDestination.Folder;
+    public bool RequiresInput => true;
+    
+    public Task Write(IImmutableList<GenerationFile> generationFiles, DestinationOptions? options)
+    {
+        throw new NotImplementedException();
+    }
 
     public async Task Write(IImmutableList<GenerationFile> generationFiles)
     {

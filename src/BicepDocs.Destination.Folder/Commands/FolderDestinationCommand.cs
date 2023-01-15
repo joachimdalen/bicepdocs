@@ -1,4 +1,6 @@
 using System.CommandLine;
+using System.CommandLine.Binding;
+using System.CommandLine.NamingConventionBinder;
 using LandingZones.Tools.BicepDocs.Core.Commands;
 using LandingZones.Tools.BicepDocs.Core.Models.Destination;
 using LandingZones.Tools.BicepDocs.Core.Validators;
@@ -13,6 +15,8 @@ public class FolderDestinationCommand : DestinationCommand
             IsRequired = true
         };
 
+
+    public override IValueDescriptor BinderDescriptor => new ModelBinder<FolderDestinationOptions>().ValueDescriptor;
 
     public FolderDestinationCommand() : base(DocDestination.Folder, "folder",
         "Write documentation files to a folder on the current machine")
