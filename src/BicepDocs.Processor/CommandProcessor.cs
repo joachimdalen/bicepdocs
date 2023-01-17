@@ -127,7 +127,8 @@ public class CommandProcessor : ICommandHandler
                 formatterOptions = await _configurationLoader.GetOptions(configPath);
             }
 
-            var formatterContext = new FormatterContext(sourceFile, paths, formatterOptions);
+            var formatterContext = new FormatterContext(sourceFile, bicepFile.Name /*Remove inputFolder from path*/,
+                formatterOptions);
             var generationFiles = await formatProvider.GenerateModuleDocs(formatterContext);
             var convertedFiles = generationFiles.Select(x =>
             {

@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using Bicep.Core.Resources;
 using LandingZones.Tools.BicepDocs.Core;
+using LandingZones.Tools.BicepDocs.Core.Extensions;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
 using LandingZones.Tools.BicepDocs.Core.UnitTests;
@@ -96,7 +97,7 @@ output resourceId string = resourceGroup.id";
         var document = new MarkdownDocument();
 
         var semanticModel = await GetModel(template);
-        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions()
+        var ctx = new FormatterContext(semanticModel, "resources/resourceGroups.bicep".ToPlatformPath(), new FormatterOptions()
         );
         ResourceGenerator.BuildResources(document, ctx);
 
@@ -119,7 +120,7 @@ output resourceId string = resourceGroup.id";
 output resourceId string = resourceGroup.id";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions
+        var ctx = new FormatterContext(semanticModel, "resources/resourceGroups.bicep".ToPlatformPath(), new FormatterOptions
         {
             IncludeResources = false
         });
@@ -135,7 +136,7 @@ output resourceId string = resourceGroup.id";
 param something string = 'nothing'";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
+        var ctx = new FormatterContext(semanticModel, "resources/resourceGroups.bicep".ToPlatformPath(), new FormatterOptions());
         ResourceGenerator.BuildResources(document, ctx);
 
         Assert.AreEqual(0, document.Count);
@@ -241,7 +242,7 @@ output resourceId string = resourceGroup.id";
         var document = new MarkdownDocument();
 
         var semanticModel = await GetModel(template);
-        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions()
+        var ctx = new FormatterContext(semanticModel, "resources/resourceGroups.bicep".ToPlatformPath(), new FormatterOptions()
         );
         ResourceGenerator.BuildReferencedResources(document, ctx);
 
@@ -262,7 +263,7 @@ output resourceId string = resourceGroup.id";
 output resourceId string = resourceGroup.id";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions
+        var ctx = new FormatterContext(semanticModel, "resources/resourceGroups.bicep".ToPlatformPath(), new FormatterOptions
         {
             IncludeReferencedResources = false
         });
@@ -278,7 +279,7 @@ output resourceId string = resourceGroup.id";
 param something string = 'nothing'";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
+        var ctx = new FormatterContext(semanticModel, "resources/resourceGroups.bicep".ToPlatformPath(), new FormatterOptions());
         ResourceGenerator.BuildReferencedResources(document, ctx);
 
         Assert.AreEqual(0, document.Count);
@@ -296,7 +297,7 @@ param something string = 'nothing'";
 output resourceId string = resourceGroup.id";
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
-        var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions());
+        var ctx = new FormatterContext(semanticModel, "resources/resourceGroups.bicep".ToPlatformPath(), new FormatterOptions());
         ResourceGenerator.BuildReferencedResources(document, ctx);
 
         Assert.AreEqual(0, document.Count);

@@ -39,13 +39,13 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   tags: tags
 }";
         var semanticModel = await GetModel(template);
-        var ctx = new FormatterContext(semanticModel, GetPaths());
+        var ctx = new FormatterContext(semanticModel, "resources/resourceGroups.bicep".ToPlatformPath());
         var sut = new MarkdownDocsFormatter(_configurationLoader);
 
         var files = await sut.GenerateModuleDocs(ctx);
         Assert.AreEqual(1, files.Count);
         var otp = files[0];
-        Assert.AreEqual("/output-folder/some-dir/docs/resources/resourceGroups.md".ToPlatformPath(), otp.FilePath);
+        Assert.AreEqual("resources/resourceGroups.md".ToPlatformPath(), otp.FilePath);
         Assert.IsInstanceOfType(otp, typeof(MarkdownGenerationFile));
         Assert.IsNull(otp.VersionFilePath);
         Assert.IsNull(otp.VersionFolderPath);
@@ -72,7 +72,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   tags: tags
 }";
         var semanticModel = await GetModel(template);
-        var ctx = new FormatterContext(semanticModel, GetPaths());
+        var ctx = new FormatterContext(semanticModel, "resources/resourceGroups.bicep".ToPlatformPath());
         var sut = new MarkdownDocsFormatter(_configurationLoader);
 
         var files = await sut.GenerateModuleDocs(ctx);

@@ -30,6 +30,13 @@ public static class PathResolver
             OutputPath: Path.Join(modulePaths.OutputBaseFolder, newPath, modulePaths.OutputFileName));
     }
 
+    public static string ResolveVersionPath(string path, string version)
+    {
+        var root = path.Split(Path.DirectorySeparatorChar);
+        return Path.Join(root.First(), Path.DirectorySeparatorChar.ToString(), VersionsBasePath, version,
+            string.Join(Path.DirectorySeparatorChar, root.Skip(1)));
+    }
+
     public static ModulePaths ResolveModulePaths(string bicepFilePath, string baseInputFolder, string outputFolder)
     {
         var modulePath = bicepFilePath.Replace(baseInputFolder, "");
@@ -38,8 +45,9 @@ public static class PathResolver
         var outputPathMd = Path.ChangeExtension(outputPath, "md");
         return new ModulePaths(
             RelativeInputPath: modulePath,
-            VirtualPath: Path.Join(Path.DirectorySeparatorChar.ToString(),VirtualBasePath, modulePath),
-            VirtualFolder: Path.Join(Path.DirectorySeparatorChar.ToString(),VirtualBasePath, Path.GetDirectoryName(modulePath)),
+            VirtualPath: Path.Join(Path.DirectorySeparatorChar.ToString(), VirtualBasePath, modulePath),
+            VirtualFolder: Path.Join(Path.DirectorySeparatorChar.ToString(), VirtualBasePath,
+                Path.GetDirectoryName(modulePath)),
             BaseFileName: Path.GetFileNameWithoutExtension(bicepFilePath),
             InputFolder: baseInputFolder,
             OutputBaseFolder: outputFolder,

@@ -6,9 +6,12 @@ namespace LandingZones.Tools.BicepDocs.Formatter.Markdown.Generators;
 
 internal static class MetaGenerator
 {
-    internal static void BuildTitle(MarkdownDocument document, MetadataModel? metadata, FormatterContext formatterContext)
+    internal static void BuildTitle(MarkdownDocument document, MetadataModel? metadata,
+        FormatterContext formatterContext)
     {
-        document.Append(!string.IsNullOrEmpty(metadata?.Title) ? new MkHeader(metadata.Title, MkHeaderLevel.H1) : new MkHeader(formatterContext.Paths.BaseFileName, MkHeaderLevel.H1));
+        document.Append(!string.IsNullOrEmpty(metadata?.Title)
+            ? new MkHeader(metadata.Title, MkHeaderLevel.H1)
+            : new MkHeader(formatterContext.ModulePath, MkHeaderLevel.H1));
     }
 
     internal static void BuildDescription(MarkdownDocument document, MetadataModel? metadata)

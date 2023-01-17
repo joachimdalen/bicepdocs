@@ -48,7 +48,7 @@ public class MarkdownDocsFormatter : IDocsFormatter
                         context.FormatterOptions,
                         parameters,
                         configuration.Usage,
-                        Path.ChangeExtension(context.Paths.RelativeInputPath, null),
+                        Path.ChangeExtension(context.ModulePath, null),
                         metadata?.Version ?? "<version>");
                     break;
                 case DocSection.Resources:
@@ -68,13 +68,15 @@ public class MarkdownDocsFormatter : IDocsFormatter
 
         if (!string.IsNullOrEmpty(metadata?.Version) && context.FormatterOptions.DisableVersioning == false)
         {
-            var versionPaths = PathResolver.ResolveVersionPath(context.Paths, metadata.Version);
-            outputFiles.Add(new MarkdownGenerationFile(context.Paths.OutputPath, markdownDocument, context.Template,
-                versionPaths.OutputPath));
+            var versionPaths = PathResolver.ResolveVersionPath(context.ModulePath, metadata.Version);
+            outputFiles.Add(new MarkdownGenerationFile(Path.ChangeExtension(context.ModulePath, "md"),
+                markdownDocument, context.Template,
+                versionPaths));
         }
         else
         {
-            outputFiles.Add(new MarkdownGenerationFile(context.Paths.OutputPath, markdownDocument, context.Template));
+            outputFiles.Add(new MarkdownGenerationFile(Path.ChangeExtension(context.ModulePath, "md"),
+                markdownDocument, context.Template));
         }
 
         return Task.FromResult<IImmutableList<GenerationFile>>(outputFiles.ToImmutableArray());

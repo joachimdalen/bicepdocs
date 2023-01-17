@@ -76,40 +76,40 @@ public class DocusaurusDocsFormatter : IDocsFormatter
 
 
         // Build and add category files
-        foreach (var markdownFile in files)
-        {
-            var prevPath = context.Paths.OutputBaseFolder;
-            var relativePath = Path.GetRelativePath(context.Paths.OutputBaseFolder, markdownFile.FilePath);
-            var folderPath = Path.GetDirectoryName(relativePath);
-
-            if (string.IsNullOrEmpty(folderPath))
-            {
-                _logger.LogWarning("Failed to resolve folder path for: {FilePath}", markdownFile.FilePath);
-                continue;
-            }
-
-            var pathElements = folderPath.Split('/');
-
-            var prevElement = "";
-
-            foreach (var element in pathElements)
-            {
-                if (prevElement == "versions")
-                {
-                    prevPath = Path.Join(prevPath, element);
-                    continue;
-                }
-
-                var name = NameResolver.ResolveName(element);
-                var category = new CategoryMeta(name);
-
-                prevPath = Path.Join(prevPath, element);
-                var output = Path.Join(prevPath, Constants.CategoryMetaFileName);
-
-                generationFiles.Add(new TextGenerationFile(output, JsonSerializer.Serialize(category, _serializeOptions)));
-                prevElement = element;
-            }
-        }
+        // foreach (var markdownFile in files)
+        // {
+        //     var prevPath = context.Paths.OutputBaseFolder;
+        //     var relativePath = Path.GetRelativePath(context.Paths.OutputBaseFolder, markdownFile.FilePath);
+        //     var folderPath = Path.GetDirectoryName(relativePath);
+        //
+        //     if (string.IsNullOrEmpty(folderPath))
+        //     {
+        //         _logger.LogWarning("Failed to resolve folder path for: {FilePath}", markdownFile.FilePath);
+        //         continue;
+        //     }
+        //
+        //     var pathElements = folderPath.Split('/');
+        //
+        //     var prevElement = "";
+        //
+        //     foreach (var element in pathElements)
+        //     {
+        //         if (prevElement == "versions")
+        //         {
+        //             prevPath = Path.Join(prevPath, element);
+        //             continue;
+        //         }
+        //
+        //         var name = NameResolver.ResolveName(element);
+        //         var category = new CategoryMeta(name);
+        //
+        //         prevPath = Path.Join(prevPath, element);
+        //         var output = Path.Join(prevPath, Constants.CategoryMetaFileName);
+        //
+        //         generationFiles.Add(new TextGenerationFile(output, JsonSerializer.Serialize(category, _serializeOptions)));
+        //         prevElement = element;
+        //     }
+        // }
 
         return generationFiles.ToImmutableArray();
     }
