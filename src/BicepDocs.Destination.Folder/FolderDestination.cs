@@ -54,8 +54,8 @@ public class FolderDestination : IDocsDestination
     private async Task WriteFile(string folderPath, string filePath, string content,
         FolderDestinationOptions folderDestinationOptions)
     {
-        var intFolderPath = Path.Join(folderDestinationOptions.OutPath, folderPath);
-        var intFilePath = Path.Join(folderDestinationOptions.OutPath, filePath);
+        var intFolderPath = Path.Join(folderDestinationOptions.Out, folderPath);
+        var intFilePath = Path.Join(folderDestinationOptions.Out, filePath);
         if (!_staticFileSystem.Directory.Exists(intFolderPath))
         {
             _staticFileSystem.Directory.CreateDirectory(intFolderPath);

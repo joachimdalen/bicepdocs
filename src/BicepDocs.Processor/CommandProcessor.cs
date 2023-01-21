@@ -115,10 +115,7 @@ public class CommandProcessor : ICommandHandler
 
         foreach (var bicepFile in sourceFiles.Files)
         {
-            //var paths = PathResolver.ResolveModulePaths(bicepFile.Name, inputPath, outputPath);
-            //_logger.LogInformation("Processing file {FileName}", paths.VirtualPath);
-
-            var fileContent = await sourceHandler.GetSourceContent(bicepFile);
+            var fileContent = await sourceHandler.GetSourceContent(bicepFile, sourceOptions);
             var sourceFile = await _bicepFileService.GetSemanticModelFromContent(fileContent);
 
             FormatterOptions? formatterOptions = null;
@@ -127,8 +124,7 @@ public class CommandProcessor : ICommandHandler
                 formatterOptions = await _configurationLoader.GetOptions(configPath);
             }
 
-            var formatterContext = new FormatterContext(sourceFile, bicepFile.Name /*Remove inputFolder from path*/,
-                formatterOptions);
+            var formatterContext = new FormatterContext(sourceFile, bicepFile.Name, formatterOptions);
             var generationFiles = await formatProvider.GenerateModuleDocs(formatterContext);
             var convertedFiles = generationFiles.Select(x =>
             {

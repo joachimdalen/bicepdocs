@@ -57,12 +57,20 @@ public class FileSystemSource : IBicepSource
 
         _logger.LogInformation("Found {FileCount} bicep files", bicepFiles.Count);
 
-        return Task.FromResult(new SourceResult(true, 1, bicepFiles.Select(x => new SourceFile(x)).ToImmutableList()));
+        return Task.FromResult(new SourceResult(true, 1,
+            bicepFiles.Select(x => new SourceFile(Path.GetRelativePath(fileSystemSourceOptions.FolderPath, x)))
+                .ToImmutableList()));
     }
 
-    public async Task<string> GetSourceContent(SourceFile source)
+    public async Task<string> GetSourceContent(SourceFile source, SourceOptions? options)
     {
-        var fileContent = await _staticFileSystem.File.ReadAllTextAsync(source.Name);
+        if (options is not FileSystemSourceOptions fileSystemSourceOptions)
+        {
+            throw new Exception("Failed to resolve options");
+        }
+
+        var fileContent =
+            await _staticFileSystem.File.ReadAllTextAsync(Path.Join(fileSystemSourceOptions.FolderPath, source.Name));
         return fileContent;
     }
 }

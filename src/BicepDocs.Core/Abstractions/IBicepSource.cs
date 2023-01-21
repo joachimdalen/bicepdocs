@@ -7,5 +7,5 @@ public interface IBicepSource
     bool RequiresInput { get; }
     DocSource Source { get; }
     Task<SourceResult> GetSourceFiles(SourceOptions? options);
-    Task<string> GetSourceContent(SourceFile source);
+    Task<string> GetSourceContent(SourceFile source, SourceOptions? options);
 }

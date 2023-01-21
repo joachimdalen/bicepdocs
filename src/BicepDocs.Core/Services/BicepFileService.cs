@@ -27,7 +27,7 @@ public class BicepFileService : IBicepFileService
 
     public async Task<SemanticModel> GetSemanticModelFromContent(string content)
     {
-        var path = Guid.NewGuid().ToString();
+        var path = Path.Join(Path.DirectorySeparatorChar.ToString(), "temp", $"{Guid.NewGuid().ToString()}.bicep");
         await _fileSystem.File.WriteAllTextAsync(path, content);
         var compilation = await _compiler.CreateCompilation(PathResolver.FilePathToUri(path));
         var sourceFile = compilation.GetEntrypointSemanticModel();
