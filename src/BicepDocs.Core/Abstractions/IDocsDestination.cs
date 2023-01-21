@@ -8,5 +8,5 @@ public interface IDocsDestination
 {
     DocDestination Destination { get; }
     bool RequiresInput { get; }
-    Task Write(IImmutableList<GenerationFile> generationFiles, DestinationOptions? options);
+    Task Write(IImmutableList<GenerationFile> generationFiles, DestinationOptions? options = null);
 }

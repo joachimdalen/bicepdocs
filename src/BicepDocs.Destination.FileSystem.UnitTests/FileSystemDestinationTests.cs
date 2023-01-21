@@ -19,13 +19,16 @@ public class FileSystemDestinationTests
         _fileSystemMock = new Mock<IStaticFileSystem>(MockBehavior.Strict);
     }
 
+    private readonly FolderDestinationOptions _folderDestinationOptions = new("/somewhere");
+
+
     [TestMethod]
     public void Write_InvalidGenerationFileType_Throws()
     {
         var sut = new FolderDestination(new NullLogger<FolderDestination>(), _fileSystemMock.Object);
         var files = new List<GenerationFile>()
         {
-            new DummyGenFile("/somewhere/folder/deploy.md".ToPlatformPath())
+            new DummyGenFile("folder/deploy.md".ToPlatformPath())
         }.ToImmutableList();
 
         Assert.ThrowsExceptionAsync<ArgumentException>(() => sut.Write(files));
@@ -42,10 +45,10 @@ public class FileSystemDestinationTests
         var sut = new FolderDestination(new NullLogger<FolderDestination>(), _fileSystemMock.Object);
         var files = new List<GenerationFile>()
         {
-            new TextGenerationFile("/somewhere/folder/deploy.md".ToPlatformPath(), "hello-there")
+            new TextGenerationFile("/folder/deploy.md".ToPlatformPath(), "hello-there")
         }.ToImmutableList();
 
-        await sut.Write(files);
+        await sut.Write(files, _folderDestinationOptions);
 
         _fileSystemMock.Verify(
             x => x.File.WriteAllTextAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()),
@@ -66,10 +69,11 @@ public class FileSystemDestinationTests
         var sut = new FolderDestination(new NullLogger<FolderDestination>(), _fileSystemMock.Object);
         var files = new List<GenerationFile>()
         {
-            new TextGenerationFile("/somewhere/folder/deploy.md".ToPlatformPath(), "hello-there", "/somewhere/v1/folder/deploy.md".ToPlatformPath())
+            new TextGenerationFile("/folder/deploy.md".ToPlatformPath(), "hello-there",
+                "v1/folder/deploy.md".ToPlatformPath())
         }.ToImmutableList();
 
-        await sut.Write(files);
+        await sut.Write(files, _folderDestinationOptions);
 
         _fileSystemMock.Verify(
             x => x.File.WriteAllTextAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()),
@@ -80,7 +84,8 @@ public class FileSystemDestinationTests
     public async Task Write_OutDirectoryDoesNotExist_CreatesDirectory()
     {
         _fileSystemMock.Setup(x => x.Directory.Exists("/somewhere/folder".ToPlatformPath())).Returns(false);
-        _fileSystemMock.Setup(x => x.Directory.CreateDirectory("/somewhere/folder".ToPlatformPath())).Returns((IDirectoryInfo)null!);
+        _fileSystemMock.Setup(x => x.Directory.CreateDirectory("/somewhere/folder".ToPlatformPath()))
+            .Returns((IDirectoryInfo)null!);
         _fileSystemMock
             .Setup(x => x.File.WriteAllTextAsync("/somewhere/folder/deploy.md".ToPlatformPath(), It.IsAny<string>(),
                 It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
@@ -88,10 +93,10 @@ public class FileSystemDestinationTests
         var sut = new FolderDestination(new NullLogger<FolderDestination>(), _fileSystemMock.Object);
         var files = new List<GenerationFile>()
         {
-            new TextGenerationFile("/somewhere/folder/deploy.md".ToPlatformPath(), "hello-there")
+            new TextGenerationFile("folder/deploy.md".ToPlatformPath(), "hello-there")
         }.ToImmutableList();
 
-        await sut.Write(files);
+        await sut.Write(files, _folderDestinationOptions);
 
         _fileSystemMock.Verify(
             x => x.File.WriteAllTextAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()),

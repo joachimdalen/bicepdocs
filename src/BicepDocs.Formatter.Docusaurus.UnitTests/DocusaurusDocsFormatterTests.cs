@@ -50,7 +50,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
         var files = await sut.GenerateModuleDocs(ctx);
         Assert.AreEqual(2, files.Count);
         var otp = files[0];
-        Assert.AreEqual("/output-folder/some-dir/docs/resources/resourceGroups.md".ToPlatformPath(), otp.FilePath);
+        Assert.AreEqual("resources/resourceGroups.md".ToPlatformPath(), otp.FilePath);
         Assert.IsNull(otp.VersionFilePath);
         Assert.IsNull(otp.VersionFolderPath);
 
@@ -86,7 +86,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   tags: tags
 }";
         var semanticModel = await GetModel(template);
-        var ctx = new FormatterContext(semanticModel, GetPaths().InputFileName, new FormatterOptions
+        var ctx = new FormatterContext(semanticModel, "/resources/resourceGroups.bicep", new FormatterOptions
         {
             Formatters = new Dictionary<DocFormatter, object>
             {
@@ -102,21 +102,12 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
         var files = await sut.GenerateModuleDocs(ctx);
         Assert.AreEqual(2, files.Count);
         var otp = files[0];
-        Assert.AreEqual("/output-folder/some-dir/docs/resources/resourceGroups.md".ToPlatformPath(), otp.FilePath);
+        Assert.AreEqual("/resources/resourceGroups.md".ToPlatformPath(), otp.FilePath);
         var mdFile = otp as MarkdownGenerationFile;
         Assert.IsNotNull(mdFile);
         var firstElement = mdFile.Document[0];
         Assert.IsNotInstanceOfType<MdFrontMatter>(firstElement);
-    }
 
-    private ModulePaths GetPaths()
-    {
-        var inputFolder = "/input/folder/modules".ToPlatformPath();
-        var outputBaseFolder = "/output-folder/some-dir/docs".ToPlatformPath();
-        var inputFile = "/input/folder/modules/resources/resourceGroups.bicep".ToPlatformPath();
-        return PathResolver.ResolveModulePaths(
-            bicepFilePath: inputFile,
-            baseInputFolder: inputFolder,
-            outputFolder: outputBaseFolder);
+        Assert.AreEqual("resources/_category_.json", files[1].FilePath);
     }
 }

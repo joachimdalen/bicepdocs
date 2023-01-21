@@ -19,27 +19,27 @@ public class FolderDestination : IDocsDestination
 
     public DocDestination Destination => DocDestination.Folder;
     public bool RequiresInput => true;
-    
-    public Task Write(IImmutableList<GenerationFile> generationFiles, DestinationOptions? options)
-    {
-        throw new NotImplementedException();
-    }
 
-    public async Task Write(IImmutableList<GenerationFile> generationFiles)
+    public async Task Write(IImmutableList<GenerationFile> generationFiles, DestinationOptions? options = null)
     {
+        if (options is not FolderDestinationOptions folderDestinationOptions)
+        {
+            throw new Exception("Failed to resolve options");
+        }
+
         foreach (var outFile in generationFiles)
         {
             switch (outFile)
             {
                 case TextGenerationFile txtFile:
                 {
-                    await WriteFile(txtFile.FolderPath, txtFile.FilePath, txtFile.Content);
+                    await WriteFile(txtFile.FolderPath, txtFile.FilePath, txtFile.Content, folderDestinationOptions);
                     _logger.LogInformation("Processed file  {FileName}", outFile.FilePath);
                     if (!string.IsNullOrEmpty(txtFile.VersionFilePath) &&
                         !string.IsNullOrEmpty(txtFile.VersionFolderPath))
                     {
                         await WriteFile(txtFile.VersionFolderPath, txtFile.VersionFilePath,
-                            txtFile.Content);
+                            txtFile.Content, folderDestinationOptions);
                         _logger.LogInformation("Processed file  {FileName}", outFile.VersionFilePath);
                     }
 
@@ -51,13 +51,16 @@ public class FolderDestination : IDocsDestination
         }
     }
 
-    private async Task WriteFile(string folderPath, string filePath, string content)
+    private async Task WriteFile(string folderPath, string filePath, string content,
+        FolderDestinationOptions folderDestinationOptions)
     {
-        if (!_staticFileSystem.Directory.Exists(folderPath))
+        var intFolderPath = Path.Join(folderDestinationOptions.OutPath, folderPath);
+        var intFilePath = Path.Join(folderDestinationOptions.OutPath, filePath);
+        if (!_staticFileSystem.Directory.Exists(intFolderPath))
         {
-            _staticFileSystem.Directory.CreateDirectory(folderPath);
+            _staticFileSystem.Directory.CreateDirectory(intFolderPath);
         }
 
-        await _staticFileSystem.File.WriteAllTextAsync(filePath, content);
+        await _staticFileSystem.File.WriteAllTextAsync(intFilePath, content);
     }
 }

@@ -11,7 +11,7 @@ internal static class MetaGenerator
     {
         document.Append(!string.IsNullOrEmpty(metadata?.Title)
             ? new MkHeader(metadata.Title, MkHeaderLevel.H1)
-            : new MkHeader(formatterContext.ModulePath, MkHeaderLevel.H1));
+            : new MkHeader(Path.GetFileNameWithoutExtension(formatterContext.ModulePath), MkHeaderLevel.H1));
     }
 
     internal static void BuildDescription(MarkdownDocument document, MetadataModel? metadata)

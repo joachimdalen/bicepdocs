@@ -55,7 +55,7 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
         _matcher.Setup(x => x.GetResultsInFullPath(sut.FolderPath.WithPlatformRootPath())).Returns((List<string>)null!);
 
         var result = await sut.InvokeAsync(new InvocationContext(null!));
-        Assert.AreEqual(-1, result);
+        Assert.AreEqual(0, result);
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public class FileSystemCommandHandlerTests : BicepFileTestBase
         _matcher.Setup(x => x.GetResultsInFullPath(sut.FolderPath.WithPlatformRootPath())).Returns(new List<string>());
 
         var result = await sut.InvokeAsync(new InvocationContext(null!));
-        Assert.AreEqual(-1, result);
+        Assert.AreEqual(0, result);
     }
 
     [TestMethod]
