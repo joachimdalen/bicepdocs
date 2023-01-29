@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using LandingZones.Tools.BicepDocs.Core.Abstractions;
+using LandingZones.Tools.BicepDocs.Destination.Confluence.Abstractions;
+using LandingZones.Tools.BicepDocs.Destination.Confluence.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LandingZones.Tools.BicepDocs.Destination.Confluence;
 
@@ -7,27 +10,8 @@ public static class Installer
 {
     public static IServiceCollection AddConfluenceDestination(this IServiceCollection services)
     {
-        
+        services.AddSingleton<IConfluenceServiceFactory, ConfluenceServiceFactory>();
+        services.AddSingleton<IDocsDestination, ConfluenceDestination>();
         return services;
     }
 }
-
-// bicepdocs filesystem filesystem 
-// bicepdocs registry filesystem
-// bicepdocs filesystem 
-
-interface ISource
-{
-    // All required options for the source
-    Type OptionType { get; set; }    
-    
-    // Get from source
-}
-
-interface IDest
-{
-    Type OptionType { get; set; }
-    // Write to source
-}
-
-

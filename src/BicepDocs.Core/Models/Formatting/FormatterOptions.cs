@@ -9,12 +9,11 @@ public class FormatterOptions
     public bool IncludeUsage { get; set; } = true;
     public bool IncludeResources { get; set; } = true;
     public bool IncludeOutputs { get; set; } = true;
-    
     public bool IncludeReferencedResources { get; set; } = true;
     public bool DisableVersioning { get; set; } = false;
-    
     public string MetaKeyword { get; set; } = MetadataParser.MetadataKey;
-    
+
+    public UsageOptions Usage { get; set; } = new();
     public Dictionary<DocFormatter, object> Formatters { get; set; } = new();
 
     public HashSet<DocSection> SectionOrder { get; set; } = new()

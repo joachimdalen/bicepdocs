@@ -1,4 +1,4 @@
-namespace LandingZones.Tools.BicepDocs.Formatter.Markdown.Models;
+namespace LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 
 public class UsageOptions
 {

@@ -3,7 +3,7 @@ using System.Text;
 using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
 using LandingZones.Tools.BicepDocs.Core.Services;
 
-namespace LandingZones.Tools.BicepDocs.Formatter.Markdown;
+namespace LandingZones.Tools.BicepDocs.Core;
 
 public static class CodeGenerator
 {

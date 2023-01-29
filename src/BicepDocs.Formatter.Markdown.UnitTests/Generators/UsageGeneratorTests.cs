@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using LandingZones.Tools.BicepDocs.Core.Models;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
 using LandingZones.Tools.BicepDocs.Core.UnitTests;
@@ -40,7 +41,7 @@ module exampleInstance 'br/MyRegistry:workloads/web/function-app:2022-10-29' = {
         }.ToImmutableList();
         var document = new MarkdownDocument();
 
-        UsageGenerator.BuildUsage(document, new FormatterOptions(), parameters, usageOptions, modulePath, "2022-10-29");
+        UsageGenerator.BuildUsage(document, new FormatterOptions(), parameters, modulePath, "2022-10-29");
 
         Assert.AreEqual(2, document.Count);
 
@@ -84,7 +85,7 @@ module exampleInstance 'br/MyRegistry:workloads/web/function-app:2022-10-29' = {
         }.ToImmutableList();
         var document = new MarkdownDocument();
 
-        UsageGenerator.BuildUsage(document, new FormatterOptions(), parameters, usageOptions, modulePath, "2022-10-29");
+        UsageGenerator.BuildUsage(document, new FormatterOptions(), parameters, modulePath, "2022-10-29");
 
         Assert.AreEqual(2, document.Count);
 
@@ -111,7 +112,7 @@ module exampleInstance 'br/MyRegistry:workloads/web/function-app:2022-10-29' = {
             }
         }.ToImmutableList();
         var document = new MarkdownDocument();
-        UsageGenerator.BuildUsage(document, new FormatterOptions { IncludeUsage = false }, parameters, usageOptions,
+        UsageGenerator.BuildUsage(document, new FormatterOptions { IncludeUsage = false }, parameters,
             modulePath, "2022-10-29");
 
         Assert.AreEqual(0, document.Count);

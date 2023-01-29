@@ -6,6 +6,7 @@ using System.CommandLine.Parsing;
 using Bicep.Core.Extensions;
 using LandingZones.Tools.BicepDocs.Core;
 using LandingZones.Tools.BicepDocs.Core.Commands;
+using LandingZones.Tools.BicepDocs.Destination.Confluence;
 using LandingZones.Tools.BicepDocs.Destination.Confluence.Commands;
 using LandingZones.Tools.BicepDocs.Destination.Folder;
 using LandingZones.Tools.BicepDocs.Destination.Folder.Commands;
@@ -75,6 +76,7 @@ public static class Program
     {
         builder
             .ConfigureServices(services => services
+                .AddHttpClient()
                 .AddStaticFileSystem()
                 .AddConfigurationLoader()
                 .AddBicepCore()
@@ -84,6 +86,7 @@ public static class Program
                 .AddMarkdownDocFormatter()
                 .AddDocusaurusDocsFormatter()
                 .AddFileSystemDestination()
+                .AddConfluenceDestination()
                 .AddLogging()
             )
             .UseSerilog((context, logging) => logging

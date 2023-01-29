@@ -1,24 +1,22 @@
 using System.Collections.Immutable;
 using LandingZones.Tools.BicepDocs.Core;
-using LandingZones.Tools.BicepDocs.Core.Models;
 using LandingZones.Tools.BicepDocs.Core.Models.Formatting;
 using LandingZones.Tools.BicepDocs.Core.Models.Parsing;
-using LandingZones.Tools.BicepDocs.Formatter.Markdown.Elements;
-using LandingZones.Tools.BicepDocs.Formatter.Markdown.Models;
+using LandingZones.Tools.BicepDocs.Formatter.Confluence.Elements;
 
-namespace LandingZones.Tools.BicepDocs.Formatter.Markdown.Generators;
+namespace LandingZones.Tools.BicepDocs.Formatter.Confluence.Generators;
 
 internal static class UsageGenerator
 {
     internal static void BuildUsage(
-        MarkdownDocument document,
+        ConfluenceDocument document,
         FormatterOptions options,
         ImmutableList<ParsedParameter> parameters,
         string modulePath,
         string moduleVersion)
     {
         if (!options.IncludeUsage) return;
-        document.Append(new MkHeader("Usage", MkHeaderLevel.H2));
+        document.Append(new CHeader("Usage", CHeaderLevel.H2));
         var usage = CodeGenerator.GetBicepExample(
             moduleName: "exampleInstance",
             moduleAlias: options.Usage.ModuleAlias,
@@ -26,7 +24,7 @@ internal static class UsageGenerator
             path: modulePath.TrimStart('/'),
             moduleVersion,
             parameters);
-        document.Append(new MkCodeBlock(
+        document.Append(new CCodeBlock(
             usage, "bicep"));
     }
 }
