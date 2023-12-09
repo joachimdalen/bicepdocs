@@ -19,8 +19,7 @@ public class ResourceGeneratorTests : BicepFileTestBase
     {
         var expected = @"## Resources
 
-- [Microsoft.Web/sites/2022-12-18](https://learn.microsoft.com/en-us/azure/templates/microsoft.web/2022-12-18/sites)
-".ToPlatformLineEndings();;
+- [Microsoft.Web/sites/2022-12-18](https://learn.microsoft.com/en-us/azure/templates/microsoft.web/2022-12-18/sites)".ToPlatformLineEndings() + Environment.NewLine;
         var resources = new List<ParsedResource>
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
@@ -48,8 +47,7 @@ public class ResourceGeneratorTests : BicepFileTestBase
     {
         var expected = @"## Resources
 
-- [Microsoft.Web/sites/2022-12-18](https://learn.microsoft.com/en-us/azure/templates/microsoft.web/2022-12-18/sites)
-".ToPlatformLineEndings();;
+- [Microsoft.Web/sites/2022-12-18](https://learn.microsoft.com/en-us/azure/templates/microsoft.web/2022-12-18/sites)".ToPlatformLineEndings() + Environment.NewLine;
         var resources = new List<ParsedResource>
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
@@ -85,8 +83,7 @@ public class ResourceGeneratorTests : BicepFileTestBase
     {
         var expected = @"## Resources
 
-- [Microsoft.Resources/resourceGroups@2021-01-01](https://learn.microsoft.com/en-us/azure/templates/microsoft.resources/2021-01-01/resourcegroups)
-".ToPlatformLineEndings();;
+- [Microsoft.Resources/resourceGroups@2021-01-01](https://learn.microsoft.com/en-us/azure/templates/microsoft.resources/2021-01-01/resourcegroups)".ToPlatformLineEndings() + Environment.NewLine;
 
         const string template = @"resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   name: resourceGroupName
@@ -155,8 +152,7 @@ param something string = 'nothing'";
 
 | Provider | Name | Scope |
 | --- | --- | --- |
-| Microsoft.Web/sites/2022-12-18 | `siteOne` | `subscription()` |
-".ToPlatformLineEndings();;
+| Microsoft.Web/sites/2022-12-18 | `siteOne` | `subscription()` |".ToPlatformLineEndings() + Environment.NewLine;
         var resources = new List<ParsedResource>
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
@@ -190,8 +186,7 @@ param something string = 'nothing'";
 | Provider | Name | Scope |
 | --- | --- | --- |
 | Microsoft.Web/sites/2022-12-18 | `siteOne` | `subscription()` |
-| Microsoft.Web/sites/2022-12-18 | `siteTwo` | `subscription()` |
-".ToPlatformLineEndings();;
+| Microsoft.Web/sites/2022-12-18 | `siteTwo` | `subscription()` |".ToPlatformLineEndings() + Environment.NewLine;
         var resources = new List<ParsedResource>
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
@@ -235,8 +230,7 @@ param something string = 'nothing'";
 
 | Provider | Name | Scope |
 | --- | --- | --- |
-| Microsoft.Resources/resourceGroups@2021-01-01 | `resourceGroupName` | - |
-".ToPlatformLineEndings();;
+| Microsoft.Resources/resourceGroups@2021-01-01 | `resourceGroupName` | - |".ToPlatformLineEndings() + Environment.NewLine;
 
         const string template = @"resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' existing = {
   name: resourceGroupName

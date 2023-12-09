@@ -18,8 +18,7 @@ public class OutputGeneratorTests : BicepFileTestBase
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `resourceId` | string | The resource id of the resource |
-".ToPlatformLineEndings();
+| `resourceId` | string | The resource id of the resource |".ToPlatformLineEndings() + Environment.NewLine;
         var outputs = new List<ParsedOutput>
         {
             new("resourceId", "string", "The resource id of the resource")
@@ -63,8 +62,7 @@ output resourceId string = resourceGroup.id".ToPlatformLineEndings();
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `resourceId` | string | The resource id of the resource |
-".ToPlatformLineEndings();
+| `resourceId` | string | The resource id of the resource |".ToPlatformLineEndings() + Environment.NewLine;
         ;
         const string template = @"resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   name: resourceGroupName
