@@ -19,6 +19,6 @@ public class GenerationFileExtensionsTests
         Assert.AreEqual(mdGenFile.FolderPath, txtGenFile.FolderPath);
         Assert.AreEqual(mdGenFile.VersionFilePath, txtGenFile.VersionFilePath);
         Assert.AreEqual(mdGenFile.VersionFolderPath, txtGenFile.VersionFolderPath);
-        Assert.AreEqual("# Hello\n", txtGenFile.Content);
+        Assert.AreEqual("# Hello" + Environment.NewLine, txtGenFile.Content);
     }
 }
