@@ -76,9 +76,9 @@ internal static class ParameterGenerator
         }
     }
 
-    private static string? BuildType(ParsedParameter parameter)
+    private static string BuildType(ParsedParameter parameter)
     {
-        string type = string.Empty;
+        var type = string.Empty;
 
         if (parameter.IsComplexAllow)
         {
