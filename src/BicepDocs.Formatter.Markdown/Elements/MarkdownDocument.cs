@@ -31,6 +31,12 @@ public class MarkdownDocument
 
         var markdownContent = sb.ToString();
 
-        return Markdig.Markdown.Normalize(markdownContent);
+        var normalized = Markdig.Markdown.Normalize(markdownContent);
+        if (!normalized.EndsWith(Environment.NewLine))
+        {
+            normalized += Environment.NewLine;
+        }
+
+        return normalized;
     }
 }

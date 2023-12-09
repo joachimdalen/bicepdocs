@@ -18,7 +18,8 @@ public class OutputGeneratorTests : BicepFileTestBase
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `resourceId` | string | The resource id of the resource |".ToPlatformLineEndings();
+| `resourceId` | string | The resource id of the resource |
+".ToPlatformLineEndings();
         var outputs = new List<ParsedOutput>
         {
             new("resourceId", "string", "The resource id of the resource")
@@ -44,7 +45,6 @@ public class OutputGeneratorTests : BicepFileTestBase
 }
 
 output resourceId string = resourceGroup.id".ToPlatformLineEndings();
-        ;
         var semanticModel = await GetModel(template);
         var document = new MarkdownDocument();
         var ctx = new FormatterContext(semanticModel, TestConstants.GetMockModulePaths(), new FormatterOptions
@@ -63,7 +63,9 @@ output resourceId string = resourceGroup.id".ToPlatformLineEndings();
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `resourceId` | string | The resource id of the resource |".ToPlatformLineEndings();;
+| `resourceId` | string | The resource id of the resource |
+".ToPlatformLineEndings();
+        ;
         const string template = @"resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   name: resourceGroupName
   location: resourceGroupLocation

@@ -29,7 +29,8 @@ module exampleInstance 'br/MyRegistry:workloads/web/function-app:2022-10-29' = {
     location: 'location'
   }
 }
-```".ToPlatformLineEndings();;
+```
+".ToPlatformLineEndings();;
 
         var parameters = new List<ParsedParameter>
         {
@@ -68,7 +69,8 @@ module exampleInstance 'br/MyRegistry:workloads/web/function-app:2022-10-29' = {
     count: 10
   }
 }
-```".ToPlatformLineEndings();;
+```
+".ToPlatformLineEndings();;
 
         var parameters = new List<ParsedParameter>
         {

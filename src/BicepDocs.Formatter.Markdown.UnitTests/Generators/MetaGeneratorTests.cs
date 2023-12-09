@@ -10,7 +10,8 @@ public class MetaGeneratorTests
     [TestMethod]
     public void BuildTitle_TitleSet_Generates()
     {
-        const string expected = "# My title";
+        const string expected = @"# My title
+";
         var md = new MarkdownDocument();
         MetaGenerator.BuildTitle(md, new MetadataModel(
             Title: "My title"
@@ -22,7 +23,8 @@ public class MetaGeneratorTests
     [TestMethod]
     public void BuildTitle_TitleNotSet_UsesFileNameNot()
     {
-        const string expected = "# vault";
+        const string expected = @"# vault
+";
         var md = new MarkdownDocument();
         MetaGenerator.BuildTitle(md, new MetadataModel(), TestConstants.DefaultFormatterContext);
 
@@ -33,7 +35,8 @@ public class MetaGeneratorTests
     [TestMethod]
     public void BuildDescription_DescriptionSet_Generates()
     {
-        const string expected = "> My Description";
+        const string expected = @"> My Description
+";
         var md = new MarkdownDocument();
         MetaGenerator.BuildDescription(md, new MetadataModel
         {
