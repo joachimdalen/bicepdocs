@@ -58,7 +58,7 @@ public class ParameterGeneratorTests
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | string {expectedDesc} |  |".ToPlatformLineEndings();;
+| `location` | The location of the resource | string {expectedDesc} |  |".ToPlatformLineEndings() + Environment.NewLine;
 
         var parameters = new List<ParsedParameter>
         {
@@ -90,7 +90,7 @@ public class ParameterGeneratorTests
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | string |  |".ToPlatformLineEndings();;
+| `location` | The location of the resource | string |  |".ToPlatformLineEndings() + Environment.NewLine;
 
         var parameters = new List<ParsedParameter>
         {
@@ -117,7 +117,7 @@ public class ParameterGeneratorTests
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | string | northeurope |".ToPlatformLineEndings();;
+| `location` | The location of the resource | string | northeurope |".ToPlatformLineEndings() + Environment.NewLine;
 
         var parameters = new List<ParsedParameter>
         {
@@ -145,7 +145,8 @@ public class ParameterGeneratorTests
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | string | `resourceGroup().location` |".ToPlatformLineEndings();;
+| `location` | The location of the resource | string | `resourceGroup().location` |".ToPlatformLineEndings() +
+                       Environment.NewLine;
 
         var parameters = new List<ParsedParameter>
         {
@@ -174,7 +175,8 @@ public class ParameterGeneratorTests
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | [locationAllow](#locationallow) |  |".ToPlatformLineEndings();;
+| `location` | The location of the resource | [locationAllow](#locationallow) |  |".ToPlatformLineEndings() +
+                       Environment.NewLine;
 
         var parameters = new List<ParsedParameter>
         {
@@ -202,7 +204,8 @@ public class ParameterGeneratorTests
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `location` | The location of the resource | [locationAllow](#locationallow) | one |".ToPlatformLineEndings();;
+| `location` | The location of the resource | [locationAllow](#locationallow) | one |".ToPlatformLineEndings() +
+                       Environment.NewLine;
 
         var parameters = new List<ParsedParameter>
         {
@@ -277,7 +280,7 @@ public class ParameterGeneratorTests
 {
     one: 'something'
 }
-```".ToPlatformLineEndings();;
+```".ToPlatformLineEndings() + Environment.NewLine;
 
         var parameters = new List<ParsedParameter>
         {
@@ -311,7 +314,7 @@ public class ParameterGeneratorTests
 - one
 - two
 - three
-- four".ToPlatformLineEndings();;
+- four".ToPlatformLineEndings() + Environment.NewLine;
 
         var parameters = new List<ParsedParameter>
         {
