@@ -3,7 +3,7 @@
     <PropertyGroup>
         <AssemblyName>LandingZones.Tools.BicepDocs.Formatter.Docusaurus.UnitTests</AssemblyName>
         <RootNamespace>LandingZones.Tools.BicepDocs.Formatter.Docusaurus.UnitTests</RootNamespace>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 

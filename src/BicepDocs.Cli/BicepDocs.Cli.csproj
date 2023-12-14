@@ -5,7 +5,7 @@
         <RootNamespace>LandingZones.Tools.BicepDocs.Cli</RootNamespace>
         <StartupObject>LandingZones.Tools.BicepDocs.Cli.Program</StartupObject>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Authors>Joachim Dalen</Authors>
@@ -18,7 +18,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.Bicep.Decompiler" Version="0.14.85" />
+        <PackageReference Include="Azure.Bicep.Decompiler" Version="0.23.1" />
         <PackageReference Include="Serilog" Version="3.1.1" />
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
         <PackageReference Include="System.CommandLine.Hosting" Version="0.4.0-alpha.22272.1" />

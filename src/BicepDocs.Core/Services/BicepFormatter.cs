@@ -11,6 +11,6 @@ public static class BicepFormatter
         var parser = new Parser(input);
         var programSyntax = parser.Program();
         var options = new PrettyPrintOptions(NewlineOption.Auto, IndentKindOption.Space, 2, false);
-        return PrettyPrinter.PrintProgram(programSyntax, options);
+        return PrettyPrinter.PrintProgram(programSyntax, options, parser.LexingErrorLookup, parser.ParsingErrorLookup);
     }
 }

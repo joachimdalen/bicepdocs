@@ -19,16 +19,14 @@ public class ResourceGeneratorTests : BicepFileTestBase
     {
         var expected = @"## Resources
 
-- [Microsoft.Web/sites/2022-12-18](https://learn.microsoft.com/en-us/azure/templates/microsoft.web/2022-12-18/sites)".ToPlatformLineEndings() + Environment.NewLine;
+- [Microsoft.Web/sites/2022-12-18](https://learn.microsoft.com/en-us/azure/templates/microsoft.web/2022-12-18/sites)"
+            .ToPlatformLineEndings() + Environment.NewLine;
         var resources = new List<ParsedResource>
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
             {
-                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>
-                {
-                    "microsoft.web",
-                    "sites"
-                }.ToImmutableArray(), "2022-12-18"))
+                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference("microsoft.web/sites",
+                    "2022-12-18"))
             }
         }.ToImmutableList();
 
@@ -47,24 +45,19 @@ public class ResourceGeneratorTests : BicepFileTestBase
     {
         var expected = @"## Resources
 
-- [Microsoft.Web/sites/2022-12-18](https://learn.microsoft.com/en-us/azure/templates/microsoft.web/2022-12-18/sites)".ToPlatformLineEndings() + Environment.NewLine;
+- [Microsoft.Web/sites/2022-12-18](https://learn.microsoft.com/en-us/azure/templates/microsoft.web/2022-12-18/sites)"
+            .ToPlatformLineEndings() + Environment.NewLine;
         var resources = new List<ParsedResource>
         {
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
             {
-                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>
-                {
-                    "microsoft.web",
-                    "sites"
-                }.ToImmutableArray(), "2022-12-18"))
+                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference("microsoft.web/sites",
+                    "2022-12-18"))
             },
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
             {
-                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>
-                {
-                    "microsoft.web",
-                    "sites"
-                }.ToImmutableArray(), "2022-12-18"))
+                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference("microsoft.web/sites",
+                    "2022-12-18"))
             }
         }.ToImmutableList();
 
@@ -83,7 +76,8 @@ public class ResourceGeneratorTests : BicepFileTestBase
     {
         var expected = @"## Resources
 
-- [Microsoft.Resources/resourceGroups@2021-01-01](https://learn.microsoft.com/en-us/azure/templates/microsoft.resources/2021-01-01/resourcegroups)".ToPlatformLineEndings() + Environment.NewLine;
+- [Microsoft.Resources/resourceGroups@2021-01-01](https://learn.microsoft.com/en-us/azure/templates/microsoft.resources/2021-01-01/resourcegroups)"
+            .ToPlatformLineEndings() + Environment.NewLine;
 
         const string template = @"resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
   name: resourceGroupName
@@ -160,11 +154,7 @@ param something string = 'nothing'";
                 Name = "siteOne",
                 Scope = "subscription()",
                 IsExisting = true,
-                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>
-                {
-                    "microsoft.web",
-                    "sites"
-                }.ToImmutableArray(), "2022-12-18"))
+                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference("microsoft.web/sites", "2022-12-18"))
             }
         }.ToImmutableList();
 
@@ -194,22 +184,14 @@ param something string = 'nothing'";
                 Name = "siteOne",
                 Scope = "subscription()",
                 IsExisting = true,
-                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>
-                {
-                    "microsoft.web",
-                    "sites"
-                }.ToImmutableArray(), "2022-12-18"))
+                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference("microsoft.web/sites", "2022-12-18"))
             },
             new("Microsoft.Web/sites/2022-12-18", "Microsoft.Web", "sites")
             {
                 Name = "siteTwo",
                 Scope = "subscription()",
                 IsExisting = true,
-                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference(new List<string>
-                {
-                    "microsoft.web",
-                    "sites"
-                }.ToImmutableArray(), "2022-12-18"))
+                DocUrl = ResourceLinkBuilder.GetResourceUrl(new ResourceTypeReference("microsoft.web/sites", "2022-12-18"))
             }
         }.ToImmutableList();
 
@@ -230,7 +212,8 @@ param something string = 'nothing'";
 
 | Provider | Name | Scope |
 | --- | --- | --- |
-| Microsoft.Resources/resourceGroups@2021-01-01 | `resourceGroupName` | - |".ToPlatformLineEndings() + Environment.NewLine;
+| Microsoft.Resources/resourceGroups@2021-01-01 | `resourceGroupName` | - |".ToPlatformLineEndings() +
+                       Environment.NewLine;
 
         const string template = @"resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' existing = {
   name: resourceGroupName

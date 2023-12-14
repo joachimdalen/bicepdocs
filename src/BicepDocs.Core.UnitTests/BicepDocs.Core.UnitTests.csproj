@@ -3,14 +3,14 @@
     <PropertyGroup>
         <AssemblyName>LandingZones.Tools.BicepDocs.Core.UnitTests</AssemblyName>
         <RootNamespace>LandingZones.Tools.BicepDocs.Core.UnitTests</RootNamespace>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.Bicep.Core" Version="0.14.85" />
+        <PackageReference Include="Azure.Bicep.Core" Version="0.23.1" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
         <PackageReference Include="Moq" Version="4.20.70" />
         <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
