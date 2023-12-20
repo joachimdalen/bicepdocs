@@ -37,11 +37,11 @@ jobs:
       - name: Run tests
         run: dotnet test --configuration release src/BicepDocs.sln
       - name: Build binary
-        run: dotnet publish --configuration release --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:TrimmerDefaultAction=copyused -p:SuppressTrimAnalysisWarnings=true -r ${{ matrix.rid }} ./src/BicepDocs.Cli/BicepDocs.Cli.csproj
+        run: dotnet publish --configuration release --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:SuppressTrimAnalysisWarnings=true -r ${{ matrix.rid }} ./src/BicepDocs.Cli/BicepDocs.Cli.csproj
       - name: Test samples
         if: matrix.rid != 'win-x64'
         run: |
-          mv ./src/BicepDocs.Cli/bin/release/net6.0/${{ matrix.rid }}/publish/bicepdocs .
+          mv ./src/BicepDocs.Cli/bin/release/net7.0/${{ matrix.rid }}/publish/bicepdocs .
           ./bicepdocs generate filesystem \
           --folderPath docs/formatters/examples/inputs \
           --out ./docs/formatters/examples/generated-output/markdown \
@@ -50,5 +50,5 @@ jobs:
       - name: Test samples (win)
         if: matrix.rid == 'win-x64'
         run: |
-          mv .\src\BicepDocs.Cli\bin\release\net6.0\${{ matrix.rid }}\publish\bicepdocs.exe .
+          mv .\src\BicepDocs.Cli\bin\release\net7.0\${{ matrix.rid }}\publish\bicepdocs.exe .
           .\bicepdocs.exe generate filesystem --folderPath docs\formatters\examples\inputs --out .\docs\formatters\examples\generated-output\markdown --config docs\example-config.yml --formatter markdown

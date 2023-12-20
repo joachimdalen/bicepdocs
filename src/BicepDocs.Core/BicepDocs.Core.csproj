@@ -3,13 +3,13 @@
     <PropertyGroup>
         <AssemblyName>LandingZones.Tools.BicepDocs.Core</AssemblyName>
         <RootNamespace>LandingZones.Tools.BicepDocs.Core</RootNamespace>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.Bicep.Decompiler" Version="0.14.85" />
+        <PackageReference Include="Azure.Bicep.Decompiler" Version="0.23.1" />
         <PackageReference Include="System.CommandLine.Hosting" Version="0.4.0-alpha.22272.1" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
         <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="20.0.4" />
