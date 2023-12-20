@@ -15,6 +15,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>bicep documentation azure arm</PackageTags>
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        <TrimMode>partial</TrimMode>
     </PropertyGroup>
 
     <ItemGroup>
